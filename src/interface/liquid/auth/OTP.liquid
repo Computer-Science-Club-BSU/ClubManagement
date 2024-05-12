@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOTP Registration</title>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <h1>Time-Based OTP Registration</h1>
+
+    <h2>This system requires all users to be authenticated by using a OTP</h2>
+    <p>To continue registration with this app, please download Authy, Google Authenticator, or other compatible OTP applications.</p>
+    <p>Once you have this app installed, scan the QR Code, or enter the link below.</p>
+    <img
+      src="data:image/png;base64,{{ otp_qr_data }}"
+      alt="{{ uri }}"
+      style="width: 20%;"
+      width=""
+      height="" />
+    <br>
+    <div style="width: 30%">
+      <a href="{{ uri }}" style="color: var(--fore-color)">{{ uri }}</a>
+    </div>
+    <fieldset>
+      <legend>Verify Code</legend>
+      <form action="/auth/otp/verify" method="post">
+        <label for="OTP">OTP:
+        </label>
+        <input
+          type="password"
+          name="OTP"
+          id="OTP"
+          autocomplete="new-password">
+        <input type="submit" value="Verify">
+      </form>
+    </fieldset>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <fieldset>
+      <legend>Log In</legend>
+      <form action="/auth/login/" method="post">
+        <label for="uName">Username</label>
+        <input
+          type="text"
+          name="uName"
+          id="uName">
+        <br>
+        <label for="pWord">Password</label>
+        <input
+          type="password"
+          name="pWord"
+          id="pWord">
+        <br>
+        <label for="OTP">One Time Code</label>
+        <input
+          type="text"
+          name="OTP"
+          id="OTP">
+        <br>
+        <input type="submit" value="Log In">
+      </form>
+      <br>
+      <a href="/auth/forgot/" class="nav">Forgot Password</a>
+      <br> <br>
+      <a href="/auth/create" class="nav">Request Access</a>
+    </fieldset>
+  </body>
+</html>

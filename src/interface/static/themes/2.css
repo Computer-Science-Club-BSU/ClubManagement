@@ -1,0 +1,9 @@
+:root{
+    --fore-color: yellow;
+    --back-color: blue;
+}
+
+button.dropbtn:first-letter, .navbar, a::first-letter{
+    text-decoration: underline;
+    color: #9c0202;
+}
