@@ -1,0 +1,13 @@
+{
+    "public": {
+        "quick_links": [
+            {
+                "name": "Google",
+                "link": "https://www.google.com/"
+            }
+        ]
+    },
+    "private": {
+
+    }
+}

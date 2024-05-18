@@ -1,27 +1,24 @@
 from flask import Flask
-from flask_session import Session
 from flask_liquid import Liquid
-from datetime import timedelta
-import uuid
-from src.utils.db_utils import connect
+from src.utils.template_utils import render_template
+import logging
 
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
-app = Flask(__name__, template_folder='src/interface/liquid',
-            static_folder='src/interface/static')
-liquid = Liquid(app)
-app.config.update(SESSION_PERMANENT=False,
-                  SESSION_TYPE="filesystem")
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="log.txt", level=logging.DEBUG,
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    format="[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
+                    )
+app = Flask(__name__,
+            static_folder="src/interface/static",
+            template_folder="src/interface/templates/")
+logger.info("Flask App Started")
+Liquid(app)
+logger.info("Liquid Registered")
 
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(1)
-
-Session(app)
-# Create a new Secret Key any time the code restarts
-with connect() as conn:
-    app.secret_key = conn.get_secret()
-    print(app.secret_key)
-
-# Import the Front-end Routes
-import src.routes
+from src.routes import root
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

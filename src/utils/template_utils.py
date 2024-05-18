@@ -1,20 +1,14 @@
-from app import app
 from flask_liquid import render_template as _render
 from flask import session
-from src.utils.db_utils import connect
+import json
 
-def send_template(template_name, **context):
-    user_data = {"logged_in": True} | session.get("user",
-                                                  {
-                                                        "theme": 1,
-                                                        "logged_in": False,
-                                                        "permissions": {
-                                                            "doc_admin": True,
-                                                            "fin_admin": True
-                                                        }
-                                                   }
-                                                )
-    with connect() as conn:
-        config = conn.get_config()
-        return _render(template_name, **context, user=user_data,
-                       config=config,doc_dash=['Pending Items'])
+
+def render_template(template_name, **context):
+    public_config = load_config()['public']
+    user_seq = session.get('user_seq')
+    return _render(template_name, **context, **public_config)
+
+
+def load_config():
+    with open('config.json', 'r') as f:
+        return json.load(f)

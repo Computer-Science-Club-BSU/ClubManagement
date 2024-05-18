@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+      .parent {
+        display: block;
+        position: relative;
+        float: left;
+        line-height: 30px;
+        background-color: #1D3567;
+      }
+      .parent a {
+        margin: 10px;
+        color: #FFFFFF;
+        text-decoration: none;
+      }
+      .parent:hover > ul {
+        display: block;
+        position: absolute;
+      }
+      .child {
+        display: none;
+      }
+      .child li {
+        background-color: #1D3567;
+        line-height: 30px;
+        border-bottom: #CCC 1px solid;
+        border-right: #CCC 1px solid;
+        width: 100%;
+      }
+      .child li a {
+        color: #FFFFFF;
+      }
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        min-width: 15em;
+      }
+      ul ul ul {
+        left: 100%;
+        top: 0;
+        margin-left: 1px;
+      }
+      li:hover {
+        background-color: #95B4CA;
+      }
+      .parent li:hover {
+        background-color: #95B4CA;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="nav_ul">
+      <li class="parent">
+        <a href="#">Home</a>
+      </li>
+      <li class="parent">
+        <a href="#">Quick Links</a>
+        <ul class="child">
+          {% for link in quick_links %}
+            <li class="parent">
+              <a href="{{link.link}}">{{ link.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+      <li class="parent">
+        <a href="#">Finances</a>
+        <ul class="child">
+          <li class="parent">
+            <a href="URL">South</a>
+          </li>
+          <li class="parent">
+            <a href="URL">Enclosure Systems</a>
+          </li>
+          <li class="parent">
+            <a href="URL">South</a>
+          </li>
+          <li class="parent">
+            <a href="http:">Factory Andon</a>
+          </li>
+          <li class="parent">
+            <a href="http:">Web Docs</a>
+          </li>
+        </ul>
+      </li>
+      <li class="parent">
+        <a href="#">Docket</a>
+        <ul class="child">
+          <li>
+            <a href="http://kb">Knowledge Base</a>
+          </li>
+          <li>
+            <a href="http:/">Submit a Ticket</a>
+          </li>
+          <li class="parent">
+            <a href="http:">Archived Links</a>
+          </li>
+        </ul>
+      </li>
+      <li class="parent">
+        <a href="#">About</a>
+        <ul class="child">
+          <li>
+            <a href="http://">Hennig</a>
+          </li>
+          <li>
+            <a href="http:/">AME</a>
+          </li>
+        </ul>
+      </li>
+      <li class="parent">
+        <a href="ht">User</a>
+      </li>
+      <li class="parent">
+        <a href="">Development</a>
+      </li>
+    </ul>
+
+  </body>
+</html>
