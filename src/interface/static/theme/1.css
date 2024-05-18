@@ -1,4 +1,5 @@
 :root{
-    --back-color: #282828;
-    --fore-color: #66FF66;
+    --primary-color: #FFFFFF;
+    --accent-color: #1D3567;
+    --accent-hover-color: #95B4CA;
 }

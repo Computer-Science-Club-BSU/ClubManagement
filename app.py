@@ -2,6 +2,7 @@ from flask import Flask
 from flask_liquid import Liquid
 from src.utils.template_utils import render_template
 import logging
+from uuid import uuid4
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
@@ -14,6 +15,8 @@ logging.basicConfig(filename="log.txt", level=logging.DEBUG,
 app = Flask(__name__,
             static_folder="src/interface/static",
             template_folder="src/interface/templates/")
+app.secret_key = uuid4().hex
+
 logger.info("Flask App Started")
 Liquid(app)
 logger.info("Liquid Registered")

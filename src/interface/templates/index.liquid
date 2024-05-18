@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <article>
+      <h1>Welcome {{ user.title }} {{ user.last_name }}</h1>
+      <div class="grid2x2">
+        <div class="box box1">
+          <h1>Finances</h1>
+          <h2>Balance:
+          </h2>
+          <h2>Total Records:
+          </h2>
+          <table>
+            <tr>
+              <th>Status</th>
+              <th>Count</th>
+            </tr>
+          </table>
+        </div>
+        <div class="box box2">
+          <h1>Docket</h1>
+          <h2>Total Records:
+          </h2>
+          <table>
+            <tr>
+              <th>Status</th>
+              <th>Count</th>
+            </tr>
+          </table>
+        </div>
+        <div class="box box3">
+          <h1>User Administration</h1>
+
+        </div>
+        <div class="box box4">
+          <h1>Development</h1>
+          <button onclick="downloadLog()">Download Log</button>
+        </div>
+      </div>
+    </article>
+    <div class="foot_wrap">
+      <footer>
+        &copy; 2024 Alex Dasneves
+      </footer>
+    </div>
+  </body>
+</html>
