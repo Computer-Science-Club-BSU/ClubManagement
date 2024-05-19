@@ -3,6 +3,7 @@ import mariadb
 import sys
 import logging
 from typing import Callable
+import bcrypt
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class connect:
         try:
             self.conn = mariadb.connect(
                 user="admin",
-                password="password",
+                password="Password123",
                 host="localhost",
                 port=3306,
                 database="management"
@@ -79,20 +80,39 @@ class connect:
         self.cur.execute(SQL, (user_seq,))
         # Assemble a dictionary based off the cursor description.
         field_names = [i[0] for i in self.cur.description]
-        data = self.cur.fetchone()
-        class_data = { key: val for key, val in zip(field_names, data)}
+        data = self.cur.fetchall()
+        class_data = []
+        for row in data:
+
+            class_data.append(
+                {key: val
+                    for key, val in zip(field_names, row)
+                }
+            )
         return class_data
 
     def get_user_perms_by_user_seq(self, user_seq):
         logger.debug(f"Getting User Permissions for User Seq {user_seq}")
         
-        SQL = """SELECT a.* FROM perms a, class_assignments b WHERE 
-        a.class = b.class_seq AND b.user_seq = 1;"""
+        SQL = """SELECT a.seq, d.perm_desc, a.granted FROM
+        perms a, class_assignments c, perm_types d
+        WHERE a.class_seq = c.class_seq
+        AND c.seq = a.perm_seq
+        AND c.user_seq = %s;"""
         
         self.cur.execute(SQL, (user_seq,))
         field_names = [i[0] for i in self.cur.description]
-        data = self.cur.fetchone()
-        perm_data = { key: val for key, val in zip(field_names, data)}
+        data = self.cur.fetchall()
+        raw_perms = []
+        for row in data:
+            raw_perms.append(
+                {key: val for key,val in zip(field_names, row)}
+                )
+
+        perm_data = {}
+        for row in raw_perms:
+            perm_data[row['perm_desc']] \
+                = row['granted'] | perm_data.get(row['perm_desc'], 0)
         return perm_data
         
     def get_user_finance_dashboards_by_user_seq(self, user_seq):
@@ -101,6 +121,32 @@ class connect:
     def get_user_docket_dashboards_by_user_seq(self, user_seq):
         return []
         
+    
+    def authorize_user(self, username: str, password: str) -> int:
+        user_data = self.get_user_by_username(username)
+        if user_data is None:
+            return -1
+        classes = self.get_user_classes_by_user_seq(user_data.get('seq'))
+        for class_ in classes:
+            if class_.get('position_name') == 'locked':
+                return -1
+        hashed_pw = user_data.get("hash_pass").encode()
+        password = password.encode()
+        if bcrypt.checkpw(password, hashed_pw):
+            return user_data.get('seq')
+
+        
+
+    def get_user_by_username(self, username: str):
+        sql = "SELECT seq FROM users WHERE user_name = %s"
+        self.cur.execute(sql, (username,))
+        if self.cur.rowcount < 1:
+            return None
+        elif self.cur.rowcount > 1:
+            self.cur.fetchall()
+            return None
+        seq = self.cur.fetchone()[0]
+        return self.get_user_data_by_seq(seq)
         
         
     # __methods__

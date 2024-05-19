@@ -1,779 +1,770 @@
-[2024-05-18 14:57:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 14:57:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 14:57:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 14:57:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 14:58:25][app][INFO] - Flask App Started
-[2024-05-18 14:58:25][app][INFO] - Liquid Registered
-[2024-05-18 14:58:34][app][INFO] - Flask App Started
-[2024-05-18 14:58:34][app][INFO] - Liquid Registered
-[2024-05-18 14:58:37][app][INFO] - Flask App Started
-[2024-05-18 14:58:37][app][INFO] - Liquid Registered
-[2024-05-18 14:58:45][app][INFO] - Flask App Started
-[2024-05-18 14:58:45][app][INFO] - Liquid Registered
-[2024-05-18 14:58:50][app][INFO] - Flask App Started
-[2024-05-18 14:58:50][app][INFO] - Liquid Registered
-[2024-05-18 14:58:54][app][INFO] - Flask App Started
-[2024-05-18 14:58:54][app][INFO] - Liquid Registered
-[2024-05-18 14:58:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 14:58:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 14:58:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 14:58:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 14:58:59][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 14:59:27][app][INFO] - Flask App Started
-[2024-05-18 14:59:27][app][INFO] - Liquid Registered
-[2024-05-18 14:59:33][app][INFO] - Flask App Started
-[2024-05-18 14:59:33][app][INFO] - Liquid Registered
-[2024-05-18 14:59:34][app][INFO] - Flask App Started
-[2024-05-18 14:59:34][app][INFO] - Liquid Registered
-[2024-05-18 14:59:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 14:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 14:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 14:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 14:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 14:59:39][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 14:59:39][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 14:59:39][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 14:59:39][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 14:59:39][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:00:59][app][INFO] - Flask App Started
-[2024-05-18 15:00:59][app][INFO] - Liquid Registered
-[2024-05-18 15:07:00][app][INFO] - Flask App Started
-[2024-05-18 15:07:00][app][INFO] - Liquid Registered
-[2024-05-18 15:07:02][app][INFO] - Flask App Started
-[2024-05-18 15:07:02][app][INFO] - Liquid Registered
-[2024-05-18 15:07:02][app][INFO] - Flask App Started
-[2024-05-18 15:07:02][app][INFO] - Liquid Registered
-[2024-05-18 15:11:29][app][INFO] - Flask App Started
-[2024-05-18 15:11:29][app][INFO] - Liquid Registered
-[2024-05-18 15:11:29][app][INFO] - Flask App Started
-[2024-05-18 15:11:29][app][INFO] - Liquid Registered
-[2024-05-18 15:11:43][app][INFO] - Flask App Started
-[2024-05-18 15:11:43][app][INFO] - Liquid Registered
-[2024-05-18 15:11:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:11:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:11:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:11:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:11:48][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:11:48][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:11:48][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:11:48][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:11:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:12:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:12:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:12:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:12:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:12:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:12:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:12:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:12:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:12:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:12:42][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:12:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:12:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:12:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:13:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:34][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:34][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:34][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:34][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:13:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:55][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:13:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:13:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:14:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:14:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:14:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:14:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:15:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:15:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:15:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:15:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:17:11][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:17:11][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:17:11][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:17:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:17:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:17:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:17:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:17:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:17:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:18:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:18:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:18:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:18:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:18:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:18:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:18:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:18:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:18:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:18:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:18:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:18:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:18:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:18:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:18:42][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:18:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:18:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:18:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:18:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:19:06][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:19:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:19:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:19:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:19:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:19:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:19:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:19:33][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:19:33][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:19:33][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:19:33][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:29:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:29:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:29:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:29:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:29:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:29:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:29:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:29:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:29:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:29:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:30:04][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:30:04][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:30:04][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:30:04][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:30:05][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:30:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:30:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:30:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:30:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:30:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:30:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:30:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:30:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:30:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:30:17][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:30:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 15:30:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:30:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:30:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:30:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:30:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:30:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:30:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:30:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:30:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:30:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:30:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:30:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:30:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:30:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:30:44][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:31:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:31:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:31:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:31:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:31:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:31:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:31:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:31:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:31:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:31:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:31:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:31:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:31:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:31:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:31:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:31:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:31:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:31:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:31:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:31:59][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:32:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:32:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:32:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:32:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:32:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:32:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:32:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:32:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:32:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:32:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:32:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:32:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:32:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:32:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:32:11][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:35:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:35:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:35:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:35:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:35:20][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:35:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:35:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:35:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:35:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:35:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:36:01][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:36:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:36:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:36:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:36:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:38:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:38:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:38:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:38:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:39:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:39:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:39:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:39:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:40:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:40:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:40:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:40:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:41:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:41:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:41:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:41:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:41:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:41:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:41:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:41:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:41:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:41:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:42:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:42:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:42:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:42:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:42:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:42:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:42:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:42:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:42:13][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:42:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:42:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:42:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:42:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:42:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:42:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:42:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:42:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:42:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:42:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:42:54][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:42:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:42:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:42:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:42:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:42:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:09][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:14][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:43:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
-[2024-05-18 15:43:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:43:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:43:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:43:58][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:44:05][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:44:05][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:44:05][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:44:05][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:44:09][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:44:09][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:44:09][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:44:09][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:44:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:44:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:44:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:44:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:44:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:44:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:44:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:44:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:46:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:46:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:46:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:46:02][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:46:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:46:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:46:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:46:57][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:47:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:47:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:47:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:47:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:47:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:47:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:47:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:47:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:49:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:49:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:49:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:49:07][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:49:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:49:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:49:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 15:49:51][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:50:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 15:50:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 15:50:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 15:50:19][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:00:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:00:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:00:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:00:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:02:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:02:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:02:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:02:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:02:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:02:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:02:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:02:23][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:05:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:05:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:05:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:05:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:12:00][app][INFO] - Flask App Started
-[2024-05-18 16:12:00][app][INFO] - Liquid Registered
-[2024-05-18 16:12:08][app][INFO] - Flask App Started
-[2024-05-18 16:12:08][app][INFO] - Liquid Registered
-[2024-05-18 16:12:15][app][INFO] - Flask App Started
-[2024-05-18 16:12:15][app][INFO] - Liquid Registered
-[2024-05-18 16:12:21][app][INFO] - Flask App Started
-[2024-05-18 16:12:21][app][INFO] - Liquid Registered
-[2024-05-18 16:12:24][app][INFO] - Flask App Started
-[2024-05-18 16:12:24][app][INFO] - Liquid Registered
-[2024-05-18 16:12:28][app][INFO] - Flask App Started
-[2024-05-18 16:12:28][app][INFO] - Liquid Registered
-[2024-05-18 16:12:36][app][INFO] - Flask App Started
-[2024-05-18 16:12:36][app][INFO] - Liquid Registered
-[2024-05-18 16:12:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:12:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:12:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:12:37][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:12:42][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 16:12:42][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:12:42][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:12:42][src.utils.db_utilities][INFO] - 
-[2024-05-18 16:12:42][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:12:42][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:12:42][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:12:42][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:12:42][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 16:13:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:13:01][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:13:01][src.utils.db_utilities][INFO] - 
-[2024-05-18 16:13:01][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:13:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:13:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:13:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:13:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:13:06][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:13:06][src.utils.db_utilities][INFO] - 
-[2024-05-18 16:13:06][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:13:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:13:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:13:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:13:32][app][INFO] - Flask App Started
-[2024-05-18 16:13:32][app][INFO] - Liquid Registered
-[2024-05-18 16:13:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:13:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:13:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:13:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:13:43][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 16:13:43][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:13:43][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:13:43][src.utils.db_utilities][INFO] - 
-[2024-05-18 16:13:43][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:13:43][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:13:43][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:13:43][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:13:43][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 16:14:51][app][INFO] - Flask App Started
-[2024-05-18 16:14:51][app][INFO] - Liquid Registered
-[2024-05-18 16:15:03][app][INFO] - Flask App Started
-[2024-05-18 16:15:03][app][INFO] - Liquid Registered
-[2024-05-18 16:15:06][app][INFO] - Flask App Started
-[2024-05-18 16:15:06][app][INFO] - Liquid Registered
-[2024-05-18 16:15:09][app][INFO] - Flask App Started
-[2024-05-18 16:15:09][app][INFO] - Liquid Registered
-[2024-05-18 16:15:11][app][INFO] - Flask App Started
-[2024-05-18 16:15:11][app][INFO] - Liquid Registered
-[2024-05-18 16:15:12][app][INFO] - Flask App Started
-[2024-05-18 16:15:12][app][INFO] - Liquid Registered
-[2024-05-18 16:15:13][app][INFO] - Flask App Started
-[2024-05-18 16:15:13][app][INFO] - Liquid Registered
-[2024-05-18 16:15:18][app][INFO] - Flask App Started
-[2024-05-18 16:15:18][app][INFO] - Liquid Registered
-[2024-05-18 16:15:25][app][INFO] - Flask App Started
-[2024-05-18 16:15:25][app][INFO] - Liquid Registered
-[2024-05-18 16:15:33][app][INFO] - Flask App Started
-[2024-05-18 16:15:33][app][INFO] - Liquid Registered
-[2024-05-18 16:15:44][app][INFO] - Flask App Started
-[2024-05-18 16:15:44][app][INFO] - Liquid Registered
-[2024-05-18 16:15:49][app][INFO] - Flask App Started
-[2024-05-18 16:15:49][app][INFO] - Liquid Registered
-[2024-05-18 16:15:58][app][INFO] - Flask App Started
-[2024-05-18 16:15:58][app][INFO] - Liquid Registered
-[2024-05-18 16:16:02][app][INFO] - Flask App Started
-[2024-05-18 16:16:02][app][INFO] - Liquid Registered
-[2024-05-18 16:16:06][app][INFO] - Flask App Started
-[2024-05-18 16:16:06][app][INFO] - Liquid Registered
-[2024-05-18 16:18:40][app][INFO] - Flask App Started
-[2024-05-18 16:18:40][app][INFO] - Liquid Registered
-[2024-05-18 16:19:23][app][INFO] - Flask App Started
-[2024-05-18 16:19:23][app][INFO] - Liquid Registered
-[2024-05-18 16:19:24][app][INFO] - Flask App Started
-[2024-05-18 16:19:24][app][INFO] - Liquid Registered
-[2024-05-18 16:19:25][app][INFO] - Flask App Started
-[2024-05-18 16:19:25][app][INFO] - Liquid Registered
-[2024-05-18 16:19:30][app][INFO] - Flask App Started
-[2024-05-18 16:19:30][app][INFO] - Liquid Registered
-[2024-05-18 16:19:36][app][INFO] - Flask App Started
-[2024-05-18 16:19:36][app][INFO] - Liquid Registered
-[2024-05-18 16:19:39][app][INFO] - Flask App Started
-[2024-05-18 16:19:39][app][INFO] - Liquid Registered
-[2024-05-18 16:19:43][app][INFO] - Flask App Started
-[2024-05-18 16:19:43][app][INFO] - Liquid Registered
-[2024-05-18 16:19:53][app][INFO] - Flask App Started
-[2024-05-18 16:19:53][app][INFO] - Liquid Registered
-[2024-05-18 16:19:54][app][INFO] - Flask App Started
-[2024-05-18 16:19:54][app][INFO] - Liquid Registered
-[2024-05-18 16:20:00][app][INFO] - Flask App Started
-[2024-05-18 16:20:00][app][INFO] - Liquid Registered
-[2024-05-18 16:20:06][app][INFO] - Flask App Started
-[2024-05-18 16:20:06][app][INFO] - Liquid Registered
-[2024-05-18 16:20:08][app][INFO] - Flask App Started
-[2024-05-18 16:20:08][app][INFO] - Liquid Registered
-[2024-05-18 16:20:15][app][INFO] - Flask App Started
-[2024-05-18 16:20:15][app][INFO] - Liquid Registered
-[2024-05-18 16:20:26][app][INFO] - Flask App Started
-[2024-05-18 16:20:26][app][INFO] - Liquid Registered
-[2024-05-18 16:24:14][app][INFO] - Flask App Started
-[2024-05-18 16:24:14][app][INFO] - Liquid Registered
-[2024-05-18 16:24:18][app][INFO] - Flask App Started
-[2024-05-18 16:24:18][app][INFO] - Liquid Registered
-[2024-05-18 16:24:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:24:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:24:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:24:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:26:23][app][INFO] - Flask App Started
-[2024-05-18 16:26:23][app][INFO] - Liquid Registered
-[2024-05-18 16:26:31][app][INFO] - Flask App Started
-[2024-05-18 16:26:31][app][INFO] - Liquid Registered
-[2024-05-18 16:26:35][app][INFO] - Flask App Started
-[2024-05-18 16:26:35][app][INFO] - Liquid Registered
-[2024-05-18 16:26:38][app][INFO] - Flask App Started
-[2024-05-18 16:26:38][app][INFO] - Liquid Registered
-[2024-05-18 16:27:01][app][INFO] - Flask App Started
-[2024-05-18 16:27:01][app][INFO] - Liquid Registered
-[2024-05-18 16:27:02][app][INFO] - Flask App Started
-[2024-05-18 16:27:02][app][INFO] - Liquid Registered
-[2024-05-18 16:27:09][app][INFO] - Flask App Started
-[2024-05-18 16:27:09][app][INFO] - Liquid Registered
-[2024-05-18 16:27:15][app][INFO] - Flask App Started
-[2024-05-18 16:27:15][app][INFO] - Liquid Registered
-[2024-05-18 16:27:20][app][INFO] - Flask App Started
-[2024-05-18 16:27:20][app][INFO] - Liquid Registered
-[2024-05-18 16:27:22][app][INFO] - Flask App Started
-[2024-05-18 16:27:22][app][INFO] - Liquid Registered
-[2024-05-18 16:27:26][app][INFO] - Flask App Started
-[2024-05-18 16:27:26][app][INFO] - Liquid Registered
-[2024-05-18 16:27:29][app][INFO] - Flask App Started
-[2024-05-18 16:27:29][app][INFO] - Liquid Registered
-[2024-05-18 16:27:32][app][INFO] - Flask App Started
-[2024-05-18 16:27:32][app][INFO] - Liquid Registered
-[2024-05-18 16:27:37][app][INFO] - Flask App Started
-[2024-05-18 16:27:37][app][INFO] - Liquid Registered
-[2024-05-18 16:27:40][app][INFO] - Flask App Started
-[2024-05-18 16:27:40][app][INFO] - Liquid Registered
-[2024-05-18 16:27:46][app][INFO] - Flask App Started
-[2024-05-18 16:27:46][app][INFO] - Liquid Registered
-[2024-05-18 16:27:52][app][INFO] - Flask App Started
-[2024-05-18 16:27:52][app][INFO] - Liquid Registered
-[2024-05-18 16:27:55][app][INFO] - Flask App Started
-[2024-05-18 16:27:55][app][INFO] - Liquid Registered
-[2024-05-18 16:27:59][app][INFO] - Flask App Started
-[2024-05-18 16:27:59][app][INFO] - Liquid Registered
-[2024-05-18 16:28:00][app][INFO] - Flask App Started
-[2024-05-18 16:28:00][app][INFO] - Liquid Registered
-[2024-05-18 16:28:03][app][INFO] - Flask App Started
-[2024-05-18 16:28:03][app][INFO] - Liquid Registered
-[2024-05-18 16:28:12][app][INFO] - Flask App Started
-[2024-05-18 16:28:12][app][INFO] - Liquid Registered
-[2024-05-18 16:28:29][app][INFO] - Flask App Started
-[2024-05-18 16:28:29][app][INFO] - Liquid Registered
-[2024-05-18 16:28:37][app][INFO] - Flask App Started
-[2024-05-18 16:28:37][app][INFO] - Liquid Registered
-[2024-05-18 16:28:42][app][INFO] - Flask App Started
-[2024-05-18 16:28:42][app][INFO] - Liquid Registered
-[2024-05-18 16:28:45][app][INFO] - Flask App Started
-[2024-05-18 16:28:45][app][INFO] - Liquid Registered
-[2024-05-18 16:28:50][app][INFO] - Flask App Started
-[2024-05-18 16:28:50][app][INFO] - Liquid Registered
-[2024-05-18 16:29:17][app][INFO] - Flask App Started
-[2024-05-18 16:29:17][app][INFO] - Liquid Registered
-[2024-05-18 16:29:19][app][INFO] - Flask App Started
-[2024-05-18 16:29:19][app][INFO] - Liquid Registered
-[2024-05-18 16:29:28][app][INFO] - Flask App Started
-[2024-05-18 16:29:28][app][INFO] - Liquid Registered
-[2024-05-18 16:29:44][app][INFO] - Flask App Started
-[2024-05-18 16:29:44][app][INFO] - Liquid Registered
-[2024-05-18 16:32:20][__main__][INFO] - Flask App Started
-[2024-05-18 16:32:20][__main__][INFO] - Liquid Registered
-[2024-05-18 16:32:20][app][INFO] - Flask App Started
-[2024-05-18 16:32:20][app][INFO] - Liquid Registered
-[2024-05-18 16:32:20][__main__][INFO] - Flask App Started
-[2024-05-18 16:32:20][__main__][INFO] - Liquid Registered
-[2024-05-18 16:32:20][app][INFO] - Flask App Started
-[2024-05-18 16:32:20][app][INFO] - Liquid Registered
-[2024-05-18 16:32:30][app][INFO] - Flask App Started
-[2024-05-18 16:32:30][app][INFO] - Liquid Registered
-[2024-05-18 16:32:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:32:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:32:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:32:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:32:40][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:32:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:32:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:32:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:32:41][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:32:42][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
-[2024-05-18 16:32:46][__main__][INFO] - Flask App Started
-[2024-05-18 16:32:46][__main__][INFO] - Liquid Registered
-[2024-05-18 16:32:46][app][INFO] - Flask App Started
-[2024-05-18 16:32:46][app][INFO] - Liquid Registered
-[2024-05-18 16:32:46][__main__][INFO] - Flask App Started
-[2024-05-18 16:32:46][__main__][INFO] - Liquid Registered
-[2024-05-18 16:32:46][app][INFO] - Flask App Started
-[2024-05-18 16:32:46][app][INFO] - Liquid Registered
-[2024-05-18 16:33:12][__main__][INFO] - Flask App Started
-[2024-05-18 16:33:12][__main__][INFO] - Liquid Registered
-[2024-05-18 16:33:12][app][INFO] - Flask App Started
-[2024-05-18 16:33:12][app][INFO] - Liquid Registered
-[2024-05-18 16:33:12][__main__][INFO] - Flask App Started
-[2024-05-18 16:33:12][__main__][INFO] - Liquid Registered
-[2024-05-18 16:33:12][app][INFO] - Flask App Started
-[2024-05-18 16:33:12][app][INFO] - Liquid Registered
-[2024-05-18 16:33:26][__main__][INFO] - Flask App Started
-[2024-05-18 16:33:26][__main__][INFO] - Liquid Registered
-[2024-05-18 16:33:26][app][INFO] - Flask App Started
-[2024-05-18 16:33:26][app][INFO] - Liquid Registered
-[2024-05-18 16:33:27][__main__][INFO] - Flask App Started
-[2024-05-18 16:33:27][__main__][INFO] - Liquid Registered
-[2024-05-18 16:33:27][app][INFO] - Flask App Started
-[2024-05-18 16:33:27][app][INFO] - Liquid Registered
-[2024-05-18 16:33:34][app][INFO] - Flask App Started
-[2024-05-18 16:33:34][app][INFO] - Liquid Registered
-[2024-05-18 16:33:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:33:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:33:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:33:36][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:35:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:35:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:35:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:35:16][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:35:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 16:35:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:35:29][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:35:29][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
-[2024-05-18 16:35:29][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
-[2024-05-18 16:35:29][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
-[2024-05-18 16:35:29][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
-[2024-05-18 16:35:29][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:35:29][src.utils.db_utilities][ERROR] - DB Exited with errors!
-[2024-05-18 16:35:29][src.utils.db_utilities][ERROR] - exc_type=<class 'ValueError'>
-[2024-05-18 16:35:29][src.utils.db_utilities][ERROR] - exc_value=ValueError('not enough values to unpack (expected 5, got 3)')
-[2024-05-18 16:35:29][src.utils.db_utilities][ERROR] - exc_tb=<traceback object at 0x741de3e79b80>
-[2024-05-18 16:35:29][app][ERROR] - Exception on / [GET]
-Traceback (most recent call last):
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/src/routes/root.py", line 11, in get_root_index
-    return render_template('index.liquid')
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/src/utils/template_utils.py", line 12, in render_template
-    (user,
-ValueError: not enough values to unpack (expected 5, got 3)
-[2024-05-18 16:35:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:35:50][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:35:50][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
-[2024-05-18 16:35:50][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
-[2024-05-18 16:35:50][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
-[2024-05-18 16:35:50][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
-[2024-05-18 16:35:50][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:35:50][src.utils.db_utilities][ERROR] - DB Exited with errors!
-[2024-05-18 16:35:50][src.utils.db_utilities][ERROR] - exc_type=<class 'ValueError'>
-[2024-05-18 16:35:50][src.utils.db_utilities][ERROR] - exc_value=ValueError('not enough values to unpack (expected 5, got 3)')
-[2024-05-18 16:35:50][src.utils.db_utilities][ERROR] - exc_tb=<traceback object at 0x741de3ec6100>
-[2024-05-18 16:35:50][app][ERROR] - Exception on / [GET]
-Traceback (most recent call last):
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/src/routes/root.py", line 11, in get_root_index
-    return render_template('index.liquid')
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/src/utils/template_utils.py", line 12, in render_template
-    (user,
-ValueError: not enough values to unpack (expected 5, got 3)
-[2024-05-18 16:35:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:35:53][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:35:53][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
-[2024-05-18 16:35:53][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
-[2024-05-18 16:35:53][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
-[2024-05-18 16:35:53][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
-[2024-05-18 16:35:53][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:35:53][src.utils.db_utilities][ERROR] - DB Exited with errors!
-[2024-05-18 16:35:53][src.utils.db_utilities][ERROR] - exc_type=<class 'ValueError'>
-[2024-05-18 16:35:53][src.utils.db_utilities][ERROR] - exc_value=ValueError('not enough values to unpack (expected 5, got 3)')
-[2024-05-18 16:35:53][src.utils.db_utilities][ERROR] - exc_tb=<traceback object at 0x741de3ec50c0>
-[2024-05-18 16:35:53][app][ERROR] - Exception on / [GET]
-Traceback (most recent call last):
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/.venv/lib/python3.12/site-packages/flask/app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/src/routes/root.py", line 11, in get_root_index
-    return render_template('index.liquid')
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/adasneves/Desktop/src/CS-Club-Management/src/utils/template_utils.py", line 12, in render_template
-    (user,
-ValueError: not enough values to unpack (expected 5, got 3)
-[2024-05-18 16:36:01][app][INFO] - Flask App Started
-[2024-05-18 16:36:01][app][INFO] - Liquid Registered
-[2024-05-18 16:36:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:36:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:36:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:36:03][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:36:10][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /login
-[2024-05-18 16:36:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:36:10][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:36:10][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
-[2024-05-18 16:36:10][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
-[2024-05-18 16:36:10][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
-[2024-05-18 16:36:10][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
-[2024-05-18 16:36:10][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:36:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:36:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:36:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
-[2024-05-18 16:37:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
-[2024-05-18 16:37:10][src.utils.db_utilities][INFO] - DB Opened in Context Manager
-[2024-05-18 16:37:10][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
-[2024-05-18 16:37:10][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
-[2024-05-18 16:37:10][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
-[2024-05-18 16:37:10][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
-[2024-05-18 16:37:10][src.utils.db_utilities][INFO] - DB Instance Closed
-[2024-05-18 16:37:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
-[2024-05-18 16:37:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
-[2024-05-18 16:37:10][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:44:49][app][INFO] - Flask App Started
+[2024-05-18 19:44:49][app][INFO] - Liquid Registered
+[2024-05-18 19:44:54][app][INFO] - Flask App Started
+[2024-05-18 19:44:54][app][INFO] - Liquid Registered
+[2024-05-18 19:44:58][app][INFO] - Flask App Started
+[2024-05-18 19:44:58][app][INFO] - Liquid Registered
+[2024-05-18 19:45:05][app][INFO] - Flask App Started
+[2024-05-18 19:45:05][app][INFO] - Liquid Registered
+[2024-05-18 19:45:46][app][INFO] - Flask App Started
+[2024-05-18 19:45:46][app][INFO] - Liquid Registered
+[2024-05-18 19:46:55][app][INFO] - Flask App Started
+[2024-05-18 19:46:55][app][INFO] - Liquid Registered
+[2024-05-18 19:46:56][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:46:56][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:46:56][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:46:56][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:47:10][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:47:10][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:47:10][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:47:10][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:47:10][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:47:10][src.utils.db_utilities][ERROR] - DB Exited with errors!
+[2024-05-18 19:47:10][src.utils.db_utilities][ERROR] - exc_type=<class 'TypeError'>
+[2024-05-18 19:47:10][src.utils.db_utilities][ERROR] - exc_value=TypeError("checkpw() missing 1 required positional argument: 'hashed_password'")
+[2024-05-18 19:47:10][src.utils.db_utilities][ERROR] - exc_tb=<traceback object at 0x7bb59f28cf40>
+[2024-05-18 19:47:25][app][INFO] - Flask App Started
+[2024-05-18 19:47:25][app][INFO] - Liquid Registered
+[2024-05-18 19:47:29][app][INFO] - Flask App Started
+[2024-05-18 19:47:29][app][INFO] - Liquid Registered
+[2024-05-18 19:47:29][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:47:29][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:47:29][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:47:29][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:47:29][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:47:29][src.utils.db_utilities][ERROR] - DB Exited with errors!
+[2024-05-18 19:47:29][src.utils.db_utilities][ERROR] - exc_type=<class 'TypeError'>
+[2024-05-18 19:47:29][src.utils.db_utilities][ERROR] - exc_value=TypeError("argument 'password': 'builtin_function_or_method' object cannot be converted to 'PyBytes'")
+[2024-05-18 19:47:29][src.utils.db_utilities][ERROR] - exc_tb=<traceback object at 0x7392b88d1ec0>
+[2024-05-18 19:47:38][app][INFO] - Flask App Started
+[2024-05-18 19:47:38][app][INFO] - Liquid Registered
+[2024-05-18 19:47:38][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:47:38][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:47:38][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:47:38][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:47:39][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:47:54][app][INFO] - Flask App Started
+[2024-05-18 19:47:54][app][INFO] - Liquid Registered
+[2024-05-18 19:48:07][app][INFO] - Flask App Started
+[2024-05-18 19:48:07][app][INFO] - Liquid Registered
+[2024-05-18 19:48:09][app][INFO] - Flask App Started
+[2024-05-18 19:48:09][app][INFO] - Liquid Registered
+[2024-05-18 19:48:12][app][INFO] - Flask App Started
+[2024-05-18 19:48:12][app][INFO] - Liquid Registered
+[2024-05-18 19:48:15][app][INFO] - Flask App Started
+[2024-05-18 19:48:15][app][INFO] - Liquid Registered
+[2024-05-18 19:48:18][app][INFO] - Flask App Started
+[2024-05-18 19:48:18][app][INFO] - Liquid Registered
+[2024-05-18 19:48:20][app][INFO] - Flask App Started
+[2024-05-18 19:48:20][app][INFO] - Liquid Registered
+[2024-05-18 19:48:25][app][INFO] - Flask App Started
+[2024-05-18 19:48:25][app][INFO] - Liquid Registered
+[2024-05-18 19:48:25][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:48:25][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:48:25][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:48:25][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:48:26][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:48:26][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:48:26][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:48:26][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:48:26][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:48:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:48:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:48:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:48:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:48:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 19:48:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:48:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:48:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:48:39][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:48:44][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:48:44][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:48:44][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:48:44][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:48:45][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:48:45][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:48:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:48:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:48:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:49:04][app][INFO] - Flask App Started
+[2024-05-18 19:49:04][app][INFO] - Liquid Registered
+[2024-05-18 19:49:06][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:49:06][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:49:06][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:49:06][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:49:13][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 19:49:13][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:49:13][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:49:13][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:49:14][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:49:14][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:49:14][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:49:14][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 19:49:14][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:49:14][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:49:14][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 19:49:14][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:49:14][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:49:14][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:49:14][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:49:14][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 19:52:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:52:53][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:52:53][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 19:52:53][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:52:53][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:52:53][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 19:52:53][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:52:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:52:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:52:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:59:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:59:22][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:59:22][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 19:59:22][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:59:22][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:59:22][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 19:59:22][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:59:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:59:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:59:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:59:35][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:59:35][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 19:59:35][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:59:35][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:59:35][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 19:59:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:59:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 19:59:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 19:59:49][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 19:59:49][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 19:59:49][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 19:59:49][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 19:59:49][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 19:59:49][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 19:59:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 19:59:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 19:59:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:00:34][app][INFO] - Flask App Started
+[2024-05-18 20:00:34][app][INFO] - Liquid Registered
+[2024-05-18 20:00:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:00:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:00:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:00:35][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:00:44][app][INFO] - Flask App Started
+[2024-05-18 20:00:44][app][INFO] - Liquid Registered
+[2024-05-18 20:00:45][app][INFO] - Flask App Started
+[2024-05-18 20:00:45][app][INFO] - Liquid Registered
+[2024-05-18 20:00:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:00:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:00:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:00:46][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:00:47][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:00:59][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:01:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:01:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:01:00][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:01:07][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:01:07][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:01:07][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:01:07][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:01:08][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:01:08][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:01:08][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:01:08][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:01:08][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:01:08][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:01:08][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:01:08][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:01:09][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:01:09][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:01:09][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:01:09][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:03:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:03:58][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:03:58][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:03:58][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:03:58][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:03:58][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:03:58][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:03:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:03:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:03:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:04:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:04:16][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:04:16][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:04:16][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:04:16][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:04:16][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:04:16][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:04:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:04:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:04:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:04:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:04:18][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:04:18][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:04:18][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:04:18][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:04:18][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:04:18][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:04:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:04:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:04:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:04:19][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:04:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:04:50][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:04:50][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:04:50][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:04:50][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:04:50][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:04:50][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:04:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:04:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:04:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:05:57][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:05:57][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:05:57][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:05:57][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:05:57][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:05:57][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:05:57][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:05:57][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:05:57][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:05:57][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:05:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:05:58][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:05:58][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:05:58][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:05:58][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:05:58][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:05:58][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:05:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:05:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:05:58][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:05:59][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:10:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:10:16][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:10:16][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:10:16][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:10:16][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:10:16][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:10:16][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:10:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:10:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:10:16][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:10:17][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:10:17][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:10:17][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:10:17][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:10:17][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:10:17][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:10:17][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:10:17][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:10:17][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:10:17][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:10:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:10:26][app][INFO] - Flask App Started
+[2024-05-18 20:10:26][app][INFO] - Liquid Registered
+[2024-05-18 20:10:27][app][INFO] - Flask App Started
+[2024-05-18 20:10:27][app][INFO] - Liquid Registered
+[2024-05-18 20:10:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:10:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:10:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:10:28][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:10:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:10:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:10:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:10:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:10:34][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:10:34][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:10:34][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:10:34][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:10:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:10:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:10:35][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:10:35][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:10:35][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:10:35][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:10:35][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:10:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:10:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:10:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:10:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:10:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:11:15][app][INFO] - Flask App Started
+[2024-05-18 20:11:15][app][INFO] - Liquid Registered
+[2024-05-18 20:11:15][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:11:15][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:11:15][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:11:15][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:11:17][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:11:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:11:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:11:18][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:11:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:11:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:11:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:11:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:11:30][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:11:30][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:11:30][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:11:30][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:11:31][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:11:31][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:11:31][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:11:31][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:11:31][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:11:31][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:11:31][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:11:31][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:11:31][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:11:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:11:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:11:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:12:40][app][INFO] - Flask App Started
+[2024-05-18 20:12:40][app][INFO] - Liquid Registered
+[2024-05-18 20:12:49][app][INFO] - Flask App Started
+[2024-05-18 20:12:49][app][INFO] - Liquid Registered
+[2024-05-18 20:12:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:12:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:12:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:12:49][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:12:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:12:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:12:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:12:52][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:12:53][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:12:53][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:12:53][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:12:53][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:12:54][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:12:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:12:54][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:12:54][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:12:54][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:12:54][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:12:54][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:12:54][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:12:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:12:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:12:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:12:55][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:13:02][app][INFO] - Flask App Started
+[2024-05-18 20:13:02][app][INFO] - Liquid Registered
+[2024-05-18 20:13:03][app][INFO] - Flask App Started
+[2024-05-18 20:13:03][app][INFO] - Liquid Registered
+[2024-05-18 20:13:04][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:13:04][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:13:04][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:13:04][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:13:04][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:13:04][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:13:04][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:13:04][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:13:04][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:13:04][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:13:46][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:13:46][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:13:46][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:13:46][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:13:46][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:13:46][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:13:46][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:13:47][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:13:47][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:13:47][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:14:45][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:14:45][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:14:45][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:14:45][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:14:45][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:14:45][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:14:45][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:14:45][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:14:45][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:14:45][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:15:36][app][INFO] - Flask App Started
+[2024-05-18 20:15:36][app][INFO] - Liquid Registered
+[2024-05-18 20:15:46][app][INFO] - Flask App Started
+[2024-05-18 20:15:46][app][INFO] - Liquid Registered
+[2024-05-18 20:15:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:15:50][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:15:50][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:15:50][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:15:50][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:15:50][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:15:50][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:15:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:15:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:15:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:16:22][app][INFO] - Flask App Started
+[2024-05-18 20:16:22][app][INFO] - Liquid Registered
+[2024-05-18 20:16:28][app][INFO] - Flask App Started
+[2024-05-18 20:16:28][app][INFO] - Liquid Registered
+[2024-05-18 20:16:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:16:29][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:16:29][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:16:29][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:16:29][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:16:29][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:16:29][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:16:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:16:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:16:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:19:16][app][INFO] - Flask App Started
+[2024-05-18 20:19:16][app][INFO] - Liquid Registered
+[2024-05-18 20:19:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:19:18][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:19:18][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:19:18][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:19:18][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:19:18][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:19:18][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:19:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:19:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:19:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:20:09][app][INFO] - Flask App Started
+[2024-05-18 20:20:09][app][INFO] - Liquid Registered
+[2024-05-18 20:21:26][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:21:26][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:21:26][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:21:26][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:21:26][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:21:26][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:21:26][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:21:30][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:21:30][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:21:30][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:21:30][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:21:30][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:21:30][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:21:30][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:21:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:21:36][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:21:36][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:21:36][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:21:36][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:21:36][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:21:36][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:21:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:21:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:21:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:22:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:22:06][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:22:06][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:22:06][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:22:06][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:22:06][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:22:06][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:22:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:22:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:22:06][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:22:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:22:22][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:22:22][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:22:22][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:22:22][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:22:22][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:22:22][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:22:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:22:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:22:22][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:22:27][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:22:27][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:22:27][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:22:27][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:22:27][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:22:27][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:22:27][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:22:27][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:22:27][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:22:27][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:22:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:22:32][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:22:32][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:22:32][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:22:32][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:22:32][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:22:32][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:22:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:22:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:22:32][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:22:40][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:22:52][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:22:52][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:22:52][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:22:52][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:22:52][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:22:52][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:22:52][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:22:52][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:22:52][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:22:52][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:22:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:23:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:23:18][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:23:18][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:23:18][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:23:18][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:23:18][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:23:18][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:23:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:23:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:23:18][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:23:19][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:23:44][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:23:44][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:23:44][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:23:44][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:23:44][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:23:44][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:23:44][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:23:44][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:23:44][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:23:44][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:23:45][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:23:48][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:23:48][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:23:48][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:23:48][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:23:48][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:23:48][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:23:48][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:23:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:23:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:23:49][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:23:50][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:25:45][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:25:45][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:25:45][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:25:45][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:25:45][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:25:45][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:25:45][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:25:46][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:25:46][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:25:46][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:25:47][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:25:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:25:53][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:25:53][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:25:53][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:25:53][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:25:53][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:25:53][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:25:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:25:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:25:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:25:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css.map
+[2024-05-18 20:26:08][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:26:08][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:26:08][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:26:08][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:26:08][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:26:08][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:26:08][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:26:08][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:26:08][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:26:08][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:26:12][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:26:12][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:26:12][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:26:12][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:26:12][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:26:12][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:26:12][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:26:13][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:26:13][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:26:13][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:26:20][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:26:20][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:26:20][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:26:20][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:26:20][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:26:20][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:26:20][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:26:20][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:26:20][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:26:20][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:26:28][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:26:28][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:26:28][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:26:28][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:26:28][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:26:28][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:26:28][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:26:28][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:26:28][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:26:28][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:26:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:26:36][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:26:36][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:26:36][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:26:36][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:26:36][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:26:36][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:26:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:26:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:26:36][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:26:53][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:26:53][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:26:53][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:26:53][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:26:53][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:26:53][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:26:53][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:26:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:26:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:26:54][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:27:24][app][INFO] - Flask App Started
+[2024-05-18 20:27:24][app][INFO] - Liquid Registered
+[2024-05-18 20:27:24][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:27:24][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:27:24][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:27:24][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:27:24][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:27:24][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:27:24][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:27:24][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:27:24][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:27:24][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:27:28][app][INFO] - Flask App Started
+[2024-05-18 20:27:28][app][INFO] - Liquid Registered
+[2024-05-18 20:27:29][app][INFO] - Flask App Started
+[2024-05-18 20:27:29][app][INFO] - Liquid Registered
+[2024-05-18 20:27:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:27:29][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:27:29][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:27:29][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:27:29][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:27:29][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:27:29][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:27:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:27:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:27:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:27:47][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /auth/logout
+[2024-05-18 20:27:56][app][INFO] - Flask App Started
+[2024-05-18 20:27:56][app][INFO] - Liquid Registered
+[2024-05-18 20:28:03][app][INFO] - Flask App Started
+[2024-05-18 20:28:03][app][INFO] - Liquid Registered
+[2024-05-18 20:28:12][app][INFO] - Flask App Started
+[2024-05-18 20:28:12][app][INFO] - Liquid Registered
+[2024-05-18 20:28:17][app][INFO] - Flask App Started
+[2024-05-18 20:28:17][app][INFO] - Liquid Registered
+[2024-05-18 20:28:24][app][INFO] - Flask App Started
+[2024-05-18 20:28:24][app][INFO] - Liquid Registered
+[2024-05-18 20:28:24][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /auth/logout
+[2024-05-18 20:28:24][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:28:24][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:28:24][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:28:24][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:28:24][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:28:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:28:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:28:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:28:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:28:34][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:28:34][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:28:34][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:28:34][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:28:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:28:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:28:35][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:28:35][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:28:35][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:28:35][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:28:35][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:28:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:28:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:28:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:28:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:28:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:29:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:29:01][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:29:01][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:29:01][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:29:01][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:29:01][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:29:01][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:29:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:29:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:29:01][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:29:07][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:29:07][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:29:07][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:29:07][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:29:07][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:29:07][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:29:07][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:29:07][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:29:07][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:29:07][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:29:30][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:29:30][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:29:30][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:29:30][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:29:30][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:29:30][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:29:30][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:29:30][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:29:30][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:29:30][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:29:37][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:29:37][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:29:37][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:29:37][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:29:37][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:29:37][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:29:37][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:29:37][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:29:37][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:29:37][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:29:56][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:29:56][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:29:56][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:29:56][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:29:56][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:29:56][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:29:56][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:29:56][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:29:56][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:29:56][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:30:25][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:30:25][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:30:25][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:30:25][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:30:25][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:30:25][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:30:25][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:30:25][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:30:25][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:30:25][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:30:29][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /auth/logout
+[2024-05-18 20:30:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:30:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:30:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:30:29][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:30:30][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /favicon.ico
+[2024-05-18 20:30:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:30:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:30:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:30:32][RouteHandler][DEBUG] - Guest has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:30:34][RouteHandler][DEBUG] - Guest has issued a POST request from IP 127.0.0.1 for resource /auth/login
+[2024-05-18 20:30:34][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:30:34][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:30:34][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:30:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:30:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /
+[2024-05-18 20:30:35][src.utils.db_utilities][INFO] - DB Opened in Context Manager
+[2024-05-18 20:30:35][src.utils.db_utilities][DEBUG] - Getting User for User Seq 1
+[2024-05-18 20:30:35][src.utils.db_utilities][DEBUG] - Getting User Data for User Seq 1
+[2024-05-18 20:30:35][src.utils.db_utilities][DEBUG] - Getting User Classes for User Seq 1
+[2024-05-18 20:30:35][src.utils.db_utilities][DEBUG] - Getting User Permissions for User Seq 1
+[2024-05-18 20:30:35][src.utils.db_utilities][INFO] - DB Instance Closed
+[2024-05-18 20:30:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/bootstrap.min.css
+[2024-05-18 20:30:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/1.css
+[2024-05-18 20:30:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /static/theme/structure.css
+[2024-05-18 20:30:35][RouteHandler][DEBUG] - User 1 has issued a GET request from IP 127.0.0.1 for resource /favicon.ico

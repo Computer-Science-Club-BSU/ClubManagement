@@ -15,13 +15,13 @@ logging.basicConfig(filename="log.txt", level=logging.DEBUG,
 app = Flask(__name__,
             static_folder="src/interface/static",
             template_folder="src/interface/templates/")
-app.secret_key = uuid4().hex
+app.secret_key = "secret"
 
 logger.info("Flask App Started")
 Liquid(app)
 logger.info("Liquid Registered")
 
-from src.routes import root
+import src.routes
 
 if __name__ == "__main__":
     app.run(debug=True)

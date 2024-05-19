@@ -108,10 +108,10 @@ h1{
 }
 
 .box { margin: 5px; }
-/* .box1 { background-color: red; }
-.box2 { background-color: orange; }
-.box3 { background-color: purple; }
-.box4 { background-color: grey; } */
+
+.padleft30{
+    padding-left: 30px;
+}
   
   
   

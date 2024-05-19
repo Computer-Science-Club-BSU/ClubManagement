@@ -11,11 +11,6 @@ def get_root_index():
     return render_template('index.liquid')
 
 
-@app.route('/login')
-def login():
-    session['user_seq'] = 1
-    return redirect('/')
-
 @app.before_request
 def handle_pre_request():
     # Implement Rate Limiting on POST Requests

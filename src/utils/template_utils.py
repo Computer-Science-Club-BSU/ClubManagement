@@ -14,11 +14,7 @@ def render_template(template_name, **context):
              classes,
              fin_dash,
              doc_dash) = conn.get_user_by_seq(user_seq)
-            print(user,
-             perms,
-             classes,
-             fin_dash,
-             doc_dash) 
+            
         return _render(template_name, **context, **public_config,
                        isLoggedIn=True, user=user, perms=perms,
                        classes=classes,finance_dashboards=fin_dash,

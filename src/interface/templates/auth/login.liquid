@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <article>
+      <div class="padleft30">
+        <h1>Log In</h1>
+        <form action="/auth/login" method="post">
+          <label for="uname">Username</label>
+          <input
+            type="text"
+            name="uname"
+            id="uname"
+            autocomplete="username">
+          <br>
+          <label for="pword">Password</label>
+          <input
+            type="password"
+            name="pword"
+            id="pword">
+          <input type="submit" value="Log In">
+        </form>
+        <button>Forgot Password?</button>
+      </div>
+    </article>
+    <div class="foot_wrap">
+      <footer>
+        &copy; 2024 Alex Dasneves
+      </footer>
+    </div>
+  </body>
+</html>

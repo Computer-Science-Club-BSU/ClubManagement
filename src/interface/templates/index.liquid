@@ -3,46 +3,62 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ sys_name }}</title>
   </head>
   <body>
     {% render "navbar.liquid" %}
     <article>
-      <h1>Welcome {{ user.title }} {{ user.last_name }}</h1>
-      <div class="grid2x2">
-        <div class="box box1">
-          <h1>Finances</h1>
-          <h2>Balance:
-          </h2>
-          <h2>Total Records:
-          </h2>
-          <table>
-            <tr>
-              <th>Status</th>
-              <th>Count</th>
-            </tr>
-          </table>
-        </div>
-        <div class="box box2">
-          <h1>Docket</h1>
-          <h2>Total Records:
-          </h2>
-          <table>
-            <tr>
-              <th>Status</th>
-              <th>Count</th>
-            </tr>
-          </table>
-        </div>
-        <div class="box box3">
-          <h1>User Administration</h1>
+      <h2 class="padleft30">Welcome {{ user.first_name }} {{ user.last_name }}</h2>
+      <h3 class="padleft30">{{ sys_name }}</h3>
 
-        </div>
-        <div class="box box4">
-          <h1>Development</h1>
-          <button onclick="downloadLog()">Download Log</button>
-        </div>
+      <div class="grid2x2">
+        {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_del == 1 or perms.fin_query %}
+
+          <div class="box box1">
+
+            <h1>Finances</h1>
+            <h2>Balance:
+            </h2>
+            <h2>Total Records:
+            </h2>
+            <table>
+              <tr>
+                <th>Status</th>
+                <th>Count</th>
+              </tr>
+            </table>
+          </div>
+        {% endif %}
+        {% if perms.doc_view == 1 or perms.doc_add == 1 or perms.doc_edit == 1 or perms.doc_admin == 1 or perms.doc_del == 1 or perms.doc_query == 1 %}
+
+          <div class="box box2">
+            <h1>Docket</h1>
+            <h2>Total Records:
+            </h2>
+            <table>
+              <tr>
+                <th>Status</th>
+                <th>Count</th>
+              </tr>
+            </table>
+          </div>
+        {% endif %}
+        {% if perms.user_view == 1 or perms.user_add == 1 or perms.user_edit == 1 or perms.user_admin == 1 or perms.user_del == 1 or perms.user_query == 1 %}
+
+          <div class="box box3">
+            <h1>User Administration</h1>
+
+          </div>
+        {% endif %}
+        {% if perms.dev_edit == 1 or perms.dev_read == 1 %}
+
+          <div class="box box4">
+            <h1>Development</h1>
+            <button onclick="downloadLog()">Download Log</button>
+          </div>
+        {% endif %}
       </div>
+
     </article>
     <div class="foot_wrap">
       <footer>
