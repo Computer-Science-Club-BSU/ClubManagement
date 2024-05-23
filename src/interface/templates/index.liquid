@@ -8,8 +8,10 @@
   <body>
     {% render "navbar.liquid" %}
     <article>
-      <h2 class="padleft30">Welcome {{ user.first_name }} {{ user.last_name }}</h2>
-      <h3 class="padleft30">{{ sys_name }}</h3>
+      <header>
+        <h2>Welcome {{ user.first_name }} {{ user.last_name }}</h2>
+        <h3>{{ sys_name }}</h3>
+      </header>
 
       <div class="grid2x2">
         {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_del == 1 or perms.fin_query %}
@@ -18,28 +20,45 @@
 
             <h1>Finances</h1>
             <h2>Balance:
+              {% if isPos %}
+                ${{ total }}
+              {% else %}
+                ${{ total }} Available
+              {% endif %}
             </h2>
-            <h2>Total Records:
+            <h2>Total Records: {{ fin_count }}
             </h2>
             <table>
               <tr>
                 <th>Status</th>
                 <th>Count</th>
               </tr>
+              {% for row in fin_sum %}
+                <tr>
+                  <td>{{ row[0] }}</td>
+                  <td>{{ row[1] }}</td>
+                </tr>
+              {% endfor %}
             </table>
           </div>
         {% endif %}
         {% if perms.doc_view == 1 or perms.doc_add == 1 or perms.doc_edit == 1 or perms.doc_admin == 1 or perms.doc_del == 1 or perms.doc_query == 1 %}
 
           <div class="box box2">
-            <h1>Docket</h1>
-            <h2>Total Records:
-            </h2>
+            <h1 style="margin-bottom: 48px;">Docket</h1>
+
+            <h2>Total Records: {{ doc_count }}</h2>
             <table>
               <tr>
                 <th>Status</th>
                 <th>Count</th>
               </tr>
+              {% for row in doc_sum %}
+                <tr>
+                  <td>{{ row[0] }}</td>
+                  <td>{{ row[1] }}</td>
+                </tr>
+              {% endfor %}
             </table>
           </div>
         {% endif %}
@@ -47,23 +66,27 @@
 
           <div class="box box3">
             <h1>User Administration</h1>
-
+            <textarea style="height:100%;" disabled>
+              {% for line in access_log_data %}
+                {{ line }}{% endfor %}
+            </textarea>
           </div>
         {% endif %}
         {% if perms.dev_edit == 1 or perms.dev_read == 1 %}
 
           <div class="box box4">
             <h1>Development</h1>
-            <button onclick="downloadLog()">Download Log</button>
+
+            <textarea style="height:100%;" disabled>
+              {% for line in gen_log_data %}
+                {{ line }}{% endfor %}
+            </textarea>
+
           </div>
         {% endif %}
       </div>
 
     </article>
-    <div class="foot_wrap">
-      <footer>
-        &copy; 2024 Alex Dasneves
-      </footer>
-    </div>
+    {% render "footer.liquid" %}
   </body>
 </html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <header>
+      <h2>Officer Roster Page</h2>
+    </header>
+    <article>
+      <div class="grid">
+        <div class="box">
+          {% for position in positions %}
+            <h2>{{ position[0] }}</h2>
+            {% for user in position[1] %}
+              <h3 style="padding-left:50px;">{{ user }}</h3>
+
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    </article>
+    {% render "navbar.liquid" %}
+  </body>
+</html>

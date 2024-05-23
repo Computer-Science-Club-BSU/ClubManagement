@@ -15,7 +15,7 @@
     <div class="nav_div">
       <ul id="nav_ul">
         <li class="parent">
-          <a href="#">Home</a>
+          <a href="/">Home</a>
         </li>
         <li class="parent">
           <a href="#">Quick Links</a>
@@ -27,87 +27,117 @@
             {% endfor %}
           </ul>
         </li>
-        <li class="parent">
-          <a href="#">Finances</a>
-          <ul class="child">
-            <li class="parent">
-              <a href="URL">View All Records</a>
-            </li>
-            <li class="parent">
-              <a href="URL">New Record</a>
-            </li>
-            <li class="parent">
-              <a href="URL">Administrate Finances</a>
-            </li>
-            {% assign fin_dash_len = finance_dashboards | size %}
-            {% if fin_dash_len > 0 %}
-              <li class="parent">
-                <a href="#">Dashboards<span class="expand">&raquo;</span>
-                </a>
-                <ul class="child">
-                  {% for dash in finance_dashboards %}
+        {% if perms.doc_view == 1 or perms.doc_add == 1 or perms.doc_edit == 1 or perms.doc_admin == 1 or perms.doc_query %}
+          <li class="parent">
+            <a href="#">Docket</a>
+            <ul class="child">
+              {% if perms.doc_view == 1 or perms.doc_admin == 1 %}
+                <li>
+                  <a href="/doc/view">View All Records</a>
+                </li>
+              {% endif %}
+              {% if perms.doc_edit == 1 or perms.doc_admin == 1 %}
+                <li>
+                  <a href="/doc/create">Create a Docket</a>
+                </li>
+              {% endif %}
+              {% if perms.doc_admin == 1 %}
+                <li>
+                  <a href="/doc/admin">Administrate Docket</a>
+                </li>
+              {% endif %}
+              {% if perms.doc_query == 1 or perms.doc_admin %}
+                <li>
+                  <a href="/doc/query">Query Docket</a>
+                </li>
+              {% endif %}
+              {% assign doc_dash_len = docket_dashboards | size %}
+              {% if doc_dash_len > 0 %}
+                <li class="parent">
+                  <a href="#">Dashboards<span class="expand">&raquo;</span>
+                  </a>
+                  <ul class="child">
                     <li>
-                      <a href="/finance/dashboards/{{dash.seq}}">{{ dash.name }}</a>
+                      <a href="inventory">Inventory Report</a>
                     </li>
-                  {% endfor %}
-                </ul>
-              </li>
-            {% endif %}
-          </ul>
-        </li>
-        <li class="parent">
-          <a href="#">Docket</a>
-          <ul class="child">
-            <li>
-              <a href="http://kb">View All Records</a>
-            </li>
-            <li>
-              <a href="http:/">Create a Docket</a>
-            </li>
-            <li class="parent">
-              <a href="http:">Administrate Docket</a>
-            </li>
-            {% assign doc_dash_len = docket_dashboards | size %}
-            {% if doc_dash_len > 0 %}
-              <li class="parent">
-                <a href="#">Dashboards<span class="expand">&raquo;</span>
-                </a>
-                <ul class="child">
-                  <li>
-                    <a href="inventory">Inventory Report</a>
-                  </li>
-                  <li>
-                    <a href="sales.">Sales Report</a>
-                  </li>
-                  <li>
-                    <a href="quotes">Quotes Report</a>
-                  </li>
-                  <li>User
-                    <a href="workOrder">Work Order Report</a>
-                  </li>
-                  <li>
-                    <a href="prtUsed">Part Where Used Report</a>
-                  </li>
-                </ul>
-              </li>
-            {% endif %}
-          </ul>
-        </li>
+                    <li>
+                      <a href="sales.">Sales Report</a>
+                    </li>
+                    <li>
+                      <a href="quotes">Quotes Report</a>
+                    </li>
+                    <li>User
+                      <a href="workOrder">Work Order Report</a>
+                    </li>
+                    <li>
+                      <a href="prtUsed">Part Where Used Report</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endif %}
+            </ul>
+          </li>
+        {% endif %}
+        {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_query %}
+          <li class="parent">
+            <a href="#">Finances</a>
+            <ul class="child">
+              {% if perms.fin_admin == 1 or perms.fin_view == 1 %}
+                <li class="parent">
+                  <a href="URL">View All Records</a>
+                </li>
+              {% endif %}
+              {% if perms.fin_admin == 1 or perms.fin_add == 1 %}
+                <li class="parent">
+                  <a href="URL">New Record</a>
+                </li>
+              {% endif %}
+              {% if perms.fin_admin == 1 %}
+                <li class="parent">
+                  <a href="URL">Administrate Finances</a>
+                </li>
+              {% endif %}
+
+              {% if perms.fin_admin == 1 or perms.fin_query == 1 %}
+                <li class="parent">
+                  <a href="URL">Query Finances</a>
+                </li>
+              {% endif %}
+
+              {% assign fin_dash_len = finance_dashboards | size %}
+              {% if fin_dash_len > 0 %}
+                <li class="parent">
+                  <a href="#">Dashboards<span class="expand">&raquo;</span>
+                  </a>
+                  <ul class="child">
+                    {% for dash in finance_dashboards %}
+                      <li>
+                        <a href="/finance/dashboards/{{dash.seq}}">{{ dash.name }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endif %}
+            </ul>
+          </li>
+        {% endif %}
         <li class="parent">
           <a href="#">About</a>
           <ul class="child">
             <li>
-              <a href="http://">Officers</a>
+              <a href="/about/officers">Officers</a>
             </li>
             <li>
               <a href="http:/">System Information</a>
             </li>
           </ul>
         </li>
+        {% if perms.dev_edit == 1 or perms.dev_read == 1 %}
 
-        <li class="parent">
-          <a href="">Development</a>
-        </li>
+          <li class="parent">
+            <a href="">Development</a>
+          </li>
+        {% endif %}
         <li class="parent right">
           <a href="#">
             {% if isLoggedIn %}

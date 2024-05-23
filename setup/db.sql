@@ -7,7 +7,7 @@ use management;
 
 create table users(
     seq int primary key auto_increment,
-    user_name varchar(20),
+    user_name varchar(20) unique,
     first_name varchar(20),
     last_name varchar(20),
     hash_pass varchar(200),
@@ -28,6 +28,19 @@ create table class(
     seq int primary key auto_increment,
     position_name varchar(30),
     displayed tinyint(1) default 1,
+    ranking int default 99,
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq)
+);
+
+create table perm_types(
+    seq int primary key auto_increment,
+    perm_desc varchar(20),
     added_by int,
     updated_by int,
     added_dt datetime default current_timestamp,
@@ -39,8 +52,8 @@ create table class(
 
 create table perms(
     seq int primary key auto_increment,
-    class int,
-    perm_desc varchar(30),
+    class_seq int,
+    perm_seq int,
     granted tinyint(1) default 0,
     added_by int,
     updated_by int,
@@ -49,7 +62,8 @@ create table perms(
 
     constraint foreign key (added_by) references users(seq),
     constraint foreign key (updated_by) references users(seq),
-    constraint foreign key (class) references class(seq)
+    constraint foreign key (class_seq) references class(seq),
+    constraint foreign key (perm_seq) references perm_types(seq)
 );
 
 create table class_assignments(
@@ -143,6 +157,12 @@ create table finance_hdr(
     constraint foreign key (type_seq) references finance_type(seq)
 );
 
+/*
+To improve the search results of the database by finance ID, we should add
+an index.
+*/
+CREATE INDEX IF NOT EXISTS finance_id_idx ON finance_hdr(id);
+
 create table finance_line(
     seq int primary key auto_increment,
     finance_seq int,
@@ -185,7 +205,17 @@ create table docket_hdr(
     constraint foreign key (added_by) references users(seq),
     constraint foreign key (updated_by) references users(seq),
     constraint foreign key (stat_seq) references docket_status(seq),
-    constraint foreign key (vote_type) references vote_perms(seq)
+    constraint foreign key (vote_type) references vote_types(seq)
+);
+
+CREATE TABLE docket_conversations(
+    seq int primary key auto_increment,
+    docket_seq int not null,
+    creator int not null,
+    body text,
+    dt_added datetime default current_timestamp,
+    CONSTRAINT foreign key (docket_seq) references docket_hdr(seq),
+    CONSTRAINT foreign key (creator) references users(seq)
 );
 
 create table docket_assignees(
@@ -225,5 +255,37 @@ create table db_schema(
     col_type varchar(30),
     introspected tinyint(1) default 0
 );
+
+
+create table dashboards(
+    seq int primary key auto_increment,
+    sp_name varchar(30),
+    dash_type varchar(30),
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq)
+);
+
+create table dash_assign(
+    seq int primary key auto_increment,
+    dash_seq int not null,
+    class_seq int not null,
+
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq),
+    constraint foreign key (dash_seq) references dashboards(seq),
+    constraint foreign key (class_seq) references class(seq)
+
+);
+
 
 commit;

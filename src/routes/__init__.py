@@ -4,3 +4,4 @@ import src.routes.dev
 import src.routes.docket
 import src.routes.finance
 import src.routes.user
+import src.routes.about

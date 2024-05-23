@@ -74,27 +74,53 @@ footer{
     padding: 10px;
 }
 
-html{
+html, body{
     height: 100%;
-}
-body{
-    height: 100%;
+    background-color: var(--primary-color);
 }
 
 article{
-    height: 91.8%;
+    height: 91%;
 }
-h1{
-    margin-left: 5px;
+h1,h2, h3, h4, h5, h6{
+    margin: 5px;
 }
 
+h1,h2,h3,h4,h5,h6,p,pre,td,th,label {
+    color: var(--text-color)
+}
+
+
+header > h2, header > h3 {
+    margin: 8px;
+}
 
 .grid2x2 {
-    min-height: 95%;
+    min-height: 91%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 }
+
+.revrow{
+    flex-direction: row-reverse;
+}
+
+.grid{
+    min-height: 91%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+
+.grid > div {
+    display: flex; 
+    flex-basis: calc(100% - 10px);  
+    /* justify-content: center; */
+    flex-direction: column;
+}
+
 .grid2x2 > div {
     display: flex; 
     flex-basis: calc(50% - 10px);  
@@ -113,5 +139,39 @@ h1{
     padding-left: 30px;
 }
   
+header{
+    padding: 2px;
+}
+
+.box > table{
+    margin: 5px;
+}
+
+
+th{
+    padding: 1px;
+}
+
+th,tr,td,table{
+    border-collapse: collapse;
+    border:1px solid var(--text-color)
+}
+
+
+.centText{
+    text-align: center;
+}
+
+tr > td {
+    padding-left: 4px;
+}
+
+.actions{
+    text-align: center;
+    padding:unset;
+}
+
   
-  
+/* * {
+    outline: 1px solid var(--text-color);
+} */

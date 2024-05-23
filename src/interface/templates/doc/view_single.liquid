@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docket Records</title>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <article>
+
+      <div class="grid2x2 revrow">
+        <div class="box">
+          <h2>Conversations</h2>
+          {% for conv in doc.conversations %}
+            <h3>{{ conv.creator }}</h3>
+            <h4>{{ conv.body }}</h4>
+          {% endfor %}
+        </div>
+
+        <div class="box">
+          <h1>Viewing Docket {{ doc.docket.seq }}</h1>
+          <h4>Created By: {{ doc.docket.creator }}, on {{ doc.docket.added_dt }}</h4>
+          <h3>Title:</h3>
+          <h4>{{ doc.docket.docket_title }}</h4>
+          <h3>Status: {{ doc.docket.status }}</h3>
+          <h3>Vote Type: {{ doc.docket.vote_desc }}</h3>
+          <h3>Body:</h3>
+          <h5>{{ doc.docket.docket_desc }}</h5>
+        </div>
+        <div class="box">
+          <h2>Assigned Users</h2>
+        </div>
+      </div>
+    </article>
+    {% render "footer.liquid" %}
+  </body>
+</html>

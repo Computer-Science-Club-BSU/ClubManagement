@@ -38,6 +38,36 @@ class connect:
                 logger.error(f"Exception Occured {e}")
                 return
         return wrapper
+
+    def _convert_to_dict(func: Callable):
+        def wrapper(self, *args, **kwargs):
+            # Execute the function (Performs the SQL Query)
+            func(self, *args, **kwargs)
+            # Assemble a dictionary based off the cursor description.
+            field_names = [i[0] for i in self.cur.description]
+            data = self.cur.fetchall()
+            row_data = []
+            for row in data:
+
+                row_data.append(
+                    {key: val
+                        for key, val in zip(field_names, row)
+                    }
+                )
+            return row_data
+        return wrapper
+    
+    def _convert_to_dict_single(func: Callable):
+        def wrapper(self, *args, **kwargs):
+            # Execute the function (Performs the SQL Query)
+            func(self, *args, **kwargs)
+            # Assemble a dictionary based off the cursor description.
+            field_names = [i[0] for i in self.cur.description]
+            data = self.cur.fetchone()
+            return {key: val
+                        for key, val in zip(field_names, data)
+                    }
+        return wrapper
     
     
     def get_user_by_seq(self, user_seq):
@@ -55,41 +85,21 @@ class connect:
         doc_dash = self.get_user_docket_dashboards_by_user_seq(user_seq)
         return user_data, permissions, class_data, fin_dash, doc_dash
 
-
+    @_convert_to_dict_single
     def get_user_data_by_seq(self, user_seq):
         # Select User from SQL Table
         logger.debug(f"Getting User Data for User Seq {user_seq}")
         SQL = "SELECT * FROM users WHERE seq = %s"
         self.cur.execute(SQL, (user_seq,))
 
-        # If we did not get a user, return.
-        if self.cur.rowcount != 1:
-            return
-        
-        # Assemble a dictionary based off the cursor description.
-        field_names = [i[0] for i in self.cur.description]
-        data = self.cur.fetchone()
-        user_data = { key: val for key, val in zip(field_names, data)}
-        return user_data
-
+    @_convert_to_dict
     def get_user_classes_by_user_seq(self, user_seq):
         logger.debug(f"Getting User Classes for User Seq {user_seq}")
         
         SQL = """SELECT a.position_name FROM class a, class_assignments b
         WHERE a.seq = b.class_seq AND b.user_seq = %s"""
         self.cur.execute(SQL, (user_seq,))
-        # Assemble a dictionary based off the cursor description.
-        field_names = [i[0] for i in self.cur.description]
-        data = self.cur.fetchall()
-        class_data = []
-        for row in data:
-
-            class_data.append(
-                {key: val
-                    for key, val in zip(field_names, row)
-                }
-            )
-        return class_data
+        
 
     def get_user_perms_by_user_seq(self, user_seq):
         logger.debug(f"Getting User Permissions for User Seq {user_seq}")
@@ -148,7 +158,121 @@ class connect:
         seq = self.cur.fetchone()[0]
         return self.get_user_data_by_seq(seq)
         
+    
+    def get_finances_total(self) -> int:
+        finances = self.get_finances()
+        total = 0
+        for finance in finances:
+            total += finance['tax'] + finance['fees']
+            for line in finance['lines']:
+                total += (line['price'] * line['qty'])
+        return total
+
+    @_convert_to_dict
+    def get_finance_headers(self) -> list[dict]:
+        SQL = """SELECT * FROM finance_hdr"""
+        self.cur.execute(SQL)
         
+    @_convert_to_dict
+    def get_finance_lines_by_hdr(self, hdr_seq: int) -> list[dict]:
+        SQL = """SELECT * FROM finance_line WHERE finance_seq = %s"""
+        self.cur.execute(SQL, (hdr_seq,))
+
+    def get_finances(self) -> list[dict]:
+        # Get the header data
+        headers = self.get_finance_headers()
+        for item in headers:
+            hdr_seq = item['seq']
+            lines = self.get_finance_lines_by_hdr(hdr_seq)
+            item['lines'] = lines
+        
+        return headers
+    
+    @_convert_to_dict
+    def get_finance_statuses(self) -> list[dict]:
+        SQL = "SELECT * from finance_status"
+        self.cur.execute(SQL)
+    
+    @_convert_to_dict
+    def get_finance_hdr_by_status(self, stat_desc: str) -> list[dict]:
+        SQL = """SELECT a.* from finance_hdr a,
+        finance_status b where a.stat_seq = b.seq AND b.stat_desc = %s"""
+        self.cur.execute(SQL, (stat_desc,))
+    
+
+    @_convert_to_dict
+    def get_docket_statuses(self) -> list[dict]:
+        SQL = "SELECT * from docket_status"
+        self.cur.execute(SQL)
+    
+    @_convert_to_dict
+    def get_docket_hdr_by_status(self, stat_desc: str) -> list[dict]:
+        SQL = """SELECT a.* from docket_hdr a,
+        docket_status b where a.stat_seq = b.seq AND b.stat_desc = %s"""
+        self.cur.execute(SQL, (stat_desc,))
+
+
+    @_convert_to_dict_single
+    def get_docket_by_seq(self, seq: int) -> dict:
+        SQL = """SELECT hdr.seq as 'seq', hdr.docket_title, hdr.docket_desc,
+        stat.stat_desc as 'status', vote.vote_desc,
+        hdr.added_by as 'creator_seq',
+        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        concat(u.first_name, ' ', u.last_name) as 'creator'
+        FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
+        WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq
+        AND hdr.added_by = u.seq AND hdr.seq = %s;"""
+        self.cur.execute(SQL, (seq,))
+
+    @_convert_to_dict
+    def get_docket_conversations(self, seq):
+        SQL = """SELECT conv.seq, concat(u.first_name, ' ', u.last_name)"""
+
+
+    def get_all_docket_data_by_seq(self, seq):
+        seq = int(seq)
+        docket_data = self.get_docket_by_seq(seq)
+        conversations = self.get_docket_conversations(seq)
+        return {
+            "docket": docket_data
+        }
+
+    def get_finance_summary(self):
+        # Get finance statuses
+        summary = {}
+        for status in self.get_finance_statuses():
+            stat = status['stat_desc']
+            summary[stat] = len(self.get_finance_hdr_by_status(stat))
+        return summary
+    
+    @_convert_to_dict
+    def get_about_page_assignments(self) -> list[dict]:
+        SQL = """SELECT CONCAT(a.first_name, ' ', a.last_name) AS 'name',
+        c.position_name FROM users a, class_assignments b, class c WHERE
+        b.user_seq = a.seq AND b.class_seq = c.seq AND c.displayed = 1
+        AND a.is_active = 1 ORDER BY c.ranking ASC;"""
+        self.cur.execute(SQL)
+        
+
+    def get_docket_summary(self):
+        summary = {}
+        for status in self.get_docket_statuses():
+            stat = status['stat_desc']
+            summary[stat] = len(self.get_docket_hdr_by_status(stat))
+        return summary
+    
+    @_convert_to_dict
+    def get_all_non_archived_docket(self) -> list[dict]:
+        SQL = """SELECT hdr.seq, hdr.docket_title, hdr.docket_desc,
+        stat.stat_desc as 'status', vote.vote_desc,
+        hdr.added_by as 'creator_seq',
+        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        concat(u.first_name, ' ', u.last_name) as 'creator'
+        FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
+        WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq AND
+        LOWER(stat.stat_desc) != 'archived' AND hdr.added_by = u.seq;"""
+        self.cur.execute(SQL)
+
     # __methods__
     def __enter__(self):
         logger.info("DB Opened in Context Manager")
@@ -164,8 +288,4 @@ class connect:
             logger.error(f"{exc_value=}")
             logger.error(f"{exc_tb=}")
 
-
-if __name__ == "__main__":
-    with connect() as conn:
-        print(conn.get_user_by_seq(1))
     

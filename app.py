@@ -8,7 +8,7 @@ log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="log.txt", level=logging.DEBUG,
+logging.basicConfig(filename="logs/gen.log", level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S',
                     format="[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
                     )
