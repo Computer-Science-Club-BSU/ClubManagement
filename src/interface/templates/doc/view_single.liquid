@@ -4,22 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Docket Records</title>
+    <link rel="stylesheet" href="/static/css/textBubbles.css">
   </head>
   <body>
     {% render "navbar.liquid" %}
     <article>
-
       <div class="grid2x2 revrow">
-        <div class="box">
-          <h2>Conversations</h2>
-          {% for conv in doc.conversations %}
-            <h3>{{ conv.creator }}</h3>
-            <h4>{{ conv.body }}</h4>
-          {% endfor %}
+
+        <div class="box noHorrizStretch" style="min-height: 50%;">
+          <h2>Assigned Users</h2>
+          <div>
+            <table style="width: 30%">
+              <tr>
+                <th>Name</th>
+              </tr>
+              {% for assn_user in doc.assign %}
+                <tr>
+                  <td>{{ assn_user.name }}
+                    {% if assn_user.seq == user.seq %}
+                      [You]
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
         </div>
 
         <div class="box">
-          <h1>Viewing Docket {{ doc.docket.seq }}</h1>
+          <h1>Viewing Docket ID {{ doc.docket.seq }}</h1>
           <h4>Created By: {{ doc.docket.creator }}, on {{ doc.docket.added_dt }}</h4>
           <h3>Title:</h3>
           <h4>{{ doc.docket.docket_title }}</h4>
@@ -27,9 +40,24 @@
           <h3>Vote Type: {{ doc.docket.vote_desc }}</h3>
           <h3>Body:</h3>
           <h5>{{ doc.docket.docket_desc }}</h5>
+          {% if can_user_edit %}
+            <button onclick="window.open('/doc/edit?seq={{doc.docket.seq}}')">Edit</button>
+          {% endif %}
         </div>
-        <div class="box">
-          <h2>Assigned Users</h2>
+        <div class="box" style="overflow: auto; max-height: 50%;">
+          <h2>Conversations</h2>
+
+          {% for conv in doc.conv %}
+
+            <div class="bubble {% if conv.creator == user.seq %}right{% else %}left{% endif %}">
+              <p>
+                {{ conv.body }}
+                <br>
+
+                &mdash;{{ conv.name }}</p>
+            </div>
+
+          {% endfor %}
         </div>
       </div>
     </article>

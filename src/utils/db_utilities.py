@@ -15,7 +15,7 @@ class connect:
         try:
             self.conn = mariadb.connect(
                 user="admin",
-                password="Password123",
+                password="password",
                 host="localhost",
                 port=3306,
                 database="management"
@@ -86,7 +86,7 @@ class connect:
         return user_data, permissions, class_data, fin_dash, doc_dash
 
     @_convert_to_dict_single
-    def get_user_data_by_seq(self, user_seq):
+    def get_user_data_by_seq(self, user_seq) -> dict:
         # Select User from SQL Table
         logger.debug(f"Getting User Data for User Seq {user_seq}")
         SQL = "SELECT * FROM users WHERE seq = %s"
@@ -128,8 +128,12 @@ class connect:
     def get_user_finance_dashboards_by_user_seq(self, user_seq):
         return []
     
+    @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq):
-        return []
+        SQL = """SELECT dash.* FROM dashboards dash, dash_assign da,
+        class_assignments ca WHERE da.dash_seq = dash.seq
+        AND da.class_seq = ca.seq AND ca.user_seq = %s;"""
+        self.cur.execute(SQL, (user_seq,))
         
     
     def authorize_user(self, username: str, password: str) -> int:
@@ -226,15 +230,33 @@ class connect:
 
     @_convert_to_dict
     def get_docket_conversations(self, seq):
-        SQL = """SELECT conv.seq, concat(u.first_name, ' ', u.last_name)"""
+        SQL = """SELECT conv.seq, concat(usr.first_name, ' ', usr.last_name)
+        AS 'name', conv.creator, conv.body
+        FROM docket_conversations conv, users usr
+        WHERE conv.creator = usr.seq
+        AND conv.docket_seq = %s
+        ORDER BY dt_added;"""
+        self.cur.execute(SQL, (seq,))
+
+    @_convert_to_dict
+    def get_docket_assignees(self, seq) -> dict:
+        SQL = """SELECT assn.seq, concat(usr.first_name, ' ', usr.last_name)
+        AS 'name', assn.user_seq
+        FROM docket_assignees assn, users usr
+        WHERE assn.user_seq = usr.seq AND
+        assn.docket_seq = %s ORDER BY assn.added_dt;"""
+        self.cur.execute(SQL, (seq,))
 
 
     def get_all_docket_data_by_seq(self, seq):
         seq = int(seq)
         docket_data = self.get_docket_by_seq(seq)
         conversations = self.get_docket_conversations(seq)
+        assignees = self.get_docket_assignees(seq)
         return {
-            "docket": docket_data
+            "docket": docket_data,
+            "conv": conversations,
+            "assign": assignees
         }
 
     def get_finance_summary(self):
@@ -272,6 +294,22 @@ class connect:
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq AND
         LOWER(stat.stat_desc) != 'archived' AND hdr.added_by = u.seq;"""
         self.cur.execute(SQL)
+
+    def can_user_edit_docket(self, user_seq, docket_seq) -> bool:
+        user_perms = self.get_user_perms_by_user_seq(user_seq)
+        if user_perms.get('doc_admin') == 1:
+            return True
+        
+        docket_data = self.get_all_docket_data_by_seq(docket_seq)
+        for assignee in docket_data.get('assign', []):
+            if user_seq == assignee.get('user_seq'):
+                return True
+        
+        if docket_data.get('docket',{}).get("creator_seq") == user_seq:
+            return True
+        
+        return False
+        
 
     # __methods__
     def __enter__(self):

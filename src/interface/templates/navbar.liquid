@@ -57,21 +57,13 @@
                   <a href="#">Dashboards<span class="expand">&raquo;</span>
                   </a>
                   <ul class="child">
-                    <li>
-                      <a href="inventory">Inventory Report</a>
-                    </li>
-                    <li>
-                      <a href="sales.">Sales Report</a>
-                    </li>
-                    <li>
-                      <a href="quotes">Quotes Report</a>
-                    </li>
-                    <li>User
-                      <a href="workOrder">Work Order Report</a>
-                    </li>
-                    <li>
-                      <a href="prtUsed">Part Where Used Report</a>
-                    </li>
+                    {% for dash in docket_dashboards %}
+                      <li>
+                        <a href="/doc/dash?dash={{dash.seq}}">{{ dash.dash_name }}</a>
+                      </li>
+                    {% endfor %}
+
+
                   </ul>
                 </li>
               {% endif %}

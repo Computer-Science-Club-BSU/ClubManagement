@@ -248,19 +248,12 @@ create table docket_attachments(
     constraint foreign key (docket_seq) references docket_hdr(seq)
 );
 
-create table db_schema(
-    seq int primary key auto_increment,
-    tbl_name varchar(30),
-    col_name varchar(30),
-    col_type varchar(30),
-    introspected tinyint(1) default 0
-);
-
 
 create table dashboards(
     seq int primary key auto_increment,
     sp_name varchar(30),
     dash_type varchar(30),
+    dash_name varchar(30),
     added_by int,
     updated_by int,
     added_dt datetime default current_timestamp,

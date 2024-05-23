@@ -1,0 +1,6 @@
+INSERT INTO management.class (seq, position_name, displayed, ranking, added_by, updated_by, added_dt, update_dt) VALUES (1, 'President', 1, 1, null, null, '2024-05-22 20:43:07', '2024-05-22 20:43:07');
+INSERT INTO management.class (seq, position_name, displayed, ranking, added_by, updated_by, added_dt, update_dt) VALUES (2, 'Vice-President', 1, 2, null, null, '2024-05-22 20:43:07', '2024-05-22 20:43:07');
+INSERT INTO management.class (seq, position_name, displayed, ranking, added_by, updated_by, added_dt, update_dt) VALUES (3, 'Treasurer', 1, 3, null, null, '2024-05-22 20:43:07', '2024-05-22 20:43:07');
+INSERT INTO management.class (seq, position_name, displayed, ranking, added_by, updated_by, added_dt, update_dt) VALUES (4, 'Secretary', 1, 4, null, null, '2024-05-22 20:43:07', '2024-05-22 20:43:07');
+INSERT INTO management.class (seq, position_name, displayed, ranking, added_by, updated_by, added_dt, update_dt) VALUES (5, 'Advisor', 1, 5, null, null, '2024-05-22 20:43:07', '2024-05-22 20:43:07');
+INSERT INTO management.class (seq, position_name, displayed, ranking, added_by, updated_by, added_dt, update_dt) VALUES (6, 'Developer', 0, 99, null, null, '2024-05-22 20:43:07', '2024-05-22 20:43:07');

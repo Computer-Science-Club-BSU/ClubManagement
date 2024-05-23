@@ -171,6 +171,13 @@ tr > td {
     padding:unset;
 }
 
+.noHorrizStretch{
+    align-content: flex-start;
+}
+
+.noVertStretch{
+    align-items: flex-start;
+}
   
 /* * {
     outline: 1px solid var(--text-color);
