@@ -3,6 +3,7 @@ from src.utils.template_utils import render_template
 from flask import request, session, Response, redirect
 from src.utils.db_utilities import connect
 import logging
+from src.utils.permission_checker import check_perms
 
 logger = logging.getLogger("RouteHandler")
 
@@ -36,6 +37,10 @@ def get_root_index():
     return render_template('index.liquid')
 
 
+@app.route('/test/')
+def get_test():
+    return render_template('test/test.liquid')
+
 @app.before_request
 def handle_pre_request():
     # Implement Rate Limiting on POST Requests
@@ -47,3 +52,4 @@ def handle_pre_request():
     debug_str += f"has issued a {request.method.upper()} request from IP "
     debug_str += f"{request.remote_addr} for resource {request.path}"
     logger.debug(debug_str)
+    # check_perms(request, session.get('user_seq'), logger)

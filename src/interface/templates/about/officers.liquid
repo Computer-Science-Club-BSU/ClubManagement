@@ -16,7 +16,7 @@
           {% for position in positions %}
             <h2>{{ position[0] }}</h2>
             {% for user in position[1] %}
-              <h3 style="padding-left:50px;">{{ user }}</h3>
+              <h3 style="padding-left:50px;">{{ user[0] }} {{ user[1] }}</h3>
 
             {% endfor %}
           {% endfor %}

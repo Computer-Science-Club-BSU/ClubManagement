@@ -12,9 +12,8 @@
         <h2>Welcome {{ user.first_name }} {{ user.last_name }}</h2>
         <h3>{{ sys_name }}</h3>
       </header>
-
       <div class="grid2x2">
-        {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_del == 1 or perms.fin_query %}
+        {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_del == 1 or perms.fin_query == 1 %}
 
           <div class="box box1">
 
@@ -41,6 +40,7 @@
               {% endfor %}
             </table>
           </div>
+
         {% endif %}
         {% if perms.doc_view == 1 or perms.doc_add == 1 or perms.doc_edit == 1 or perms.doc_admin == 1 or perms.doc_del == 1 or perms.doc_query == 1 %}
 

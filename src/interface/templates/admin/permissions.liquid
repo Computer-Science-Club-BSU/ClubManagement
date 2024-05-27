@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Permissions</title>
+    <script>
+
+        function newClass(){
+            class_name = prompt('Class Name: ')
+            if(class_name == null || class_name == ""){
+                alert("Class name cannot be null or empty")
+                return
+            }
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/admin/permissions/class/new')
+            //console.error("Opened POST")
+            xhr.setRequestHeader("Content-Type", "application/json")
+
+            xhr.send(
+                JSON.stringify({
+                    "name": class_name
+                })
+            )
+           // console.error("JSON Sent")
+            xhr.onreadystatechange = (() => {
+                //console.error(xhr.readyState, xhr.status)
+                if(xhr.readyState == 4){
+                    if(xhr.status != 200){
+                        alert("Could not create class")
+                    }
+                    else{
+                        alert("Class created")
+                        window.location.reload()
+                    }
+                }
+            })
+        }
+    </script>
+  </head>
+  <body>
+    {% render "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <h2>Edit Permissions</h2>
+          <form action="/admin/permissions/edit" method="POST">
+            <table>
+              <tr>
+                <td></td>
+                {% for permission_desc in perm_descs %}
+                  <th style="writing-mode:vertical-lr">{{ permission_desc.name_short }}</th>
+                {% endfor %}
+              </tr>
+              {% for class in db_classes %}
+                <tr>
+                  <th>{{ class.position_name }}</th>
+                  {% for perm in class_perms[class.position_name] %}
+
+                    <td><input
+                        type="checkbox"
+                        name="{{perm[1][0]}}"
+                        id="{{perm[1][0]}}"
+                        {% if perm[1][1] %}
+                        checked
+                        {% endif %}
+                        {% if perms[perm[0]] == 0 %}
+                        disabled
+                        {% endif %}></td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+              <tr>
+                <td>
+                  <button type="button" onclick="newClass()">New Class</button>
+                </td>
+              </tr>
+            </table>
+            <input type="submit" value="Update Permissions">
+          </form>
+        </div>
+      </div>
+    </article>
+    {% render "footer.liquid" %}
+  </body>
+</html>

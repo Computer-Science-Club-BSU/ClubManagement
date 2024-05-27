@@ -15,13 +15,21 @@ perms = {
         "/doc/view": ["doc_admin", "doc_view"],
         "/doc/view/": ["doc_admin", "doc_view"],
         "/doc/edit": ["doc_admin", "doc_edit"],
-        "/doc/edit/": ["doc_admin", "doc_edit"]
+        "/doc/edit/": ["doc_admin", "doc_edit"],
+        '/auth/logout/': None,
+        '/auth/logout': None,
+        '/auth/login/': None,
+        '/auth/login': None,
+        '/about/officers': None
     },
     "POST": {
-        "/doc/new": ["doc_admin", "doc_add"],
-        "/doc/new/": ["doc_admin", "doc_add"],
+        "/doc/create": ["doc_admin", "doc_add"],
+        "/doc/create/": ["doc_admin", "doc_add"],
         "/doc/edit": ["doc_admin", "doc_view"],
-        "/doc/edit/": ["doc_admin", "doc_view"]
+        "/doc/edit/": ["doc_admin", "doc_view"],
+        "/doc/conv/add": ["doc_admin", "doc_view", "doc_add"],
+        '/auth/login/': None,
+        '/auth/login': None
     },
     "PATCH":{
         
@@ -44,6 +52,8 @@ def check_perms(request:Request,
                 logger: Logger) -> None | NoReturn:
     method_rules = perms.get(request.method, {})
     path_rules = method_rules.get(request.path, [""])
+    if request.path.startswith('/static/'):
+        return
     if path_rules is None:
         return
     if path_rules == [""]:

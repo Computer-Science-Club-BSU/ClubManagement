@@ -12,7 +12,7 @@ def about_officers():
     for pos in positions:
         p_name = pos['position_name']
         pos_list = format_pos.get(p_name, [])
-        pos_list.append(pos['name'])
+        pos_list.append((pos['title'],pos['name']))
         format_pos[p_name] = pos_list
 
     print(format_pos)

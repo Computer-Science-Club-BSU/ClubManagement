@@ -3,11 +3,82 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>New Docket Record</title>
   </head>
   <body>
     {% render "navbar.liquid" %}
-    <article></article>
+    <article>
+      <div class="grid2x2">
+        <form
+          class="box"
+          action="/doc/edit?seq={{doc.docket.seq}}"
+          method="POST">
+
+          <div class="box">
+            <h1>Editing Docket {{ doc.docket.seq }}</h1>
+            <h2>Created By: {{ doc.docket.creator }}</h2>
+            <h3>
+              <label for="title">Docket Title</label>
+            </h3>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value="{{doc.docket.docket_title}}"
+              style="
+              margin-left:20px;"> <br>
+            <h3>
+              <label for="body">Docket Body</label>
+            </h3>
+            <textarea
+              name="body"
+              id="body"
+              style="margin-left:20px; height: 40%">{{ doc.docket.docket_desc }}</textarea><br>
+            {% if perms.doc_admin %}
+              <label for="stat">Doc Status</label>
+              <select name="stat" id="stat">
+                {% for stat in status %}
+                  {% if doc.docket.vote_desc != "No Vote" or stat.stat_desc != "In Vote" %}
+                    <option
+                      value="{{stat.seq}}"
+                      {% if stat.stat_desc == doc.docket.status %}
+                      selected
+                      {% endif %}>{{ stat.stat_desc }}</option>
+                  {% endif %}
+
+                {% endfor %}
+              </select>
+              <br>
+              <label for="vote">Vote Type</label>
+              <select name="vote" id="vote">
+                {% for vote in vote_types %}
+                  <option
+                    value="{{vote.seq}}"
+                    {% if vote.vote_desc == doc.docket.vote_desc %}
+                    selected
+                    {% endif %}>{{ vote.vote_desc }}</option>
+                {% endfor %}
+              </select>
+              <br>
+            {% endif %}
+            <input type="submit" value="Update Record">
+          </div>
+        </form>
+        <div class="box">
+          <h2>Assignees</h2>
+          <table>
+            <tr>
+              <th>User</th>
+            </tr>
+            {% for assn_user in doc.assign %}
+              <tr>
+                <td>{{ assn_user.name }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </article>
     {% render "footer.liquid" %}
   </body>
 </html>

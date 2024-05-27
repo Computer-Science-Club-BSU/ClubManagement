@@ -1,6 +1,7 @@
 {
     "public": {
         "sys_name": "Computer Science Club",
+        "sys_loc": "Testwater State University",
         "quick_links": [
             {
                 "name": "Google",
@@ -10,9 +11,10 @@
                 "name": "EngageBSU Home",
                 "link": "https://engage.bridgew.edu/"
             }
-        ]
+        ],
+        "support_email": "csclub@bridgew.edu"
     },
     "private": {
-
+       
     }
 }

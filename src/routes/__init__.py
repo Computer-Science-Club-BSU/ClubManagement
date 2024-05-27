@@ -6,3 +6,5 @@ import src.routes.finance
 import src.routes.user
 import src.routes.about
 import src.routes.exceptions
+import src.routes.admin
+import src.routes.email

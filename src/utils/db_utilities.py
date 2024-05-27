@@ -4,8 +4,9 @@ import sys
 import logging
 from typing import Callable
 import bcrypt
+from mariadb import InterfaceError
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("DatabaseManager")
 
 
 class connect:
@@ -32,17 +33,19 @@ class connect:
             try:
                 results = func(self, *args, **kwargs)
                 self.conn.commit()
-                return results
+                return (True, results)
             except Exception as e:
                 self.conn.rollback()
                 logger.error(f"Exception Occured {e}")
-                return
+                return (False, None)
         return wrapper
 
     def _convert_to_dict(func: Callable):
         def wrapper(self, *args, **kwargs):
             # Execute the function (Performs the SQL Query)
-            func(self, *args, **kwargs)
+            res = func(self, *args, **kwargs)
+            if res is not None:
+                return None
             # Assemble a dictionary based off the cursor description.
             field_names = [i[0] for i in self.cur.description]
             data = self.cur.fetchall()
@@ -64,6 +67,7 @@ class connect:
             # Assemble a dictionary based off the cursor description.
             field_names = [i[0] for i in self.cur.description]
             data = self.cur.fetchone()
+            
             return {key: val
                         for key, val in zip(field_names, data)
                     }
@@ -93,7 +97,7 @@ class connect:
         self.cur.execute(SQL, (user_seq,))
 
     @_convert_to_dict
-    def get_user_classes_by_user_seq(self, user_seq):
+    def get_user_classes_by_user_seq(self, user_seq) -> list[dict]:
         logger.debug(f"Getting User Classes for User Seq {user_seq}")
         
         SQL = """SELECT a.position_name FROM class a, class_assignments b
@@ -107,7 +111,7 @@ class connect:
         SQL = """SELECT a.seq, d.perm_desc, a.granted FROM
         perms a, class_assignments c, perm_types d
         WHERE a.class_seq = c.class_seq
-        AND c.seq = a.perm_seq
+        AND d.seq = a.perm_seq
         AND c.user_seq = %s;"""
         
         self.cur.execute(SQL, (user_seq,))
@@ -125,11 +129,11 @@ class connect:
                 = row['granted'] | perm_data.get(row['perm_desc'], 0)
         return perm_data
         
-    def get_user_finance_dashboards_by_user_seq(self, user_seq):
+    def get_user_finance_dashboards_by_user_seq(self, user_seq) -> list[dict]:
         return []
     
     @_convert_to_dict
-    def get_user_docket_dashboards_by_user_seq(self, user_seq):
+    def get_user_docket_dashboards_by_user_seq(self, user_seq) -> list[dict]:
         SQL = """SELECT dash.* FROM dashboards dash, dash_assign da,
         class_assignments ca WHERE da.dash_seq = dash.seq
         AND da.class_seq = ca.seq AND ca.user_seq = %s;"""
@@ -269,7 +273,7 @@ class connect:
     
     @_convert_to_dict
     def get_about_page_assignments(self) -> list[dict]:
-        SQL = """SELECT CONCAT(a.first_name, ' ', a.last_name) AS 'name',
+        SQL = """SELECT a.title, CONCAT(a.first_name, ' ', a.last_name) AS 'name',
         c.position_name FROM users a, class_assignments b, class c WHERE
         b.user_seq = a.seq AND b.class_seq = c.seq AND c.displayed = 1
         AND a.is_active = 1 ORDER BY c.ranking ASC;"""
@@ -309,18 +313,282 @@ class connect:
             return True
         
         return False
+    
+    @_convert_to_dict
+    def get_docket_users(self):
+        SQL = """SELECT UNIQUE usr.* FROM users usr, class_assignments ca,
+        perm_types pt, perms p WHERE ca.user_seq = usr.seq AND
+        p.class_seq = ca.class_seq AND p.perm_seq = pt.seq
+        AND pt.perm_desc IN ('doc_edit', 'doc_add', 'doc_admin', 'doc_view')"""
+        self.cur.execute(SQL)
+    
+    @_exec_safe
+    def create_docket_conversation(self,
+                                   doc_seq: int,
+                                   user_seq: int,
+                                   conv_data: str):
+        SQL = """INSERT INTO docket_conversations
+        (docket_seq, creator, body) VALUES (%s,%s,%s)"""
+        self.cur.execute(SQL, (doc_seq,user_seq,conv_data))
+
+    
+    def create_docket_item(self,
+                           doc_title: str,
+                           doc_body: str,
+                           user_seq: int,
+                           status:int=1,
+                           vote_type:int=1):
+        SQL = """INSERT INTO docket_hdr (docket_title, docket_desc, added_by,
+        updated_by, stat_seq, vote_type) VALUES (%s,%s,%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (
+            doc_title,
+            doc_body,
+            user_seq,
+            user_seq,
+            status,
+            vote_type))
+        return self.cur.lastrowid
+    
+    def add_docket_assignee(self, doc_seq: int, assignee: int, user_seq: int):
+        SQL = """INSERT INTO docket_assignees (docket_seq, user_seq,
+        added_by, updated_by) VALUES (%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (doc_seq, assignee, user_seq, user_seq))
+    
+    @_exec_safe
+    def create_docket_and_assign(self,
+                                 doc_title: str,
+                                 doc_body: str,
+                                 user_seq: int,
+                                 status:int=1,
+                                 vote_type:int=1,
+                                 assignees:list[int]=[]):
+        doc_seq = self.create_docket_item(doc_title,
+                                          doc_body,
+                                          user_seq,
+                                          status,
+                                          vote_type)
+        for assignee in assignees:
+            self.add_docket_assignee(doc_seq, assignee, user_seq)
+        return doc_seq
+
+    @_convert_to_dict
+    def get_docket_dash_data(self, dash_seq: int, user_seq: int) -> dict[list]:
+        SQL = """SELECT dash.sp_name FROM dashboards dash,
+        dash_assign da, class_assignments ca WHERE da.dash_seq = dash.seq AND
+        ca.user_seq = %s AND da.class_seq = ca.class_seq AND dash.seq = %s;"""
+        self.cur.execute(SQL, (user_seq, dash_seq))
+        if self.cur.rowcount != 1:
+            return False
+        sp_name = self.cur.fetchone()[0]
         
+        SQL = f"CALL {sp_name}()"
+        self.cur.execute(SQL)
+
+    @_convert_to_dict
+    def get_docket_vote_types(self):
+        SQL = "SELECT * FROM vote_types"
+        self.cur.execute(SQL)
+        
+    @_exec_safe
+    def update_docket(self,
+                      doc_seq: int,
+                      title: str,
+                      body: str,
+                      user_seq: int,
+                      stat: int|None=None,
+                      vote: int|None=None
+                      ):
+        SQL = """UPDATE docket_hdr
+        SET docket_title = %s, docket_desc = %s, updated_by = %s"""
+        vals = [title, body, user_seq]
+        
+        if stat is not None:
+            SQL += ", stat_seq = %s"
+            vals.append(stat)
+            
+        if vote is not None:
+            SQL += ", vote_type = %s"
+            vals.append(vote)
+        
+        SQL += " WHERE seq = %s"
+        print(SQL, vals)
+        vals.append(doc_seq)
+        self.cur.execute(SQL, vals)
+
+    @_convert_to_dict
+    def get_permission_data(self):
+        SQL = """SELECT * FROM perm_types;"""
+        self.cur.execute(SQL)
+    
+    @_convert_to_dict
+    def get_all_db_perms(self):
+        SQL = "SELECT * FROM perms"
+        self.cur.execute(SQL)
+
+    @_convert_to_dict
+    def get_user_classes(self):
+        SQL = """SELECT * FROM class"""
+        self.cur.execute(SQL)
+        
+    def get_class_perms(self):
+        SQL = """SELECT perms.seq, perms.granted, c.position_name,
+        p.name_short, p.perm_desc from perms LEFT JOIN (class c, perm_types p)
+        ON (perms.class_seq = c.seq AND perms.perm_seq = p.seq);"""
+        self.cur.execute(SQL)
+        perms = {}
+        for row in self.cur.fetchall():
+            class_dict = perms.get(row[2], {})
+            class_dict[row[4]] = (row[0], (row[1] == 1))
+            perms[row[2]] = class_dict
+        
+        return perms
+    
+    @_exec_safe
+    def update_permissions(self,
+                           perm_seq: int,
+                           grant_status: bool, user_seq: int):
+        SQL = """SELECT granted FROM perms WHERE seq=%s"""
+        logger.debug(SQL, (perm_seq,))
+        self.cur.execute(SQL, (perm_seq,))
+        granted = self.cur.fetchone()[0]
+        if (granted == 1) == grant_status:
+            logger.debug(f'Req. Grant and DB Grant are the same. Skipping {perm_seq=}')
+            return
+        
+        check_sql = """SELECT a.granted FROM perms a, class_assignments b
+        WHERE b.user_seq = %s
+        AND a.perm_seq = (SELECT b.perm_seq FROM perms b WHERE b.seq = %s);"""
+        self.cur.execute(check_sql, (user_seq, perm_seq))
+        rows = self.cur.fetchall()
+        if not any([x[0] == 1 for x in rows]):
+            raise Exception(f'User cannot alter perm seq {perm_seq}')
+        
+        logger.debug(f"Updating {perm_seq=}, {grant_status=}, {user_seq=}")
+        update_sql = """UPDATE perms SET granted = %s, updated_by = %s
+        WHERE seq=%s"""
+        self.cur.execute(update_sql, (grant_status, user_seq, perm_seq))
+        
+    @_exec_safe
+    def create_class(self, class_name, user_seq):
+        SQL = """INSERT INTO class (position_name, added_by, updated_by,
+        displayed) VALUES (%s, %s, %s, 0)"""
+        self.cur.execute(SQL, (class_name, user_seq, user_seq))
+        class_seq = self.cur.lastrowid
+        perm_sql = """INSERT INTO perms (class_seq, perm_seq,
+        added_by, updated_by) VALUES (%s, %s, %s, %s)"""
+        for row in self.get_permission_data():
+            self.cur.execute(perm_sql, (
+                class_seq,
+                row['seq'],
+                user_seq,
+                user_seq))
+    
+    @_exec_safe
+    def create_email(self,
+                     subject: str,
+                     body: str,
+                     user_seq: int,
+                     to: list,
+                     cc: list,
+                     bcc: list):
+        SQL = """INSERT INTO emails (email_subject, email_body, added_by,
+        state) VALUES (%s,%s,%s, 'd')"""
+        self.cur.execute(SQL, (subject,body,user_seq))
+        email_seq = self.cur.lastrowid
+        recp_sql = """INSERT INTO email_recp (email_seq, email_id, recp_type)
+        VALUES (%s,%s,%s)"""
+        for email in to:
+            if email == "":
+                continue
+            self.cur.execute(recp_sql, (email_seq, email, 't'))
+        for email in cc:
+            if email == "":
+                continue
+            self.cur.execute(recp_sql, (email_seq, email, 'c'))
+        for email in bcc:
+            if email == "":
+                continue
+            self.cur.execute(recp_sql, (email_seq, email, 'b'))
+        
+        return email_seq
+    
+    @_convert_to_dict_single
+    def get_email_header(self, email_seq: int) -> dict:
+        SQL = "SELECT * FROM emails WHERE seq = %s"
+        self.cur.execute(SQL, (email_seq,))
+        
+    @_convert_to_dict
+    def get_email_to(self, email_seq) -> list[dict]:
+        SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 't'"
+        self.cur.execute(SQL, (email_seq,))
+        
+    @_convert_to_dict
+    def get_email_cc(self, email_seq) -> list[dict]:
+        SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'c'"
+        self.cur.execute(SQL, (email_seq,))
+        
+    @_convert_to_dict
+    def get_email_bcc(self, email_seq) -> list[dict]:
+        SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'b'"
+        self.cur.execute(SQL, (email_seq,))
+    
+    def get_email_data(self, email_seq):
+        email_hdr = self.get_email_header(email_seq)
+        to = self.get_email_to(email_seq)
+        cc = self.get_email_cc(email_seq)
+        bcc = self.get_email_bcc(email_seq)
+        return email_hdr, to, cc, bcc
+
+    @_exec_safe
+    def mark_email_for_sending(self, email_seq, user_seq):
+        sql = "UPDATE emails SET state='p' WHERE seq=%s AND added_by=%s"
+        self.cur.execute(sql, (email_seq, user_seq))
+        
+    def get_queued_emails(self):
+        sql = "SELECT seq FROM emails WHERE state = 'p'"
+        self.cur.execute(sql)
+        emails = []
+        for row in self.cur.fetchall():
+            seq = row[0]
+            emails.append(self.get_email_data(seq))
+        return emails
+
+    @_exec_safe
+    def mark_email_as_sent(self, email_seq):
+        sql = "UPDATE emails SET state='s' WHERE seq=%s"
+        self.cur.execute(sql, (email_seq,))
+    
+    @_exec_safe
+    def mark_email_as_failed(self, email_seq):
+        sql = "UPDATE emails SET state='x' WHERE seq=%s"
+        self.cur.execute(sql, (email_seq,))
+    
+    
+    @_exec_safe
+    def clear_exp_password_reset(self):
+        sql = """DELETE FROM password_reset WHERE
+        TIMESTAMPDIFF(DAY, created_dt, current_timestamp) >= 1;"""
+        self.cur.execute(sql)
+    
+    @_exec_safe
+    def reset_failed_emails(self):
+        sql = """UPDATE emails SET state='p' WHERE state='x'"""
+        self.cur.execute(sql)
 
     # __methods__
     def __enter__(self):
-        logger.info("DB Opened in Context Manager")
+        logger.debug("DB Opened in Context Manager")
         return self
     
     def __exit__(self, exc_type, exc_value, exc_tb):
-        self.conn.rollback()
+        try:
+            self.conn.rollback()
+        except InterfaceError:
+            # If we fail to rollback, log it in the log file
+            logger.warning('Database failed to roll back')
         self.conn.close()
-        logger.info("DB Instance Closed")
-        if exc_type is not None or exc_value is not None or exc_tb is not None:
+        logger.debug("DB Instance Closed")
+        if exc_type is not None:
             logger.error(f"DB Exited with errors!")
             logger.error(f"{exc_type=}")
             logger.error(f"{exc_value=}")

@@ -56,8 +56,20 @@
 
                 &mdash;{{ conv.name }}</p>
             </div>
-
           {% endfor %}
+          <form method="POST" action="/doc/conv/add?seq={{doc.docket.seq}}">
+            <div class="bubble right">
+              <textarea
+                class="backAccent"
+                name="convBody"
+                id="convBody"></textarea>
+              <input
+                type="submit"
+                value="Post"
+                class="backAccent border">
+
+            </div>
+          </form>
         </div>
       </div>
     </article>

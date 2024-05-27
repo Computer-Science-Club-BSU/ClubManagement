@@ -41,6 +41,7 @@ create table class(
 create table perm_types(
     seq int primary key auto_increment,
     perm_desc varchar(20),
+    name_short varchar(30),
     added_by int,
     updated_by int,
     added_dt datetime default current_timestamp,
@@ -137,9 +138,9 @@ create table finance_hdr(
     id varchar(20),
     created_by int,
     approved_by int,
-    inv_date date,
-    stat_seq int,
-    type_seq int,
+    inv_date date default current_date,
+    stat_seq int not null,
+    type_seq int not null,
     tax decimal(7,2),
     fees decimal(7,2),
 
@@ -195,8 +196,8 @@ create table docket_hdr(
     seq int primary key auto_increment,
     docket_title varchar(30),
     docket_desc text,
-    stat_seq int,
-    vote_type int,
+    stat_seq int not null,
+    vote_type int not null,
     added_by int,
     updated_by int,
     added_dt datetime default current_timestamp,
@@ -280,5 +281,23 @@ create table dash_assign(
 
 );
 
+create table emails(
+    seq int primary key auto_increment,
+    email_subject text,
+    email_body text,
+    added_by int,
+    added_dt timestamp default current_timestamp,
+    state enum('d','s','x','p'),
+
+    constraint foreign key (added_by) references users(seq)
+);
+
+create table email_recp(
+    seq int primary key auto_increment,
+    email_seq int not null,
+    email_id varchar(40),
+    recp_type enum('t','c','b'),
+    constraint foreign key (email_seq) references emails(seq)
+);
 
 commit;

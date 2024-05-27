@@ -114,14 +114,14 @@ header > h2, header > h3 {
 }
 
 
-.grid > div {
+.grid > .box, .grid > .single_box {
     display: flex; 
     flex-basis: calc(100% - 10px);  
     /* justify-content: center; */
     flex-direction: column;
 }
 
-.grid2x2 > div {
+.grid2x2 > .box, .grid2x2 > form {
     display: flex; 
     flex-basis: calc(50% - 10px);  
     /* justify-content: center; */
@@ -179,6 +179,15 @@ tr > td {
     align-items: flex-start;
 }
   
+
+.backAccent{
+    background-color: var(--accent-color);
+}
+
+
+.border{
+    border:1px solid var(--primary-color);
+}
 /* * {
     outline: 1px solid var(--text-color);
 } */

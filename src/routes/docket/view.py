@@ -2,7 +2,6 @@ from app import app
 from flask import session, request, abort
 from src.utils.db_utilities import connect
 from src.utils.template_utils import render_template
-from src.utils.permission_checker import check_perms
 import logging
 
 logger = logging.getLogger('DocketView')
@@ -14,7 +13,6 @@ def get_doc_view():
     if len(request.args.keys()) >= 1:
         return get_doc_view_by_seq()
     
-    check_perms(request, session.get('user_seq'), logger)
     with connect() as conn:
         records = conn.get_all_non_archived_docket()
         return render_template("doc/view.liquid", results=records)
@@ -24,7 +22,6 @@ def get_doc_view_by_seq():
     if (seq := request.args.get('seq')) is None:
         abort(400)
     
-    check_perms(request, session.get('user_seq'), logger)
     
     with connect() as conn:
         records = conn.get_all_docket_data_by_seq(seq)
