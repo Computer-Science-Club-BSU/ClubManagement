@@ -28,7 +28,7 @@ def get_smtp_conf(
 
 
 def get_data_conf(
-        config: configparser.ConfigParser,gen_data: str) -> Dict[str, str|int]:
+        config: configparser.ConfigParser, gen_data: str) -> Dict[str, str|int]:
     data_setting = gen_data.upper()
     data_setting_section = f"DB.{data_setting}"
     host = config.get(data_setting_section, "HOST")
