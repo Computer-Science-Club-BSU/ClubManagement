@@ -27,7 +27,7 @@ class connect:
             self.cur = self.conn.cursor()
 
         except mariadb.Error as e:
-            print(f"Error connecting to MariaDB Platform: {e}")
+            logger.error(f"Error connecting to MariaDB Platform: {e}")
             sys.exit(1)
     
     def _exec_safe(func: Callable):
