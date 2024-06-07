@@ -5,7 +5,7 @@ import logging
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError
-from src.utils.cfg_utils import get_data_conf
+from src.utils.cfg_utils import get_cfg
 
 logger = logging.getLogger("DatabaseManager")
 
@@ -14,7 +14,7 @@ class connect:
     def __init__(self):
 
         # Connect to MariaDB Platform
-        conf = get_data_conf()
+        conf = get_cfg()['DATA']
         try:
             self.conn = mariadb.connect(
                 user=conf['USER'],
