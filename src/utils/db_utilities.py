@@ -316,10 +316,7 @@ class connect:
     
     @_convert_to_dict
     def get_docket_users(self):
-        SQL = """SELECT UNIQUE usr.* FROM users usr, class_assignments ca,
-        perm_types pt, perms p WHERE ca.user_seq = usr.seq AND
-        p.class_seq = ca.class_seq AND p.perm_seq = pt.seq
-        AND pt.perm_desc IN ('doc_edit', 'doc_add', 'doc_admin', 'doc_view')"""
+        SQL = "SELECT * FROM docket_users"
         self.cur.execute(SQL)
     
     @_exec_safe
@@ -381,8 +378,7 @@ class connect:
             return False
         sp_name = self.cur.fetchone()[0]
         
-        SQL = f"CALL {sp_name}()"
-        self.cur.execute(SQL)
+        self.cur.callproc(sp_name)
 
     @_convert_to_dict
     def get_docket_vote_types(self):
@@ -448,7 +444,6 @@ class connect:
                            perm_seq: int,
                            grant_status: bool, user_seq: int):
         SQL = """SELECT granted FROM perms WHERE seq=%s"""
-        logger.debug(SQL, (perm_seq,))
         self.cur.execute(SQL, (perm_seq,))
         granted = self.cur.fetchone()[0]
         if (granted == 1) == grant_status:
@@ -574,6 +569,11 @@ class connect:
     def reset_failed_emails(self):
         sql = """UPDATE emails SET state='p' WHERE state='x'"""
         self.cur.execute(sql)
+    
+    @_convert_to_dict 
+    def get_finance_headers_summary(self):
+        SQL = "SELECT * FROM finance_hdr_summary"
+        self.cur.execute(SQL)
 
     # __methods__
     def __enter__(self):

@@ -7,6 +7,7 @@ from uuid import uuid4
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="logs/gen.log", level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S',
@@ -15,13 +16,17 @@ logging.basicConfig(filename="logs/gen.log", level=logging.DEBUG,
 app = Flask(__name__,
             static_folder="src/interface/static",
             template_folder="src/interface/templates/")
+if app.debug != True:
+    logger.info('Application Started')
 app.secret_key = "secret"
 
-logger.info("Flask App Started")
+logger.debug("Flask App Started")
 Liquid(app)
-logger.info("Liquid Registered")
+logger.debug("Liquid Registered")
+
 
 import src.routes
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,9 +1,10 @@
 from app import app
 from src.utils.template_utils import render_template
-from flask import request, session, Response, redirect
+from flask import request, session, Response, redirect, abort
 from src.utils.db_utilities import connect
 import logging
 from src.utils.permission_checker import check_perms
+from src.utils.plugin_manager import plugins
 
 logger = logging.getLogger("RouteHandler")
 
@@ -52,4 +53,19 @@ def handle_pre_request():
     debug_str += f"has issued a {request.method.upper()} request from IP "
     debug_str += f"{request.remote_addr} for resource {request.path}"
     logger.debug(debug_str)
-    # check_perms(request, session.get('user_seq'), logger)
+    
+    check_perms(request, session.get('user_seq'), logger)
+    for rule in app.url_map.iter_rules():
+        if not (rule.rule == request.path):
+            continue
+        print(rule.rule, request.path, [
+            not plugin.check_endpoint_active(rule.endpoint)
+            for plugin in plugins.values()
+        ])
+        print(plugins)
+        if any([
+            not plugin.check_endpoint_active(rule.endpoint)
+            for plugin in plugins.values()
+        ]):
+            abort(503)
+                

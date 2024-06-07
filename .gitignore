@@ -251,3 +251,5 @@ fabric.properties
 # Ignore the Google API credentials file
 credentials.json
 token.json
+
+conf.cfg

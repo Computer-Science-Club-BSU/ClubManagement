@@ -5,15 +5,17 @@ from time import time
 
 from src.utils.db_utilities import connect
 from src.utils.send_email import send_email
-from dotenv import load_dotenv
 from os import environ
 import logging
+from src.utils.cfg_utils import get_cfg
 
 logging.basicConfig(filename=os.path.abspath(f'/dev/shm/cron.log'))
 logger = logging.getLogger('CRON')
 logger.setLevel(logging.DEBUG)
 
 file_time = int(time())
+
+cfg = get_cfg()
 
 def setup_cron():
     cron = CronTab(user=True)
@@ -25,7 +27,7 @@ def setup_cron():
     cron.write()
 
 def send_emails():
-    group_email = environ.get('SMTP_SEND_AS')
+    group_email = cfg.get("SMTP", {}).get('SEND_AS')
     with connect() as conn:
         emails = conn.get_queued_emails()
         for email in emails:
@@ -64,7 +66,6 @@ def main():
             logger.info(f'Job {func.__name__} finished successfully')
 
 if __name__ == "__main__":
-    load_dotenv()
     if len(argv) > 1 and argv[1] == '--setup':
         setup_cron()
         exit()

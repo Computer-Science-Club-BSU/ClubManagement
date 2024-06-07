@@ -1,6 +1,7 @@
 from logging import Logger
 from src.utils.db_utilities import connect
 from flask import abort, Request
+import re
 
 from typing import NoReturn
 
@@ -9,27 +10,20 @@ perms = {
     #  PATH: [<Perm1>, <Perm2>]   
     #}
     "GET": {
-        "/": None,
-        "/doc/create": ["doc_admin", "doc_add"],
-        "/doc/create/": ["doc_admin", "doc_add"],
-        "/doc/view": ["doc_admin", "doc_view"],
-        "/doc/view/": ["doc_admin", "doc_view"],
-        "/doc/edit": ["doc_admin", "doc_edit"],
+        "/?": "*",
+        "/doc/create/?": ["doc_admin", "doc_add"],
+        "/doc/view/?": ["doc_admin", "doc_view"],
         "/doc/edit/": ["doc_admin", "doc_edit"],
-        '/auth/logout/': None,
-        '/auth/logout': None,
-        '/auth/login/': None,
-        '/auth/login': None,
-        '/about/officers': None
+        '/auth/logout/?': "*",
+        '/auth/login/?': "*",
+        '/about/.*/?': "*"
     },
     "POST": {
-        "/doc/create": ["doc_admin", "doc_add"],
-        "/doc/create/": ["doc_admin", "doc_add"],
-        "/doc/edit": ["doc_admin", "doc_view"],
-        "/doc/edit/": ["doc_admin", "doc_view"],
-        "/doc/conv/add": ["doc_admin", "doc_view", "doc_add"],
-        '/auth/login/': None,
-        '/auth/login': None
+        "/doc/create/?": ["doc_admin", "doc_add"],
+        "/doc/edit/?": ["doc_admin", "doc_view"],
+        "/doc/conv/add/?": ["doc_admin", "doc_view", "doc_add"],
+        '/auth/login/?': "*",
+        '/admin/permissions/edit': ["user_admin", "user_edit"]
     },
     "PATCH":{
         
@@ -43,18 +37,31 @@ perms = {
     "HEAD":{
         
     }
-
 }
 
 
 def check_perms(request:Request,
                 user_seq: int,
                 logger: Logger) -> None | NoReturn:
+    logger.info('Checking perms')
     method_rules = perms.get(request.method, {})
-    path_rules = method_rules.get(request.path, [""])
+    path_rules = None
+    for path in method_rules.items():
+        logger.debug(f'{path[0]}, {request.path}')
+        print(re.match(path[0], request.path) is not None)
+        if re.match(path[0], request.path) is not None:
+            path_rules = path[1]
+            break
+    logger.info('Loop done')
+    print(path_rules)
+    if path_rules is None:
+        logger.info('Abort 500 None Path_Rules')
+        
+        abort(500)
+    
     if request.path.startswith('/static/'):
         return
-    if path_rules is None:
+    if path_rules == '*':
         return
     if path_rules == [""]:
         logger.critical(

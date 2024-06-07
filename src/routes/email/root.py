@@ -1,6 +1,6 @@
 from app import app
 from src.utils.template_utils import render_template, load_config
-from flask import request, session
+from flask import request, session, abort
 from src.utils.db_utilities import connect
 
 @app.route('/email/compose/', methods=['GET'])
@@ -16,6 +16,11 @@ def post_email_preview():
         user = conn.get_user_by_seq(user_seq)
         subject = request.form.get('subject')
         position = request.form.get('position')
+        user_classes = conn.get_user_classes_by_user_seq(user_seq)
+        if position not in [
+            result['position_name'] for result in user_classes
+        ]:
+            abort(403)
         body += f"""<p>{user[0]['first_name']} {user[0]['last_name']}<br>
         {position} | {config['public']['sys_name']}<br>
         {config['public']['sys_loc']}

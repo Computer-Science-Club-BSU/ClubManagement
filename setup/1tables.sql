@@ -300,4 +300,26 @@ create table email_recp(
     constraint foreign key (email_seq) references emails(seq)
 );
 
+CREATE TABLE plugins (
+  seq int primary key auto_increment,
+  name varchar(30),
+  active tinyint(1)
+);
+
+CREATE TABLE plugin_paths(
+  seq int primary key auto_increment,
+  plugin_seq int not null,
+  path varchar(255),
+  method enum('POST', 'GET', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'PUT'),
+  CONSTRAINT FOREIGN KEY (plugin_seq) REFERENCES plugins(seq)
+);
+
+CREATE TABLE plugin_path_perms(
+  seq int primary key auto_increment,
+  plugin_path_seq int not null,
+  perm_seq int,
+  CONSTRAINT FOREIGN KEY (plugin_path_seq) REFERENCES plugin_paths(seq),
+  CONSTRAINT FOREIGN KEY (perm_seq) REFERENCES perm_types(seq)
+);
+
 commit;

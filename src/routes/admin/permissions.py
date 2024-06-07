@@ -27,7 +27,7 @@ def post_admin_permissions_edit():
             stat = request.form.get(str(seq), 'off')
             res, _ = conn.update_permissions(seq, stat == 'on', user_seq)
             if not res:
-                return "Err"
+                return "Err", 400
     return "Success"
 
 @app.route('/admin/permissions/class/new', methods=['POST'])

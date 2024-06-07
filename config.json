@@ -12,7 +12,8 @@
                 "link": "https://engage.bridgew.edu/"
             }
         ],
-        "support_email": "csclub@bridgew.edu"
+        "support_email": "csclub@bridgew.edu",
+        "timezone": "America/New_York"
     },
     "private": {
        
