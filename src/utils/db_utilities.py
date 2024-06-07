@@ -5,7 +5,7 @@ import logging
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError
-from cfg_utils import get_data_conf
+from src.utils.cfg_utils import get_data_conf
 
 logger = logging.getLogger("DatabaseManager")
 
