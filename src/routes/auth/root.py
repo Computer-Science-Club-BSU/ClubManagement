@@ -32,7 +32,7 @@ def post_auth_login():
             logger.warn(f"Login Attempt Failed")
             return Response(render_template("auth/login.liquid",
                                     err="Invalid username or password"),
-                                    mimetype='text/html')
+                                    mimetype='text/html'), 401
         session['user_seq'] = seq
         logger.info(f"{username} Logged in successfully")
 

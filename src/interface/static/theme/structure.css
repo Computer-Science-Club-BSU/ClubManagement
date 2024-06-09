@@ -191,3 +191,11 @@ tr > td {
 /* * {
     outline: 1px solid var(--text-color);
 } */
+
+
+
+body{
+    overflow: hidden;
+}
+
+/*Welcome to the idiot show... Staring me, the idiot!*/
