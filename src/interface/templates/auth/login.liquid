@@ -9,7 +9,10 @@
     {% render "navbar.liquid" %}
     <article>
       <div class="padleft30">
-        <h1>Log In</h1>
+        <h2 style="margin-left: 0px;">Log In</h2>
+        {% if err != nil %}
+          <p>{{ err }}</p>
+        {% endif %}
         <form action="/auth/login/" method="post">
           <label for="uname">Username</label>
           <input
