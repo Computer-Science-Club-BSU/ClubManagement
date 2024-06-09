@@ -7,12 +7,10 @@
   </head>
   <body>
     {% render "navbar.liquid" %}
-    <header>
-      <h2>Officer Roster Page</h2>
-    </header>
     <article>
       <div class="grid">
         <div class="box">
+          <h2>Officer Roster Page</h2>
           {% for position in positions %}
             <h2>{{ position[0] }}</h2>
             {% for user in position[1] %}
@@ -23,6 +21,6 @@
         </div>
       </div>
     </article>
-    {% render "navbar.liquid" %}
+    {% render "footer.liquid" %}
   </body>
 </html>

@@ -14,6 +14,7 @@ create table users(
     email varchar(100),
     theme int,
     title varchar(6),
+    manager int,
     is_active tinyint(1) default 1,
     added_by int,
     updated_by int,
@@ -33,9 +34,11 @@ create table class(
     updated_by int,
     added_dt datetime default current_timestamp,
     update_dt datetime default current_timestamp on update current_timestamp,
+    reports_to int,
 
     constraint foreign key (added_by) references users(seq),
-    constraint foreign key (updated_by) references users(seq)
+    constraint foreign key (updated_by) references users(seq),
+    constraint foreign key (reports_to) references class(seq)
 );
 
 create table perm_types(
@@ -77,7 +80,8 @@ create table class_assignments(
     update_dt datetime default current_timestamp on update current_timestamp,
 
     constraint foreign key (added_by) references users(seq),
-    constraint foreign key (updated_by) references users(seq)
+    constraint foreign key (updated_by) references users(seq),
+    constraint foreign key (class_seq) references class(seq)
 );
 
 create table vote_types(
@@ -138,7 +142,7 @@ create table finance_hdr(
     id varchar(20),
     created_by int,
     approved_by int,
-    inv_date date default current_date,
+    inv_date date,
     stat_seq int not null,
     type_seq int not null,
     tax decimal(7,2),
@@ -162,7 +166,7 @@ create table finance_hdr(
 To improve the search results of the database by finance ID, we should add
 an index.
 */
-CREATE INDEX IF NOT EXISTS finance_id_idx ON finance_hdr(id);
+# CREATE INDEX IF NOT EXISTS finance_id_idx ON finance_hdr(id);
 
 create table finance_line(
     seq int primary key auto_increment,

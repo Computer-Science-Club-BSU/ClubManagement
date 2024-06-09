@@ -154,6 +154,8 @@ class connect:
         password = password.encode()
         if bcrypt.checkpw(password, hashed_pw):
             return user_data.get('seq')
+        
+        return -1
 
         
 

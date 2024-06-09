@@ -23,7 +23,7 @@ CREATE VIEW finance_hdr_summary AS
 
 CREATE VIEW docket_users AS
     SELECT
-        UNIQUE usr.*
+        distinct usr.*
     FROM
         users usr,
         class_assignments ca,

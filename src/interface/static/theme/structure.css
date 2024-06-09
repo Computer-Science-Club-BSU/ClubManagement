@@ -77,6 +77,7 @@ footer{
 html, body{
     height: 100%;
     background-color: var(--primary-color);
+    overflow-x: hidden;
 }
 
 article{
@@ -191,3 +192,8 @@ tr > td {
 /* * {
     outline: 1px solid var(--text-color);
 } */
+
+
+*{
+    overflow: hidden;
+}
