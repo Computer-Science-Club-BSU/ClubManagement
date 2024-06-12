@@ -168,13 +168,11 @@ an index.
 */
 # CREATE INDEX IF NOT EXISTS finance_id_idx ON finance_hdr(id);
 
-create table finance_line(
-    seq int primary key auto_increment,
-    finance_seq int,
-    line_id int,
-    line_desc varchar(30),
-    price decimal(7,2),
-    qty int,
+create table items(
+    seq int PRIMARY KEY auto_increment,
+    item_vendor varchar(20),
+    item_name varchar(50),
+
     added_by int,
     updated_by int,
     added_dt datetime default current_timestamp,
@@ -182,6 +180,38 @@ create table finance_line(
 
     constraint foreign key (added_by) references users(seq),
     constraint foreign key (updated_by) references users(seq)
+);
+
+create table item_cost(
+    seq int PRIMARY KEY auto_increment,
+    item_seq int not null,
+    eff_date date,
+    price decimal(9,4),
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq),
+    CONSTRAINT FOREIGN KEY (item_seq) REFERENCES items(seq)
+);
+
+
+create table finance_line(
+    seq int primary key auto_increment,
+    finance_seq int,
+    line_id int,
+    item_id int,
+    qty int,
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq),
+    constraint foreign key (item_id) references item_cost(seq)
 );
 
 create table docket_status(
@@ -304,26 +334,35 @@ create table email_recp(
     constraint foreign key (email_seq) references emails(seq)
 );
 
-CREATE TABLE plugins (
-  seq int primary key auto_increment,
-  name varchar(30),
-  active tinyint(1)
+create table plugin_defn(
+    seq int PRIMARY KEY auto_increment,
+    plugin_name varchar(20),
+    author varchar(20),
+    support_email varchar(30),
+    is_active tinyint default 0,
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq)
 );
 
-CREATE TABLE plugin_paths(
-  seq int primary key auto_increment,
-  plugin_seq int not null,
-  path varchar(255),
-  method enum('POST', 'GET', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS', 'PUT'),
-  CONSTRAINT FOREIGN KEY (plugin_seq) REFERENCES plugins(seq)
+create table plugin_permissions(
+    seq int PRIMARY KEY auto_increment,
+    plugin_seq int not null,
+    path_func_name varchar(30),
+    perm_seq int,
+    CONSTRAINT FOREIGN KEY (plugin_seq) REFERENCES plugin_defn(seq),
+    added_by int,
+    updated_by int,
+    added_dt datetime default current_timestamp,
+    update_dt datetime default current_timestamp on update current_timestamp,
+
+    constraint foreign key (added_by) references users(seq),
+    constraint foreign key (updated_by) references users(seq)
 );
 
-CREATE TABLE plugin_path_perms(
-  seq int primary key auto_increment,
-  plugin_path_seq int not null,
-  perm_seq int,
-  CONSTRAINT FOREIGN KEY (plugin_path_seq) REFERENCES plugin_paths(seq),
-  CONSTRAINT FOREIGN KEY (perm_seq) REFERENCES perm_types(seq)
-);
 
 commit;

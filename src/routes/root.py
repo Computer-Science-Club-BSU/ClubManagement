@@ -31,7 +31,8 @@ def get_root_index():
                                fin_sum=fin_sum, doc_sum=doc_sum, isPos=isPos,
                                doc_count=sum(doc_sum.values()),
                                fin_count=sum(fin_sum.values()),
-                               gen_log_data=gen_log, access_log_data=access_log
+                               gen_log_data=gen_log[::-1],
+                               access_log_data=access_log[::-1]
                                )
     
     
@@ -54,18 +55,18 @@ def handle_pre_request():
     debug_str += f"{request.remote_addr} for resource {request.path}"
     logger.debug(debug_str)
     
-    check_perms(request, session.get('user_seq'), logger)
-    for rule in app.url_map.iter_rules():
-        if not (rule.rule == request.path):
-            continue
-        print(rule.rule, request.path, [
-            not plugin.check_endpoint_active(rule.endpoint)
-            for plugin in plugins.values()
-        ])
-        print(plugins)
-        if any([
-            not plugin.check_endpoint_active(rule.endpoint)
-            for plugin in plugins.values()
-        ]):
-            abort(503)
+    # check_perms(request, session.get('user_seq'), logger)
+    # for rule in app.url_map.iter_rules():
+    #     if not (rule.rule == request.path):
+    #         continue
+    #     print(rule.rule, request.path, [
+    #         not plugin.check_endpoint_active(rule.endpoint)
+    #         for plugin in plugins.values()
+    #     ])
+    #     print(plugins)
+    #     if any([
+    #         not plugin.check_endpoint_active(rule.endpoint)
+    #         for plugin in plugins.values()
+    #     ]):
+    #         abort(503)
                 

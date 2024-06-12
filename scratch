@@ -1,8 +1,0 @@
-if(lower-case($DBInstance) = 'fs7tst') then $SendTestTo else $SendNormalTo
-
-
-concat(
-    if(lower-case($DBInstance) = 'fs7tst') then
-        concat("This email would have been sent to: ", $SendNormalTo,
-            if(tib:trim($SendCC) != "") then concat(", with a CC to: ", $SendCC) else "") else "",
-    "Email Body")

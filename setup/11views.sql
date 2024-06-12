@@ -9,7 +9,14 @@ CREATE VIEW finance_hdr_summary AS
         concat_ws(' ', UD.first_name, UD.last_name) as 'UpdatedBy',
         S.stat_desc as 'Status',
         T.type_desc as 'Type',
-        (SELECT SUM(L.price * L.qty)
+        (SELECT SUM( (
+            SELECT item_cost.price FROM items,item_cost WHERE
+        items.seq = item_cost.item_seq AND items.displayed = 1 AND
+    eff_date = (
+        SELECT MAX(eff_date) FROM item_cost B
+        WHERE B.item_seq = items.seq AND B.eff_date <= H.inv_date )
+
+                         ) * L.qty)
             FROM finance_line L WHERE L.finance_seq = H.seq) as 'Total'
     FROM
     finance_hdr H
@@ -34,3 +41,15 @@ CREATE VIEW docket_users AS
         p.class_seq = ca.class_seq AND
         p.perm_seq = pt.seq AND
         pt.perm_desc IN ('doc_edit', 'doc_add', 'doc_admin', 'doc_view')
+
+
+CREATE VIEW developer_emails AS
+    SELECT
+        A.email
+    FROM
+        users A,
+        class_assignments B
+    WHERE
+        A.seq = B.user_seq
+      AND
+        B.class_seq = 6;

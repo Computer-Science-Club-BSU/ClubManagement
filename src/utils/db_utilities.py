@@ -579,6 +579,40 @@ class connect:
         SQL = "SELECT * FROM finance_hdr_summary"
         self.cur.execute(SQL)
 
+    @_convert_to_dict
+    def get_finance_users(self):
+        SQL = """SELECT DISTINCT
+                    A.* FROM users A, class_assignments B, class C, perms D,
+                    perm_types E WHERE B.user_seq = A.seq AND
+                    B.class_seq = C.seq AND D.class_seq = C.seq
+                    AND D.perm_seq = E.seq AND E.perm_desc = 'fin_add'
+                    AND D.granted = 1 AND A.is_active = 1"""
+        self.cur.execute(SQL)
+    
+    @_convert_to_dict
+    def get_finance_approvers(self):
+        SQL = """SELECT DISTINCT A.* FROM users A, class_assignments B,
+                    class C, perms D, perm_types E WHERE B.user_seq = A.seq
+                AND B.class_seq = C.seq AND D.class_seq = C.seq
+                AND D.perm_seq = E.seq AND E.perm_desc = 'fin_approve'
+                AND D.granted = 1 AND A.is_active = 1"""
+        self.cur.execute(SQL)
+    
+    @_convert_to_dict
+    def get_finance_types(self):
+        SQL = """SELECT * FROM finance_type"""
+        self.cur.execute(SQL)
+        
+    @_convert_to_dict
+    def search_items(self, date):
+        SQL = """SELECT items.item_name, items.item_vendor,
+        item_cost.price, date_format(item_cost.eff_date, '%M %D, %Y') "eff_date",item_cost.seq FROM items,item_cost WHERE
+        items.seq = item_cost.item_seq AND items.displayed = 1 AND
+    eff_date = (
+        SELECT MAX(eff_date) FROM item_cost B
+        WHERE B.item_seq = items.seq AND B.eff_date <= %s )"""
+        self.cur.execute(SQL, (date,))
+
     # __methods__
     def __enter__(self):
         logger.debug("DB Opened in Context Manager")
