@@ -39,9 +39,7 @@ def get_root_index():
     return render_template('index.liquid')
 
 
-@app.route('/test/')
-def get_test():
-    return render_template('test/test.liquid')
+
 
 @app.before_request
 def handle_pre_request():

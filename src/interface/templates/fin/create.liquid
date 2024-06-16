@@ -21,7 +21,7 @@
                 <td>${rowid}</td>
                 <td><input disabled type="text" id="ItemInfo${rowid}" id="ItemInfo" style='width:80%'><button onclick='searchItem(${rowid})'><i class="fa-solid fa-magnifying-glass"></i></button></td>
                 <td><input disabled type="text" id="ItemPrice${rowid}" style="width: 100px;"></td>
-                <td><input style="width: 90%;" type="number" name="Quantity" id="Quantity${rowid}"></td>
+                <td><input onchange="updateGrandTotal()" style="width: 90%;" type="number" name="Quantity" id="Quantity${rowid}"></td>
                 <td><input type="number" name="Total" style="width: 100px;" id="Total${rowid}" disabled></td>
             `;
             rowid++
@@ -115,8 +115,7 @@
             xhrHTTP.onreadystatechange = function(){
                 console.log(xhrHTTP.readyState, xhrHTTP.status)
                 if (xhrHTTP.readyState == 4 && xhrHTTP.status == 200){
-                    //Open a new window and display the record
-                    let record = window.open("/finances/preview", "RecordPreview", "width=800,height=600");
+                  let record = window.open("/finances/preview", "RecordPreview", "width=800,height=600");
                     record.document.write(xhrHTTP.responseText);
                 } else {
                     if(xhrHTTP.readyState == 4 && xhrHTTP.status != 200){
@@ -147,7 +146,7 @@
             }
         }
 
-        function updateLineTotal(){
+        function updateGrandTotal(){
             let table = document.getElementById("prods");
             let total = 0;
             for (let i = 1; i < table.rows.length; i++){
@@ -159,12 +158,7 @@
                 subtotal = subtotal.toFixed(3);
                 document.getElementById(`Total${i}`).value = subtotal;
             }
-        }
-
-        function updateGrandTotal(){
-            updateLineTotal();
-            let table = document.getElementById("prods");
-            let total = 0;
+            total = 0;
             for (let i = 1; i < table.rows.length; i++){
                 row = parseFloat(document.getElementById(`Total${i}`).value);
                 if(!isNaN(row))
@@ -184,6 +178,8 @@
             }
             total = total + taxes + fees
             document.getElementById("Total").value = total.toFixed(2);
+
+
         }
 
 
@@ -289,7 +285,7 @@
                 <tbody></tbody>
               </table>
               <button onclick="addRow()">Add Row</button>
-              <button onclick="updateLineTotal()">Update Total</button>
+              <button onclick="updateGrandTotal()">Update Total</button>
               <button onclick="popRow()">Remove Last Row</button>
             </fieldset>
 
@@ -334,7 +330,9 @@
           </div>
 
         </div>
-        <div class="box"></div>
+        <div class="box">
+          <div id="preview"></div>
+        </div>
       </div>
 
 
@@ -357,6 +355,9 @@
       }
       td {
         width: 40px;
+      }
+      .preview {
+        all: unset
       }
     </style>
 

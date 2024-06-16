@@ -4,16 +4,31 @@
         "sys_loc": "Testwater State University",
         "quick_links": [
             {
-                "name": "Google",
-                "link": "https://www.google.com/"
-            },
-            {
                 "name": "EngageBSU Home",
                 "link": "https://engage.bridgew.edu/"
+            },
+            {
+                "name": "Outlook",
+                "link": "https://outlook.office.com/csclub@bridgew.edu"
+            },
+            {
+                "name": "Google",
+                "link": "https://www.google.com/"
             }
         ],
         "support_email": "csclub@bridgew.edu",
-        "timezone": "America/New_York"
+        "support_phone": "(508) 469-9630",
+        "timezone": "America/New_York",
+        "finance": {
+            "address":{
+                "name": "Computer Science Club",
+                "line1": "45 School Street",
+                "line2": "",
+                "city": "Bridgewater",
+                "state": "MA",
+                "zip": "02325"
+            }
+        }
     },
     "private": {
        

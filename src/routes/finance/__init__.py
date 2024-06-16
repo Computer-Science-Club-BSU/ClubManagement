@@ -1,1 +1,1 @@
-from src.routes.finance import view, new
+from src.routes.finance import view, new, preview

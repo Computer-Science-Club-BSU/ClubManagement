@@ -612,6 +612,16 @@ class connect:
         SELECT MAX(eff_date) FROM item_cost B
         WHERE B.item_seq = items.seq AND B.eff_date <= %s )"""
         self.cur.execute(SQL, (date,))
+        
+    @_convert_to_dict_single
+    def get_finance_status_by_seq(self, seq):
+        SQL = """SELECT * FROM finance_status WHERE seq = %s"""
+        self.cur.execute(SQL, (seq,))
+        
+    @_convert_to_dict_single
+    def get_finance_type_by_seq(self, seq):
+        SQL = """SELECT * FROM finance_type WHERE seq = %s"""
+        self.cur.execute(SQL, (seq,))
 
     # __methods__
     def __enter__(self):
