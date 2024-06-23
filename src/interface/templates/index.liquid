@@ -6,7 +6,8 @@
     <title>{{ sys_name }}</title>
   </head>
   <body>
-    {% render "navbar.liquid" %}
+    {% include "navbar.liquid" %}
+
     <article>
       <header>
         <h2>Welcome {{ user.first_name }} {{ user.last_name }}</h2>
@@ -87,6 +88,6 @@
       </div>
 
     </article>
-    {% render "footer.liquid" %}
+    {% include "footer.liquid" %}
   </body>
 </html>

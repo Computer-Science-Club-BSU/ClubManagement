@@ -68,3 +68,7 @@ def handle_pre_request():
     #     ]):
     #         abort(503)
                 
+
+@app.route('/test2/')
+def route_test():
+    return render_template('test.liquid', page='other.liquid')

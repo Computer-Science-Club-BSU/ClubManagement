@@ -31,9 +31,20 @@ def post_doc_edit():
             body,
             user_seq,
             status,
-            vote_type,
+            vote_type
             )
         if res:
             return redirect(f'/doc/view?seq={doc_seq}')
         else:
             return "Error!"
+
+@app.post("/doc/attach/<doc>")
+def post_doc_attach(doc):
+    # /doc/attach/{{ doc.docket.seq }}
+    user_seq = session.get('user_seq')
+    with connect() as conn:
+        res, _ = conn.add_docket_attachment(doc, request.json, user_seq)
+        if res:
+            return "Docket Record added successully", 201
+        else:
+            return "Error adding attachment", 400

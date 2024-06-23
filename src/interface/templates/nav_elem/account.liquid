@@ -1,0 +1,30 @@
+<li class="parent right">
+  <a href="#">
+    {% if isLoggedIn %}
+      {{ user.first_name }} {{ user.last_name }}
+      <i class="fa-solid fa-user" style="padding-left:5px"></i>
+    {% else %}
+      <i style="padding-left:30px;" class="fa-solid fa-user"></i>
+
+    {% endif %}
+
+  </a>
+  <ul class="child">
+    {% if isLoggedIn %}
+      <li>
+        <a href="/auth/logout">Logout</a>
+      </li>
+      <li>
+        <a href="/user/preferences">Settings</a>
+      </li>
+
+    {% else %}
+      <li>
+        <a href="/auth/login">Log In</a>
+      </li>
+      <li>
+        <a href="/auth/register">Register</a>
+      </li>
+    {% endif %}
+  </ul>
+</li>

@@ -27,6 +27,5 @@ logger.debug("Liquid Registered")
 
 import src.routes
 
-
 if __name__ == "__main__":
     app.run(debug=True)

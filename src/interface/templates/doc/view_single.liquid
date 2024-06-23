@@ -5,9 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Docket Records</title>
     <link rel="stylesheet" href="/static/css/textBubbles.css">
+    <script>
+      let textFromFileLoaded
+
+      function loadData() {
+            let file = document.getElementById("file").files[0];
+            let reader = new FileReader();
+            reader.onload = function(fileLoadedEvent) {
+                textFromFileLoaded = fileLoadedEvent.target.result;
+            };
+
+            reader.readAsBinaryString(file);
+            return textFromFileLoaded
+        }
+
+        function sendFile(){
+            file_data = textFromFileLoaded
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/doc/attach/{{ doc.docket.seq }}");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            let post_data = {
+                "file_name": document.getElementById("file").files[0].name,
+                "file_data": btoa(file_data)
+            }
+            xhr.send(JSON.stringify(post_data));
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    location.reload();
+                } else if (xhr.readyState == 4) {
+                    alert(xhr.response)
+                }
+            }
+        }
+
+    </script>
   </head>
   <body>
-    {% render "navbar.liquid" %}
+    {% include "navbar.liquid" %}
     <article>
       <div class="grid2x2 revrow">
 
@@ -71,8 +105,31 @@
             </div>
           </form>
         </div>
+        <div class="box">
+          <h2>Attachments</h2>
+          <table>
+            <tr>
+              <th>File Name</th>
+              <th>View</th>
+            </tr>
+            {% for attach in attachments %}
+              <tr>
+                <td>{{ attach.name }}</td>
+                <td>
+                  <a href="/doc/attach/{{attach.seq}}">View</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            onchange="loadData()">
+          <button onclick="sendFile()">Upload Attachment</button>
+        </div>
       </div>
     </article>
-    {% render "footer.liquid" %}
+    {% include "footer.liquid" %}
   </body>
 </html>

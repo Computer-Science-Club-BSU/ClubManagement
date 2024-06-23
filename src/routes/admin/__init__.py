@@ -1,1 +1,1 @@
-import src.routes.admin.permissions
+from src.routes.admin import permissions, class_assignments

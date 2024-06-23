@@ -44,28 +44,24 @@
       <div class="grid">
         <div class="box">
           <h2>Edit Permissions</h2>
-          <form action="/admin/permissions/edit" method="POST">
+          <form action="/admin/assignments/edit" method="POST">
             <table>
               <tr>
                 <td></td>
-                {% for permission_desc in perm_descs %}
-                  <th style="writing-mode:vertical-lr">{{ permission_desc.name_short }}</th>
+                {% for user in users %}
+                  <th style="writing-mode:vertical-lr">{{ user.first_name }} {{ user.last_name }}</th>
                 {% endfor %}
               </tr>
               {% for class in db_classes %}
                 <tr>
                   <th>{{ class.position_name }}</th>
-                  {% for perm in class_perms[class.position_name] %}
-
+                  {% for perm in assignments[class.position_name] %}
                     <td><input
                         type="checkbox"
-                        name="{{perm[1][0]}}"
-                        id="{{perm[1][0]}}"
-                        {% if perm[1][1] %}
+                        name="{{perm[0]}}"
+                        id="{{perm[0]}}"
+                        {% if perm[1] %}
                         checked
-                        {% endif %}
-                        {% if perms[perm[0]] == 0 %}
-                        disabled
                         {% endif %}></td>
                   {% endfor %}
                 </tr>
@@ -76,7 +72,7 @@
                 </td>
               </tr>
             </table>
-            <input type="submit" value="Update Permissions">
+            <input type="submit" value="Update Assignments">
           </form>
         </div>
       </div>

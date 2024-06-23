@@ -6,6 +6,7 @@ from typing import Callable
 import bcrypt
 from mariadb import InterfaceError
 from src.utils.cfg_utils import get_cfg
+import base64
 
 logger = logging.getLogger("DatabaseManager")
 
@@ -132,7 +133,7 @@ class connect:
         return perm_data
         
     def get_user_finance_dashboards_by_user_seq(self, user_seq) -> list[dict]:
-        return []
+        return [{"1": "test"}]
     
     @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq) -> list[dict]:
@@ -417,7 +418,7 @@ class connect:
 
     @_convert_to_dict
     def get_permission_data(self):
-        SQL = """SELECT * FROM perm_types;"""
+        SQL = """SELECT * FROM perm_types WHERE grantable=1;"""
         self.cur.execute(SQL)
     
     @_convert_to_dict
@@ -433,7 +434,8 @@ class connect:
     def get_class_perms(self):
         SQL = """SELECT perms.seq, perms.granted, c.position_name,
         p.name_short, p.perm_desc from perms LEFT JOIN (class c, perm_types p)
-        ON (perms.class_seq = c.seq AND perms.perm_seq = p.seq);"""
+        ON (perms.class_seq = c.seq AND perms.perm_seq = p.seq
+        AND p.grantable = 1);"""
         self.cur.execute(SQL)
         perms = {}
         for row in self.cur.fetchall():
@@ -481,6 +483,19 @@ class connect:
                 row['seq'],
                 user_seq,
                 user_seq))
+        
+        SQL = """INSERT INTO class_assignments
+        (user_seq, class_seq, added_by, updated_by) VALUES (%s,%s,%s,%s)"""
+        user_seq_sql = """SELECT seq FROM users"""
+        self.cur.execute(user_seq_sql)
+        rows = self.cur.fetchall()
+        for row in rows:
+            self.cur.execute(SQL, (
+                row[0],
+                class_seq,
+                user_seq,
+                user_seq
+            ))
     
     @_exec_safe
     def create_email(self,
@@ -510,6 +525,10 @@ class connect:
             self.cur.execute(recp_sql, (email_seq, email, 'b'))
         
         return email_seq
+
+    def get_nav_pages(self):
+        self.cur.execute("SELECT menu_path FROM plugin_defn WHERE is_active=1")
+        return [x[0] for x in self.cur.fetchall()]
     
     @_convert_to_dict_single
     def get_email_header(self, email_seq: int) -> dict:
@@ -622,6 +641,52 @@ class connect:
     def get_finance_type_by_seq(self, seq):
         SQL = """SELECT * FROM finance_type WHERE seq = %s"""
         self.cur.execute(SQL, (seq,))
+
+    @_exec_safe
+    def add_docket_attachment(self, seq, file_json, user):
+        SQL = """INSERT INTO docket_attachments
+        (docket_seq, file_name, file_data, added_by, updated_by) VALUES
+        (%s,%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (seq, file_json['file_name'],
+                               base64.b64encode(file_json['file_data'].encode()),
+                               user, user))
+    
+    @_convert_to_dict
+    def get_docket_attachments_summary(self, seq):
+        SQL = """SELECT seq, file_name as name FROM docket_attachments WHERE
+        docket_seq = %s"""
+        self.cur.execute(SQL, (seq,))
+        
+    def get_docket_attachment(self, attach_seq):
+        SQL = """SELECT file_name ,file_data FROM docket_attachments WHERE
+        seq = %s"""
+        self.cur.execute(SQL, (attach_seq,))
+        result = self.cur.fetchone()
+        name = result[0]
+        data = base64.b64decode(result[1])
+        return name, data
+
+    @_convert_to_dict
+    def get_users(self):
+        SQL = """SELECT * FROM users WHERE is_active = 1"""
+        self.cur.execute(SQL)
+    
+    def get_assignments(self):
+        SQL = """SELECT ca.seq, ca.granted, c.position_name,
+        concat(u.first_name, ' ', u.last_name) FROM
+        class_assignments ca, class c, users u
+        WHERE ca.class_seq = c.seq AND ca.user_seq = u.seq AND u.is_active=1"""
+        assignments = {}
+        self.cur.execute(SQL)
+        data = self.cur.fetchall()
+        for row in data:
+            class_row = assignments.get(row[2], [])
+            class_row.append((row[0], row[1]==1))
+            assignments[row[2]] = class_row
+        print(assignments)
+        return assignments
+    
+    
 
     # __methods__
     def __enter__(self):
