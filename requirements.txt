@@ -80,6 +80,6 @@ uritools==4.0.2
 urllib3==1.26.18
 webencodings==0.5.1
 websockets==10.4
-Werkzeug==3.0.1
+Werkzeug>=3.0.3
 xhtml2pdf==0.2.14
 zipp==3.17.0
