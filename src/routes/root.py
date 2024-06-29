@@ -53,7 +53,7 @@ def handle_pre_request():
     debug_str += f"{request.remote_addr} for resource {request.path}"
     logger.debug(debug_str)
     
-    # check_perms(request, session.get('user_seq'), logger)
+    check_perms(request, session.get('user_seq'), logger)
     # for rule in app.url_map.iter_rules():
     #     if not (rule.rule == request.path):
     #         continue

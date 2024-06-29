@@ -685,8 +685,28 @@ class connect:
             assignments[row[2]] = class_row
         print(assignments)
         return assignments
-    
-    
+
+    @_exec_safe
+    def update_docket_assignmees(self, docket_seq, data, user_seq):
+        assignees = [x['seq'] for x in self.get_docket_assignees(docket_seq)]
+        print(assignees)
+        for user in data:
+            print(f"{user=}, {user not in assignees}")
+            if user not in assignees:
+                # INSERT
+                SQL = """INSERT INTO docket_assignees 
+                (docket_seq, user_seq, added_by, updated_by)
+                VALUES (%s,%s,%s,%s)"""
+                self.cur.execute(SQL, (docket_seq, user, user_seq, user_seq))
+        
+        for user in assignees:
+            print(f"{user=}, {user not in data}")
+            if user not in data:
+                #DELETE
+                SQL = """DELETE FROM docket_assignees WHERE
+                docket_seq = %s AND user_seq = %s"""
+                self.cur.execute(SQL, (docket_seq, user))
+
 
     # __methods__
     def __enter__(self):

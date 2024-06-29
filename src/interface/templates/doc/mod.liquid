@@ -66,16 +66,30 @@
         </form>
         <div class="box">
           <h2>Assignees</h2>
-          <table>
-            <tr>
-              <th>User</th>
-            </tr>
-            {% for assn_user in doc.assign %}
-              <tr>
-                <td>{{ assn_user.name }}</td>
-              </tr>
-            {% endfor %}
-          </table>
+          <form
+            action="/doc/update_assignees/{{doc.docket.seq}}"
+            method="post"
+            style="width: 100%;">
+            <select
+              name="assignees"
+              id="assignees"
+              multiple
+              style="width: 100%">
+              {% for doc_user in docket_users %}
+                {{ doc.assign contains doc_user }}
+                <option
+                  value="{{doc_user.seq}}"
+                  {% for user in doc.assign %}
+                  {% assign name = doc_user.first_name | append: " " | append: doc_user.last_name %}
+                  {% if name == user.name %}
+                  selected
+                  {% endif %}
+                  {% endfor %}>{{ doc_user.first_name }} {{ doc_user.last_name }}</option>
+              {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="Update">
+          </form>
         </div>
       </div>
     </article>

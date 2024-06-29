@@ -11,8 +11,9 @@ def get_doc_edit():
         doc = conn.get_all_docket_data_by_seq(doc_seq)
         status = conn.get_docket_statuses()
         vote_types = conn.get_docket_vote_types()
+        docket_users = conn.get_docket_users()
     return render_template('doc/mod.liquid', doc=doc, status=status,
-                           vote_types=vote_types)
+                           vote_types=vote_types, docket_users=docket_users)
 
 @app.route('/doc/edit/', methods=['POST'])
 @app.route('/doc/edit', methods=['POST'])
@@ -48,3 +49,14 @@ def post_doc_attach(doc):
             return "Docket Record added successully", 201
         else:
             return "Error adding attachment", 400
+
+@app.post('/doc/update_assignees/<doc>')
+def post_doc_update_assignees(doc):
+    user_seq = session.get('user_seq')
+    with connect() as conn:
+        data = request.form.getlist('assignees')
+        res, _ = conn.update_docket_assignmees(doc, data, user_seq)
+        if res:
+            return "Assignee added successfully", 201
+        else:
+            return "Error adding assignee", 400
