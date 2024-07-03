@@ -264,7 +264,7 @@ create or replace table finance_hdr
     id          varchar(20)                          not null,
     created_by  int                                  not null,
     approved_by int                                  null,
-    is_approved tinyint(1) default 0                 not null
+    is_approved tinyint(1) default 0                 not null,
     inv_date    date                                 not null,
     stat_seq    int                                  not null,
     type_seq    int                                  not null,
@@ -713,7 +713,7 @@ CREATE TABLE access_requests(
     first_name varchar(20)                            not null,
     last_name  varchar(20)                            not null,
     email      varchar(100)                           not null,
-    title      varchar(6)                             not null,
+    title      varchar(6)                             not null
 );
 
 ALTER TABLE users ADD COLUMN home_page_seq INT;
