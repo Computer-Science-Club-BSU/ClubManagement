@@ -11,7 +11,7 @@ create_password(){
 
 
 createGunicorn(){
-    echo "[Unit]
+  echo "[Unit]
   Description=Gunicorn instance to serve Management Portal
   After=network.target
 
@@ -54,12 +54,44 @@ if [ "$EUID" -eq 0 ]
 fi
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-echo 'Adding Python PPA Repository'
-sudo add-apt-repository ppa:deadsnakes/ppa -y >> /dev/null
+
+echo 'Checking if Python PPA is installed...'
+
+if ! grep -q "deb .*deadsnakes/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+  echo 'Adding Python PPA Repository'
+  sudo add-apt-repository ppa:deadsnakes/ppa -y >> /dev/null
+else
+  echo "Found Python PPA"
+fi
+
+
 echo 'Updating Apt Repositories'
 sudo apt-get update >> /dev/null
+
+packages="python3.12-venv python3.12 python3.12-dev"
+
+if [ -f /bin/mysql ]; then
+  if [ -L /bin/mysql ]; then
+    echo "MariaDB is already installed"
+  else
+    echo "WARNING: Mysql is currently installed. Installing MariaDB will replace mysql with symlinks to MariaDB"
+    
+    while true; do
+      read -p "Would you still like to proceed and install MariaDB? " yn
+      case $yn in
+          [Yy]* ) break;;
+          * ) echo "Cancelling installation"; exit 1;;
+      esac
+    done
+    packages="$packages mariadb-server libmariadb3 libmariadb-dev"
+  fi
+else
+  packages="$packages mariadb-server libmariadb3 libmariadb-dev"
+fi
+
 echo 'Installing Python and MariaDB Server'
-sudo apt-get install python3.12-venv python3.12 mariadb-server libmariadb3 libmariadb-dev -y >> /dev/null
+sudo apt-get install $packages -y >> /dev/null
+
 
 if [[ ! -d $SCRIPT_DIR/.venv ]];
 then
@@ -71,14 +103,15 @@ fi
 if [[ -z "`sudo mysql -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='management'" 2>&1`" ]];
 then
 	echo 'Initializing Database'
-    for file in ./setup/*.sql; do
-        sudo mysql < $file
-    done
+  for file in ./setup/*.sql; do
+    echo "Running $file"
+    sudo mysql < $file
+  done
 
 	create_password
-    sudo mysql -qfsBe "GRANT SELECT,UPDATE,INSERT,DELETE on management.* to 'managementUser'@'localhost' identified by '$password';"
-    echo "Creating conf.cfg file"
-    echo "; This file should contain all your secret configuration information.
+  sudo mysql -qfsBe "GRANT SELECT,UPDATE,INSERT,DELETE on management.* to 'managementUser'@'localhost' identified by '$password';"
+  echo "Creating conf.cfg file"
+  echo "; This file should contain all your secret configuration information.
 
 [GEN]
 ; Acceepted Values: test, prod
@@ -113,7 +146,7 @@ PORT=           ; The Port for the Production Database
 USER=           ; The Username for the Production Database
 PASS=           ; The password for the Production Database
 NAME=           ; The name of the Production Database
-" > /etc/cms/conf.cfg
+" | sudo tee /etc/cms/conf.cfg > /dev/null
 else
 	echo 'Database already found'
 fi
