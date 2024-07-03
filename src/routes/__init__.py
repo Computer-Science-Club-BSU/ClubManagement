@@ -1,3 +1,4 @@
+"""Imports all endpoints from the src/routes sub-modules"""
 import src.routes.root
 import src.routes.auth
 import src.routes.dev

@@ -1,7 +1,6 @@
 .bubble {
     --r: 1em;  /* the radius */
     --t: 1.5em; /* the size of the tail */
-    
     max-width: 300px;
     padding: 1em;
     margin: .1dvh;

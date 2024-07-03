@@ -1,6 +1,6 @@
+from flask import request, session, abort
 from app import app
 from src.utils.template_utils import render_template, load_config
-from flask import request, session, abort
 from src.utils.db_utilities import connect
 
 @app.route('/email/compose/', methods=['GET'])
@@ -18,30 +18,29 @@ def post_email_preview():
         position = request.form.get('position')
         user_classes = conn.get_user_classes_by_user_seq(user_seq)
         if position not in [
-            result['position_name'] for result in user_classes
+            result['position_name'] for result in user_classes #pylint: disable=not-an-iterable
         ]:
             abort(403)
-        body += f"""<p>{user[0]['first_name']} {user[0]['last_name']}<br>
+        sig_fname = user[0].get('first_name')
+        sig_lname = user[0].get('last_name')
+        body += f"""<p>{sig_fname} {sig_lname}<br>
         {position} | {config['public']['sys_name']}<br>
         {config['public']['sys_loc']}
         <p>"""
         to = request.form.get('to').split(';')
         cc = request.form.get('cc').split(';')
         bcc = request.form.get('bcc').split(';')
-        print(subject, body, user_seq, to, cc, bcc)
-        res, id = conn.create_email(subject, body, user_seq, to, cc, bcc)
+        res, seq = conn.create_email(subject, body, user_seq, to, cc, bcc)
     if res:
-        return render_template('email/preview.liquid', body=body, id=id)
-    else:
-        return "Error, could not preview email!"
+        return render_template('email/preview.liquid', body=body, id=seq)
+    return "Error, could not preview email!"
 
 @app.route('/email/send', methods=['POST'])
 def post_send_email():
     user = session.get('user_seq')
     with connect() as conn:
         email_id = request.args.get('seq')
-        res, _ = conn.mark_email_for_sending(email_id, user)
+        res, _ = conn.mark_email_for_sending(email_id, user) #pylint: disable=unpacking-non-sequence
         if res:
             return "Email marked for sending"
         return "Failed to mark email for sending, 500"
-        

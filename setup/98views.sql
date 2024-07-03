@@ -9,7 +9,6 @@ select distinct `usr`.`seq`        AS `seq`,
                 `usr`.`email`      AS `email`,
                 `usr`.`theme`      AS `theme`,
                 `usr`.`title`      AS `title`,
-                `usr`.`manager`    AS `manager`,
                 `usr`.`is_active`  AS `is_active`,
                 `usr`.`added_by`   AS `added_by`,
                 `usr`.`updated_by` AS `updated_by`,
@@ -19,9 +18,15 @@ from `management`.`users` `usr`
          join `management`.`class_assignments` `ca`
          join `management`.`perm_types` `pt`
          join `management`.`perms` `p`
+         join `management`.`terms` `tA`
+         join `management`.`terms` `tB`
 where `ca`.`user_seq` = `usr`.`seq`
   and `p`.`class_seq` = `ca`.`class_seq`
   and `p`.`perm_seq` = `pt`.`seq`
+  AND `ca`.`start_term` = `tA`.`seq`
+  AND `ca`.`end_term` = `tB`.`seq`
+  AND `tA`.`start_date` <= current_date
+  AND current_date <= `tB`.`end_date`
   and `pt`.`perm_desc` in ('doc_edit', 'doc_add', 'doc_admin', 'doc_view');
 
 create or replace view finance_hdr_summary as
@@ -58,3 +63,19 @@ from `management`.`users` `A`
          join `management`.`class_assignments` `B`
 where `A`.`seq` = `B`.`user_seq`
   and `B`.`class_seq` = 6;
+
+create or replace view officer_lookup as
+select `B`.`seq`           AS `assignment_seq`,
+       `A`.`seq`           AS `user_seq`,
+       `A`.`first_name`    AS `first_name`,
+       `A`.`last_name`     AS `last_name`,
+       `A`.`email`         AS `email`,
+       `A`.`title`         AS `title`,
+       `C`.`position_name` AS `position_name`,
+       `dA`.`start_date`   AS `start_date`,
+       `dB`.`end_date`     AS `end_date`
+from ((((`management`.`users` `A` join `management`.`class_assignments` `B`) join `management`.`class` `C`) join `management`.`terms` `dA`) join `management`.`terms` `dB`)
+where `A`.`seq` = `B`.`user_seq`
+  and `C`.`seq` = `B`.`class_seq`
+  and `B`.`start_term` = `dA`.`seq`
+  and `B`.`end_term` = `dB`.`seq`

@@ -1,3 +1,5 @@
+#! /bin/bash
+
 create_password(){
   array=()
   for i in {a..z} {A..Z} {0..9};
@@ -111,7 +113,7 @@ PORT=           ; The Port for the Production Database
 USER=           ; The Username for the Production Database
 PASS=           ; The password for the Production Database
 NAME=           ; The name of the Production Database
-" > conf.cfg
+" > /etc/cms/conf.cfg
 else
 	echo 'Database already found'
 fi

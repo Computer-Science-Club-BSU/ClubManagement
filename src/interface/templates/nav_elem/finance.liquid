@@ -1,6 +1,6 @@
 {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_query %}
   <li class="parent">
-    <a href="#">Maintain Finances</a>
+    <a href="#">Maintain Treasury</a>
     <ul class="child">
       {% if perms.fin_admin == 1 or perms.fin_view == 1 %}
         <li class="parent">

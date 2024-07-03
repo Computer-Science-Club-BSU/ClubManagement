@@ -1,8 +1,8 @@
+from logging import getLogger
+from flask import request, session
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
-from flask import request, session
-from logging import getLogger
 
 logger = getLogger("AdminPermissions")
 
@@ -22,10 +22,10 @@ def post_admin_permissions_edit():
     user_seq = session.get('user_seq')
     with connect() as conn:
         perms = conn.get_all_db_perms()
-        for perm in perms:
+        for perm in perms: #pylint: disable=not-an-iterable
             seq = perm['seq']
             stat = request.form.get(str(seq), 'off')
-            res, _ = conn.update_permissions(seq, stat == 'on', user_seq)
+            res, _ = conn.update_permissions(seq, stat == 'on', user_seq) #pylint: disable=unpacking-non-sequence
             if not res:
                 return "Err", 400
     return "Success"
@@ -35,8 +35,7 @@ def post_admin_permissions_class_new():
     class_name = request.json['name']
     user = session.get('user_seq')
     with connect() as conn:
-        res, _ = conn.create_class(class_name, user)
+        res, _ = conn.create_class(class_name, user) #pylint: disable=unpacking-non-sequence
     if res:
         return "Success"
     return "Failed", 500
-            

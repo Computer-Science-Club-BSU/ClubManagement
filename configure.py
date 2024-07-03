@@ -43,11 +43,13 @@ def main():
                    "(y/[n])")
     if choice.lower() == 'y':
         init_db()
-    
     choice = input("Create new user? (y/[n])")
     if choice.lower() == 'y':
         create_user()
 
 
 if __name__ == "__main__":
-    main()
+    if not os.geteuid() == 0:
+        exit("This script can only run as root.")
+    else:
+        main()

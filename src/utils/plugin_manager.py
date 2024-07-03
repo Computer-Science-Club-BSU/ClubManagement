@@ -21,7 +21,7 @@ def load_plugins():
     for file in os.listdir('src/plugins'):
         if file.startswith('__'):
             continue
-        
+
         file_name = file.removesuffix('.py')
         try:
             log.info(f'Loading plug-in {file_name}')
@@ -35,8 +35,6 @@ def load_plugins():
         except Exception:
             log.error(f'Plugin {file_name} failed to load!')
             log.error(traceback.format_exc())
-    print(plugins)
-    list(plugins.items())[-1][1].is_active = False
     return plugins
 
 

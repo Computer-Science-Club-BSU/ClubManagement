@@ -1,0 +1,10 @@
+{% if perms.user_view == 1 or perms.user_add == 1 or perms.user_edit == 1 or perms.user_admin == 1 or perms.user_del == 1 or perms.user_query == 1 %}
+
+  <div class="box box3">
+    <h1>User Administration</h1>
+    <textarea style="height:100%;" disabled>
+      {% for line in access_log_data %}
+        {{ line }}{% endfor %}
+    </textarea>
+  </div>
+{% endif %}

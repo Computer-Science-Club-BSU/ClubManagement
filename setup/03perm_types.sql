@@ -2,7 +2,7 @@ INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated
 INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (1, 'doc_view', 'Docket View', null, null);
 INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (3, 'doc_edit', 'Docket Edit', null, null);
 INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (4, 'doc_admin', 'Docket Admin', null, null);
-INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (5, 'doc_query', 'Docket_Query', null, null);
+INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (5, 'doc_query', 'Docket Query', null, null);
 INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (6, 'doc_delete', 'Docket Delete', null, null);
 INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (7, 'fin_view', 'Finance View', null, null);
 INSERT INTO management.perm_types (seq, perm_desc, name_short, added_by, updated_by) VALUES (8, 'fin_add', 'Finance Add', null, null);

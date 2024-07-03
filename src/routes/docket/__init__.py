@@ -1,4 +1,2 @@
-import src.routes.docket.view
-import src.routes.docket.new
-import src.routes.docket.edit
-import src.routes.docket.dash
+"""Imports all routes from src/routes/docket"""
+from src.routes.docket import view, new, edit, dash

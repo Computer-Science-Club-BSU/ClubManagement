@@ -1,8 +1,8 @@
+from logging import getLogger
+from flask import request, session
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
-from flask import request, session
-from logging import getLogger
 
 logger = getLogger("AdminClassAssignments")
 
@@ -17,15 +17,30 @@ def get_admin_class_assignments():
                            users=users,
                            assignments=assignments)
 
-@app.post('/admin/assignments/edit')
-def post_admin_assignments_edit():
+
+
+@app.get('/admin/edit_assignment/<seq>')
+def get_admin_edit_assignment(seq):
+    with connect() as conn:
+        data = conn.get_class_assignment_by_seq(seq)
+        classes = conn.get_user_classes()
+        terms = conn.get_terms()
+        return render_template('admin/edit_assignment.liquid',data=data,
+                               _classes=classes,
+                               terms=terms)
+
+@app.post('/admin/edit_assignment/<seq>')
+def post_admin_edit_assignment(seq):
+    _class = request.json.get('role')
+    start = request.json.get('start')
+    end = request.json.get('end')
     user_seq = session.get('user_seq')
     with connect() as conn:
-        perms = conn.get_assignments()
-        for perm in perms:
-            seq = perm['seq']
-            stat = request.form.get(str(seq), 'off')
-            res, _ = conn.update_permissions(seq, stat == 'on', user_seq)
-            if not res:
-                return "Err", 400
-    return "Success"
+        res, _ = conn.update_class_assignment(seq, #pylint: disable=unpacking-non-sequence
+                                              _class,
+                                              start,
+                                              end,
+                                              user_seq)
+        if res:
+            return "", 200
+        return "", 400

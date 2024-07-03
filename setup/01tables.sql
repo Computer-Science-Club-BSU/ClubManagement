@@ -6,19 +6,18 @@ create or replace table users
 (
     seq        int auto_increment
         primary key,
-    user_name  varchar(20)                            null,
-    first_name varchar(20)                            null,
-    last_name  varchar(20)                            null,
+    user_name  varchar(20)                            not null,
+    first_name varchar(20)                            not null,
+    last_name  varchar(20)                            not null,
     hash_pass  varchar(200)                           null,
-    email      varchar(100)                           null,
-    theme      int                                    null,
-    title      varchar(6)                             null,
-    manager    int                                    null,
-    is_active  tinyint(1) default 1                   null,
+    email      varchar(100)                           not null,
+    theme      int                                    not null,
+    title      varchar(6)                             not null,
+    is_active  tinyint(1) default 1                   not null,
     added_by   int                                    null,
     updated_by int                                    null,
-    added_dt   datetime   default current_timestamp() null,
-    update_dt  datetime   default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime   default current_timestamp() not null,
+    update_dt  datetime   default current_timestamp() not null on update current_timestamp(),
     constraint user_name
         unique (user_name),
     constraint users_ibfk_1
@@ -31,13 +30,13 @@ create or replace table class
 (
     seq           int auto_increment
         primary key,
-    position_name varchar(30)                            null,
-    displayed     tinyint(1) default 1                   null,
-    ranking       int        default 99                  null,
+    position_name varchar(30)                            not null,
+    displayed     tinyint(1) default 1                   not null,
+    ranking       int        default 99                  not null,
     added_by      int                                    null,
     updated_by    int                                    null,
-    added_dt      datetime   default current_timestamp() null,
-    update_dt     datetime   default current_timestamp() null on update current_timestamp(),
+    added_dt      datetime   default current_timestamp() not null,
+    update_dt     datetime   default current_timestamp() not null on update current_timestamp(),
     reports_to    int                                    null,
     constraint class_ibfk_1
         foreign key (added_by) references users (seq),
@@ -56,23 +55,44 @@ create or replace index reports_to
 create or replace index updated_by
     on class (updated_by);
 
+create or replace table terms
+(
+    seq         int auto_increment primary key,
+    start_date  datetime default current_timestamp() not null,
+    end_date    datetime default current_timestamp() not null,
+    term_desc   varchar(10)                          not null,
+    added_by   int                                    null,
+    updated_by int                                    null,
+    added_dt   datetime   default current_timestamp() not null,
+    update_dt  datetime   default current_timestamp() not null on update current_timestamp(),
+    constraint terms_ibfk_1
+        foreign key (added_by) references users (seq),
+    constraint terms_ibfk_2
+        foreign key (updated_by) references users (seq)
+);
+
 create or replace table class_assignments
 (
     seq        int auto_increment
         primary key,
     user_seq   int                                    not null,
     class_seq  int                                    not null,
+    start_term int                                    not null,
+    end_term   int                                    not null,
     added_by   int                                    null,
     updated_by int                                    null,
-    added_dt   datetime   default current_timestamp() null,
-    update_dt  datetime   default current_timestamp() null on update current_timestamp(),
-    granted    tinyint(1) default 0                   null,
+    added_dt   datetime   default current_timestamp() not null,
+    update_dt  datetime   default current_timestamp() not null on update current_timestamp(),
     constraint class_assignments_ibfk_1
         foreign key (added_by) references users (seq),
     constraint class_assignments_ibfk_2
         foreign key (updated_by) references users (seq),
     constraint class_assignments_ibfk_3
-        foreign key (class_seq) references class (seq)
+        foreign key (class_seq) references class (seq),
+    constraint class_assignments_ibfk_4
+        foreign key (start_term) references terms (seq),
+    constraint class_assignments_ibfk_5
+        foreign key (end_term) references terms (seq)
 );
 
 create or replace index added_by
@@ -88,13 +108,13 @@ create or replace table dashboards
 (
     seq        int auto_increment
         primary key,
-    sp_name    varchar(30)                          null,
-    dash_type  varchar(30)                          null,
-    dash_name  varchar(30)                          null,
+    sp_name    varchar(30)                          not null,
+    dash_type  varchar(30)                          not null,
+    dash_name  varchar(30)                          not null,
     added_by   int                                  null,
     updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint dashboards_ibfk_1
         foreign key (added_by) references users (seq),
     constraint dashboards_ibfk_2
@@ -107,10 +127,10 @@ create or replace table dash_assign
         primary key,
     dash_seq   int                                  not null,
     class_seq  int                                  not null,
-    added_by   int                                  null,
-    updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    added_by   int                                  not null,
+    updated_by int                                  not null,
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint dash_assign_ibfk_1
         foreign key (added_by) references users (seq),
     constraint dash_assign_ibfk_2
@@ -143,11 +163,11 @@ create or replace table docket_status
 (
     seq        int auto_increment
         primary key,
-    stat_desc  varchar(30)                          null,
+    stat_desc  varchar(30)                          not null,
     added_by   int                                  null,
     updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint docket_status_ibfk_1
         foreign key (added_by) references users (seq),
     constraint docket_status_ibfk_2
@@ -160,15 +180,24 @@ create or replace index added_by
 create or replace index updated_by
     on docket_status (updated_by);
 
+create or replace table contacts
+(
+    seq             int auto_increment primary key,
+    email_address   varchar(100)                        not null,
+    first_name      varchar(20)                         not null,
+    last_name       varchar(20)                         not null,
+    is_active       tinyint(1)                          not null
+);
+
 create or replace table emails
 (
     seq           int auto_increment
         primary key,
-    email_subject text                                  null,
-    email_body    text                                  null,
+    email_subject text                                  not null,
+    email_body    text                                  not null,
     added_by      int                                   null,
     added_dt      timestamp default current_timestamp() not null,
-    state         enum ('d', 's', 'x', 'p')             null,
+    state         enum ('d', 's', 'x', 'p')             not null,
     constraint emails_ibfk_1
         foreign key (added_by) references users (seq)
 );
@@ -178,10 +207,12 @@ create or replace table email_recp
     seq       int auto_increment
         primary key,
     email_seq int                  not null,
-    email_id  varchar(40)          null,
-    recp_type enum ('t', 'c', 'b') null,
+    contact_seq  int               not null,
+    recp_type enum ('t', 'c', 'b') not null,
     constraint email_recp_ibfk_1
-        foreign key (email_seq) references emails (seq)
+        foreign key (email_seq) references emails (seq),
+    constraint email_recp_ibfk_2
+        foreign key (contact_seq) references contacts(seq)
 );
 
 create or replace index email_seq
@@ -194,11 +225,11 @@ create or replace table finance_status
 (
     seq        int auto_increment
         primary key,
-    stat_desc  varchar(30)                          null,
+    stat_desc  varchar(30)                          not null,
     added_by   int                                  null,
     updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint finance_status_ibfk_1
         foreign key (added_by) references users (seq),
     constraint finance_status_ibfk_2
@@ -215,11 +246,11 @@ create or replace table finance_type
 (
     seq        int auto_increment
         primary key,
-    type_desc  varchar(30)                          null,
+    type_desc  varchar(30)                          not null,
     added_by   int                                  null,
     updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint finance_type_ibfk_1
         foreign key (added_by) references users (seq),
     constraint finance_type_ibfk_2
@@ -230,18 +261,19 @@ create or replace table finance_hdr
 (
     seq         int auto_increment
         primary key,
-    id          varchar(20)                          null,
-    created_by  int                                  null,
+    id          varchar(20)                          not null,
+    created_by  int                                  not null,
     approved_by int                                  null,
-    inv_date    date                                 null,
+    is_approved tinyint(1) default 0                 not null
+    inv_date    date                                 not null,
     stat_seq    int                                  not null,
     type_seq    int                                  not null,
-    tax         decimal(7, 2)                        null,
-    fees        decimal(7, 2)                        null,
+    tax         decimal(7, 2)                        not null,
+    fees        decimal(7, 2)                        not null,
     added_by    int                                  null,
     updated_by  int                                  null,
-    added_dt    datetime default current_timestamp() null,
-    update_dt   datetime default current_timestamp() null on update current_timestamp(),
+    added_dt    datetime default current_timestamp() not null,
+    update_dt   datetime default current_timestamp() not null on update current_timestamp(),
     constraint finance_hdr_ibfk_1
         foreign key (added_by) references users (seq),
     constraint finance_hdr_ibfk_2
@@ -287,13 +319,13 @@ create or replace table items
 (
     seq         int auto_increment
         primary key,
-    item_vendor varchar(20)                          null,
-    item_name   varchar(50)                          null,
-    displayed   tinyint(1)                           null,
-    added_by    int                                  null,
-    updated_by  int                                  null,
-    added_dt    datetime default current_timestamp() null,
-    update_dt   datetime default current_timestamp() null on update current_timestamp(),
+    item_vendor varchar(20)                          not null,
+    item_name   varchar(50)                          not null,
+    displayed   tinyint(1)                           not null,
+    added_by    int                                  not null,
+    updated_by  int                                  not null,
+    added_dt    datetime default current_timestamp() not null,
+    update_dt   datetime default current_timestamp() not null on update current_timestamp(),
     constraint items_ibfk_1
         foreign key (added_by) references users (seq),
     constraint items_ibfk_2
@@ -305,12 +337,12 @@ create or replace table item_cost
     seq        int auto_increment
         primary key,
     item_seq   int                                  not null,
-    eff_date   date                                 null,
-    price      decimal(9, 4)                        null,
-    added_by   int                                  null,
-    updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    eff_date   date                                 not null,
+    price      decimal(9, 4)                        not null,
+    added_by   int                                  not null,
+    updated_by int                                  not null,
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint item_cost_ibfk_1
         foreign key (added_by) references users (seq),
     constraint item_cost_ibfk_2
@@ -323,14 +355,14 @@ create or replace table finance_line
 (
     seq         int auto_increment
         primary key,
-    finance_seq int                                  null,
-    line_id     int                                  null,
-    item_id     int                                  null,
-    qty         int                                  null,
-    added_by    int                                  null,
-    updated_by  int                                  null,
-    added_dt    datetime default current_timestamp() null,
-    update_dt   datetime default current_timestamp() null on update current_timestamp(),
+    finance_seq int                                  not null,
+    line_id     int                                  not null,
+    item_id     int                                  not null,
+    qty         int                                  not null,
+    added_by    int                                  not null,
+    updated_by  int                                  not null,
+    added_dt    datetime default current_timestamp() not null,
+    update_dt   datetime default current_timestamp() not null on update current_timestamp(),
     constraint finance_line_ibfk_1
         foreign key (added_by) references users (seq),
     constraint finance_line_ibfk_2
@@ -367,13 +399,13 @@ create or replace table perm_types
 (
     seq        int auto_increment
         primary key,
-    perm_desc  varchar(40)                            null,
-    name_short varchar(30)                            null,
-    grantable  tinyint(1) default 1                   null,
+    perm_desc  varchar(40)                            not null,
+    name_short varchar(30)                            not null,
+    grantable  tinyint(1) default 1                   not null,
     added_by   int                                    null,
     updated_by int                                    null,
-    added_dt   datetime   default current_timestamp() null,
-    update_dt  datetime   default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime   default current_timestamp() not null,
+    update_dt  datetime   default current_timestamp() not null on update current_timestamp(),
     constraint perm_types_ibfk_1
         foreign key (added_by) references users (seq),
     constraint perm_types_ibfk_2
@@ -390,13 +422,13 @@ create or replace table perms
 (
     seq        int auto_increment
         primary key,
-    class_seq  int                                    null,
-    perm_seq   int                                    null,
-    granted    tinyint(1) default 0                   null,
+    class_seq  int                                    not null,
+    perm_seq   int                                    not null,
+    granted    tinyint(1) default 0                   not null,
     added_by   int                                    null,
     updated_by int                                    null,
-    added_dt   datetime   default current_timestamp() null,
-    update_dt  datetime   default current_timestamp() null on update current_timestamp(),
+    added_dt   datetime   default current_timestamp() not null,
+    update_dt  datetime   default current_timestamp() not null on update current_timestamp(),
     constraint perms_ibfk_1
         foreign key (added_by) references users (seq),
     constraint perms_ibfk_2
@@ -423,15 +455,15 @@ create or replace table plugin_defn
 (
     seq           int auto_increment
         primary key,
-    plugin_name   varchar(30)                          null,
-    author        varchar(20)                          null,
-    support_email varchar(30)                          null,
-    is_active     tinyint  default 0                   null,
+    plugin_name   varchar(30)                          not null,
+    author        varchar(20)                          not null,
+    support_email varchar(30)                          not null,
+    is_active     tinyint  default 0                   not null,
     added_by      int                                  null,
     updated_by    int                                  null,
     admin_perm    int                                  not null,
-    added_dt      datetime default current_timestamp() null,
-    update_dt     datetime default current_timestamp() null on update current_timestamp(),
+    added_dt      datetime default current_timestamp() not null,
+    update_dt     datetime default current_timestamp() not null on update current_timestamp(),
     menu_path     varchar(50)                          not null,
     constraint plugin_defn_ibfk_1
         foreign key (admin_perm) references perm_types (seq),
@@ -455,12 +487,12 @@ create or replace table plugin_permissions
     seq            int auto_increment
         primary key,
     plugin_seq     int                                  not null,
-    path_func_name varchar(50)                          null,
-    perm_seq       int                                  null,
+    path_func_name varchar(50)                          not null,
+    perm_seq       int                                  not null,
     added_by       int                                  null,
     updated_by     int                                  null,
-    added_dt       datetime default current_timestamp() null,
-    update_dt      datetime default current_timestamp() null on update current_timestamp(),
+    added_dt       datetime default current_timestamp() not null,
+    update_dt      datetime default current_timestamp() not null on update current_timestamp(),
     constraint plugin_permissions_ibfk_1
         foreign key (plugin_seq) references plugin_defn (seq),
     constraint plugin_permissions_ibfk_2
@@ -488,11 +520,11 @@ create or replace table vote_types
 (
     seq        int auto_increment
         primary key,
-    vote_desc  varchar(20)                          null,
-    added_by   int                                  null,
-    updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    vote_desc  varchar(20)                          not null,
+    added_by   int                                      null,
+    updated_by int                                      null,
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint vote_types_ibfk_1
         foreign key (added_by) references users (seq),
     constraint vote_types_ibfk_2
@@ -503,14 +535,14 @@ create or replace table docket_hdr
 (
     seq          int auto_increment
         primary key,
-    docket_title varchar(30)                          null,
-    docket_desc  text                                 null,
+    docket_title varchar(30)                          not null,
+    docket_desc  text                                 not null,
     stat_seq     int                                  not null,
     vote_type    int                                  not null,
-    added_by     int                                  null,
-    updated_by   int                                  null,
-    added_dt     datetime default current_timestamp() null,
-    update_dt    datetime default current_timestamp() null on update current_timestamp(),
+    added_by     int                                  not null,
+    updated_by   int                                  not null,
+    added_dt     datetime default current_timestamp() not null,
+    update_dt    datetime default current_timestamp() not null on update current_timestamp(),
     constraint docket_hdr_ibfk_1
         foreign key (added_by) references users (seq),
     constraint docket_hdr_ibfk_2
@@ -525,12 +557,12 @@ create or replace table docket_assignees
 (
     seq        int auto_increment
         primary key,
-    docket_seq int                                  null,
-    user_seq   int                                  null,
-    added_by   int                                  null,
-    updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    docket_seq int                                  not null,
+    user_seq   int                                  not null,
+    added_by   int                                  not null,
+    updated_by int                                  not null,
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint docket_assignees_ibfk_1
         foreign key (added_by) references users (seq),
     constraint docket_assignees_ibfk_2
@@ -557,13 +589,13 @@ create or replace table docket_attachments
 (
     seq        int auto_increment
         primary key,
-    docket_seq int                                  null,
-    file_name  varchar(100)                         null,
-    file_data  blob                                 null,
-    added_by   int                                  null,
-    updated_by int                                  null,
-    added_dt   datetime default current_timestamp() null,
-    update_dt  datetime default current_timestamp() null on update current_timestamp(),
+    docket_seq int                                  not null,
+    file_name  varchar(100)                         not null,
+    file_data  blob                                 not null,
+    added_by   int                                  not null,
+    updated_by int                                  not null,
+    added_dt   datetime default current_timestamp() not null,
+    update_dt  datetime default current_timestamp() not null on update current_timestamp(),
     constraint docket_attachments_ibfk_1
         foreign key (added_by) references users (seq),
     constraint docket_attachments_ibfk_2
@@ -658,21 +690,30 @@ create or replace index updated_by
 CREATE TABLE home_widgets(
     seq int not null primary key auto_increment,
     plugin_seq int not null,
-    widget_name varchar(30),
-    widget_path varchar(30),
+    widget_name varchar(30) default 'blank',
+    widget_path varchar(30) default 'widgets/blank.liquid',
     CONSTRAINT FOREIGN KEY (plugin_seq) REFERENCES plugin_defn(seq)
 );
 
 CREATE TABLE home_page_defn(
     seq int not null primary key auto_increment,
-    top_left_widget int,
-    top_rght_widget int,
-    bot_left_widget int,
-    bot_rght_widget int,
+    top_left_widget int                 not null,
+    top_rght_widget int                 not null,
+    bot_left_widget int                 not null,
+    bot_rght_widget int                 not null,
     CONSTRAINT FOREIGN KEY (top_left_widget) REFERENCES home_widgets(seq),
     CONSTRAINT FOREIGN KEY (top_rght_widget) REFERENCES home_widgets(seq),
     CONSTRAINT FOREIGN KEY (bot_left_widget) REFERENCES home_widgets(seq),
     CONSTRAINT FOREIGN KEY (bot_rght_widget) REFERENCES home_widgets(seq)
+);
+
+CREATE TABLE access_requests(
+    seq int not null primary key auto_increment,
+    user_name  varchar(20)                            not null,
+    first_name varchar(20)                            not null,
+    last_name  varchar(20)                            not null,
+    email      varchar(100)                           not null,
+    title      varchar(6)                             not null,
 );
 
 ALTER TABLE users ADD COLUMN home_page_seq INT;

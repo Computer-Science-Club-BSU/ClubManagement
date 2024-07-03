@@ -1,11 +1,13 @@
+"""Handles requests relating to docket editing"""
+from flask import request, session, redirect
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
-from flask import request, session, redirect
 
 @app.route('/doc/edit/', methods=['GET'])
-@app.route('/doc/edit', methods=['GET'])
 def get_doc_edit():
+    """Handles requests for /doc/edit/
+    Gets docket seq and sends back file to allow for modifications."""
     doc_seq = request.args.get('seq')
     with connect() as conn:
         doc = conn.get_all_docket_data_by_seq(doc_seq)
@@ -16,8 +18,9 @@ def get_doc_edit():
                            vote_types=vote_types, docket_users=docket_users)
 
 @app.route('/doc/edit/', methods=['POST'])
-@app.route('/doc/edit', methods=['POST'])
 def post_doc_edit():
+    """Handles submitted edit forms for docket.
+    Updates database record based on data submitted from form"""
     doc_seq = request.args.get('seq')
     user_seq = session.get('user_seq')
     with connect() as conn:
@@ -25,8 +28,7 @@ def post_doc_edit():
         body = request.form.get('body')
         status = request.form.get('stat')
         vote_type = request.form.get('vote')
-        print(status, vote_type)
-        res, _ = conn.update_docket(
+        res, _ = conn.update_docket( #pylint: disable=unpacking-non-sequence
             doc_seq,
             title,
             body,
@@ -36,27 +38,26 @@ def post_doc_edit():
             )
         if res:
             return redirect(f'/doc/view?seq={doc_seq}')
-        else:
-            return "Error!"
+        return "Error!"
 
 @app.post("/doc/attach/<doc>")
 def post_doc_attach(doc):
+    """Handles requests to attach files to docket"""
     # /doc/attach/{{ doc.docket.seq }}
     user_seq = session.get('user_seq')
     with connect() as conn:
-        res, _ = conn.add_docket_attachment(doc, request.json, user_seq)
+        res, _ = conn.add_docket_attachment(doc, request.json, user_seq)#pylint: disable=unpacking-non-sequence
         if res:
             return "Docket Record added successully", 201
-        else:
-            return "Error adding attachment", 400
+        return "Error adding attachment", 400
 
 @app.post('/doc/update_assignees/<doc>')
 def post_doc_update_assignees(doc):
+    """Handles requests to update docket assignees"""
     user_seq = session.get('user_seq')
     with connect() as conn:
         data = request.form.getlist('assignees')
-        res, _ = conn.update_docket_assignmees(doc, data, user_seq)
+        res, _ = conn.update_docket_assignmees(doc, data, user_seq)#pylint: disable=unpacking-non-sequence
         if res:
             return "Assignee added successfully", 201
-        else:
-            return "Error adding assignee", 400
+        return "Error adding assignee", 400

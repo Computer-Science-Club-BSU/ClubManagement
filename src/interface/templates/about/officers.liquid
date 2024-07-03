@@ -18,6 +18,19 @@
 
             {% endfor %}
           {% endfor %}
+          {% assign former_len = former_officers | size %}
+          {% if former_len > 0 %}
+            <hr>
+
+            <h3>Former Officers</h3>
+            {% for officer in former_officers %}
+              <span style="padding-left: 50px">
+                <h4>{{ officer.title }} {{ officer.name }} [{{ officer.position_name }}] &mdash; {{ officer.start }} - {{ officer.end }}</h4>
+              </span>
+            {% endfor %}
+
+          {% endif %}
+
         </div>
       </div>
     </article>

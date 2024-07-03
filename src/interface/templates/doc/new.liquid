@@ -32,13 +32,17 @@
               name="body"
               id="body"
               style="margin-left:20px; height: 40%"></textarea>
-            <input type="submit" value="Create Record">
+            <input
+              type="submit"
+              value="Create Record"
+              style="margin-left:20px;">
           </div>
           <div class="box">
             <h2>Assignees</h2>
             <select
               name="assignees"
               id="assignees"
+              style="margin-left:20px;"
               multiple>
               {% for doc_user in docket_users %}
                 <option value="{{doc_user.seq}}">{{ doc_user.first_name }} {{ doc_user.last_name }}</option>

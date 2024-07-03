@@ -1,29 +1,27 @@
-from app import app
-from flask import session, request, abort, send_file
-from src.utils.db_utilities import connect
-from src.utils.template_utils import render_template
+"""Handles requests for viewing docket"""
 import logging
 import tempfile
+from flask import session, send_file
+from app import app
+from src.utils.db_utilities import connect
+from src.utils.template_utils import render_template
+
 
 logger = logging.getLogger('DocketView')
 
-@app.route('/doc/view', methods=['GET'])
 @app.route('/doc/view/', methods=['GET'])
-def get_doc_view():    
-    
-    if len(request.args.keys()) >= 1:
-        return get_doc_view_by_seq()
-    
+def get_doc_view():
+    """Handles /doc/view/. Gets records from db and renders template"""
+
     with connect() as conn:
         records = conn.get_all_non_archived_docket()
         return render_template("doc/view.liquid", results=records)
-    
-def get_doc_view_by_seq():
-    
-    if (seq := request.args.get('seq')) is None:
-        abort(400)
-    
-    
+
+@app.route('/doc/view/<seq>', methods=['GET'])
+def get_doc_view_by_seq(seq):
+    """Handled /doc/view with a number provided after. Gets record from DB and
+    renders resulting data"""
+
     with connect() as conn:
         records = conn.get_all_docket_data_by_seq(seq)
         user_seq = session.get('user_seq')
@@ -35,10 +33,10 @@ def get_doc_view_by_seq():
 
 @app.get('/doc/attach/<attach_seq>')
 def get_doc_attach(attach_seq):
+    """Handles requests to get docket attachment"""
     with connect() as conn:
         name, data = conn.get_docket_attachment(attach_seq)
         with tempfile.TemporaryDirectory() as tmpdir:
             with open(tmpdir + '/' + name, 'wb') as f:
                 f.write(data)
             return send_file(tmpdir + '/' + name)
-            

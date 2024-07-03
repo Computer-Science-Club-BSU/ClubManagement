@@ -4,7 +4,7 @@ from typing import Dict
 
 def _load_cfg():
     cfg = configparser.ConfigParser()
-    cfg.read('./conf.cfg')
+    cfg.read('/etc/cms/conf.cfg')
     return cfg
 
 
@@ -44,12 +44,17 @@ def get_data_conf(
         "NAME": name
     }
 
-
-def get_cfg():
+def get_cfg_params():
     cfg = _load_cfg()
     gen_smtp = cfg.get("GEN", "SMTP")
     gen_data = cfg.get("GEN", "DATA")
-    
+    return gen_smtp, gen_data
+
+
+def get_cfg():
+    gen_smtp, gen_data = get_cfg_params()
+
+    cfg = _load_cfg()
     smtp = get_smtp_conf(cfg, gen_smtp)
     data = get_data_conf(cfg, gen_data)
     return {
