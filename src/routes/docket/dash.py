@@ -14,4 +14,5 @@ def get_doc_dash(dash_seq):
 
         if len(data) == 0:
             abort(504)
+        # deepcode ignore XSS: All results from DB are run through bleach clean
         return render_template("doc/view.liquid", results=data)
