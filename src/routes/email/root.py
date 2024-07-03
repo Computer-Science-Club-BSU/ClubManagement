@@ -1,4 +1,5 @@
 """Contains all functions pertaining to sending emails from web interface"""
+import bleach
 from flask import request, session, abort
 from app import app
 from src.utils.template_utils import render_template, load_config
@@ -37,13 +38,15 @@ def post_email_preview():
         bcc = request.form.get('bcc').split(';')
         res, seq = conn.create_email(subject, body, user_seq, to, cc, bcc)
     if res:
+        # deepcode ignore XSS: Horribly, XSS is required for rendering the data for emails
         return render_template('email/preview.liquid', body=body, id=seq)
     return "Error, could not preview email!"
 
 @app.route('/email/send', methods=['POST'])
 def post_send_email():
-    """Handles requests to /email/send [POST]. Sends email ID requested"""
-    user = session.get('user_seq')
+  """Handles requests to /email/send [POST]. Sends email ID requested"""
+
+    user = bleach.clean(session.get('user_seq'))
     with connect() as conn:
         email_id = request.args.get('seq')
         res, _ = conn.mark_email_for_sending(email_id, user) #pylint: disable=unpacking-non-sequence

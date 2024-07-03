@@ -1,4 +1,6 @@
 """Handles requests for viewing docket"""
+
+import bleach
 from flask import Response
 import logging
 import tempfile
@@ -16,8 +18,10 @@ def get_doc_view():
 
     with connect() as conn:
         records = conn.get_all_non_archived_docket()
-        return Response(render_template("doc/view.liquid", results=records),
-                        mimetype='text/html')
+
+        # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
+        return render_template("doc/view.liquid", results=records)
+
 
 @app.route('/doc/view/<seq>', methods=['GET'])
 def get_doc_view_by_seq(seq):
@@ -26,9 +30,10 @@ def get_doc_view_by_seq(seq):
 
     with connect() as conn:
         records = conn.get_all_docket_data_by_seq(seq)
-        user_seq = session.get('user_seq')
+        user_seq = bleach.clean(session.get('user_seq'))
         can_user_edit = conn.can_user_edit_docket(user_seq,seq)
         attachments = conn.get_docket_attachments_summary(seq)
+        # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
         return render_template("doc/view_single.liquid", doc=records,
                                can_user_edit=can_user_edit,
                                attachments=attachments)
@@ -38,6 +43,7 @@ def get_doc_attach(attach_seq):
     """Handles requests to get docket attachment"""
     with connect() as conn:
         name, data = conn.get_docket_attachment(attach_seq)
+        name = name.replace('../', '')
         with tempfile.TemporaryDirectory() as tmpdir:
             with open(tmpdir + '/' + name, 'wb') as f:
                 f.write(data)

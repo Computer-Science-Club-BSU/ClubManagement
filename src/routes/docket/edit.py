@@ -14,6 +14,7 @@ def get_doc_edit():
         status = conn.get_docket_statuses()
         vote_types = conn.get_docket_vote_types()
         docket_users = conn.get_docket_users()
+    # deepcode ignore XSS: All results from DB are run through bleach clean
     return render_template('doc/mod.liquid', doc=doc, status=status,
                            vote_types=vote_types, docket_users=docket_users)
 

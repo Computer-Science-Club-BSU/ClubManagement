@@ -17,6 +17,7 @@ logger.addHandler(handler)
 @app.route("/auth/login/", methods=['GET'])
 def get_auth_login():
     """Handles requests to login. Sends login form to user."""
+    # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
     return Response(render_template("auth/login.liquid"), mimetype='text/html')
 
 

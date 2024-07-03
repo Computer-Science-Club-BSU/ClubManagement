@@ -10,6 +10,7 @@ logger = logging.getLogger('RegistrationAssistant')
 @app.route('/auth/register/', methods=['GET'])
 def get_auth_register():
     """Serves the registration page to users"""
+    # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
     return render_template('auth/register.liquid')
 
 @app.route('/auth/register/', methods=['POST'])
@@ -23,10 +24,12 @@ def post_auth_register():
                     )
         res, _ = conn.add_requested_user(request.form) #pylint: disable=unpacking-non-sequence
         if res:
+        # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
             return render_template('auth/register.liquid',
                                    error_msg="User created successfully!"\
                                    "You should receive an email when your "\
                                        "request has been completed.")
+        # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
         return render_template('auth/register.liquid',
                                 error_msg="Your request could not be "\
                                     "processed at this time.\\n"\

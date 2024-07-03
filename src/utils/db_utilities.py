@@ -1,5 +1,6 @@
 # Module Imports
 import mariadb
+import bleach
 import sys
 import logging
 from typing import Callable
@@ -7,7 +8,7 @@ import bcrypt
 from mariadb import InterfaceError
 from src.utils.cfg_utils import get_cfg
 import base64
-from typing import List
+from typing import List, Dict
 
 logger = logging.getLogger("DatabaseManager")
 
@@ -51,13 +52,13 @@ class connect:
             if res is not None:
                 return None
             # Assemble a dictionary based off the cursor description.
-            field_names = [i[0] for i in self.cur.description]
+            field_names = [bleach.clean(i[0]) for i in self.cur.description]
             data = self.cur.fetchall()
             row_data = []
             for row in data:
 
                 row_data.append(
-                    {key: val
+                    {key: bleach.clean(val)
                         for key, val in zip(field_names, row)
                     }
                 )
@@ -69,10 +70,10 @@ class connect:
             # Execute the function (Performs the SQL Query)
             func(self, *args, **kwargs)
             # Assemble a dictionary based off the cursor description.
-            field_names = [i[0] for i in self.cur.description]
+            field_names = [bleach.clean(i[0]) for i in self.cur.description]
             data = self.cur.fetchone()
 
-            return {key: val
+            return {key: bleach.clean(val)
                         for key, val in zip(field_names, data)
                     }
         return wrapper
@@ -101,7 +102,7 @@ class connect:
         self.cur.execute(SQL, (user_seq,))
 
     @_convert_to_dict
-    def get_user_classes_by_user_seq(self, user_seq) -> List[dict]:
+    def get_user_classes_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
         logger.debug(f"Getting User Classes for User Seq {user_seq}")
 
         SQL = """SELECT a.position_name FROM class a, class_assignments b
@@ -135,11 +136,11 @@ class connect:
                 = row['granted'] | perm_data.get(row['perm_desc'], 0)
         return perm_data
 
-    def get_user_finance_dashboards_by_user_seq(self, user_seq) -> List[dict]:
+    def get_user_finance_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
         return [{"1": "test"}]
 
     @_convert_to_dict
-    def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[dict]:
+    def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
         SQL = """SELECT dash.* FROM dashboards dash, dash_assign da,
         class_assignments ca WHERE da.dash_seq = dash.seq
         AND da.class_seq = ca.seq AND ca.user_seq = %s;"""
@@ -185,16 +186,16 @@ class connect:
         return total
 
     @_convert_to_dict
-    def get_finance_headers(self) -> List[dict]:
+    def get_finance_headers(self) -> List[Dict[str,str]]:
         SQL = """SELECT * FROM finance_hdr"""
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_finance_lines_by_hdr(self, hdr_seq: int) -> List[dict]:
+    def get_finance_lines_by_hdr(self, hdr_seq: int) -> List[Dict[str,str]]:
         SQL = """SELECT * FROM finance_line WHERE finance_seq = %s"""
         self.cur.execute(SQL, (hdr_seq,))
 
-    def get_finances(self) -> List[dict]:
+    def get_finances(self) -> List[Dict[str,str]]:
         # Get the header data
         headers = self.get_finance_headers()
         for item in headers:
@@ -205,31 +206,31 @@ class connect:
         return headers
 
     @_convert_to_dict
-    def get_finance_statuses(self) -> List[dict]:
+    def get_finance_statuses(self) -> List[Dict[str,str]]:
         SQL = "SELECT * from finance_status"
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_finance_hdr_by_status(self, stat_desc: str) -> List[dict]:
+    def get_finance_hdr_by_status(self, stat_desc: str) -> List[Dict[str,str]]:
         SQL = """SELECT a.* from finance_hdr a,
         finance_status b where a.stat_seq = b.seq AND b.stat_desc = %s"""
         self.cur.execute(SQL, (stat_desc,))
 
 
     @_convert_to_dict
-    def get_docket_statuses(self) -> List[dict]:
+    def get_docket_statuses(self) -> List[Dict[str,str]]:
         SQL = "SELECT * from docket_status"
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_docket_hdr_by_status(self, stat_desc: str) -> List[dict]:
+    def get_docket_hdr_by_status(self, stat_desc: str) -> List[Dict[str,str]]:
         SQL = """SELECT a.* from docket_hdr a,
         docket_status b where a.stat_seq = b.seq AND b.stat_desc = %s"""
         self.cur.execute(SQL, (stat_desc,))
 
 
     @_convert_to_dict_single
-    def get_docket_by_seq(self, seq: int) -> dict:
+    def get_docket_by_seq(self, seq: int) -> Dict[str,str]:
         SQL = """SELECT hdr.seq as 'seq', hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', vote.vote_desc,
         hdr.added_by as 'creator_seq',
@@ -280,7 +281,7 @@ class connect:
         return summary
 
     @_convert_to_dict
-    def get_about_page_assignments(self) -> List[dict]:
+    def get_about_page_assignments(self) -> List[Dict[str,str]]:
         SQL = """SELECT a.title, CONCAT(a.first_name, ' ', a.last_name) AS 'name',
         c.position_name FROM users a, class_assignments b, class c,
         terms d_a, terms d_b WHERE
@@ -291,7 +292,7 @@ class connect:
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_about_former_officers(self) -> List[dict]:
+    def get_about_former_officers(self) -> List[Dict[str,str]]:
         SQL = """SELECT A.title, concat(A.first_name, ' ', A.last_name) as
         'name', C.position_name, Da.term_desc as 'start', Db.term_desc as 'end'
         FROM users A, class_assignments B, class C, terms Da, terms Db
@@ -309,7 +310,7 @@ class connect:
         return summary
 
     @_convert_to_dict
-    def get_all_non_archived_docket(self) -> List[dict]:
+    def get_all_non_archived_docket(self) -> List[Dict[str,str]]:
         SQL = """SELECT hdr.seq, hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', vote.vote_desc,
         hdr.added_by as 'creator_seq',
@@ -390,7 +391,7 @@ class connect:
         return doc_seq
 
     @_convert_to_dict
-    def get_docket_dash_data(self, dash_seq: int, user_seq: int) -> list[dict]:
+    def get_docket_dash_data(self, dash_seq: int, user_seq: int) -> List[Dict[str,str]]:
         SQL = """SELECT dash.sp_name FROM dashboards dash,
         dash_assign da, class_assignments ca WHERE da.dash_seq = dash.seq AND
         ca.user_seq = %s AND da.class_seq = ca.class_seq AND dash.seq = %s;"""
@@ -432,17 +433,17 @@ class connect:
         self.cur.execute(SQL, vals)
 
     @_convert_to_dict
-    def get_permission_data(self) -> list[dict]:
+    def get_permission_data(self) -> List[Dict[str,str]]:
         SQL = """SELECT * FROM perm_types WHERE grantable=1;"""
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_all_db_perms(self) -> list[dict]:
+    def get_all_db_perms(self) -> List[Dict[str,str]]:
         SQL = "SELECT * FROM perms"
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_user_classes(self) -> list[dict]:
+    def get_user_classes(self) -> List[Dict[str,str]]:
         SQL = """SELECT * FROM class"""
         self.cur.execute(SQL)
 
@@ -515,17 +516,17 @@ class connect:
         self.cur.execute(SQL, (email_seq,))
 
     @_convert_to_dict
-    def get_email_to(self, email_seq) -> List[dict]:
+    def get_email_to(self, email_seq) -> List[Dict[str,str]]:
         SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 't'"
         self.cur.execute(SQL, (email_seq,))
 
     @_convert_to_dict
-    def get_email_cc(self, email_seq) -> List[dict]:
+    def get_email_cc(self, email_seq) -> List[Dict[str,str]]:
         SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'c'"
         self.cur.execute(SQL, (email_seq,))
 
     @_convert_to_dict
-    def get_email_bcc(self, email_seq) -> List[dict]:
+    def get_email_bcc(self, email_seq) -> List[Dict[str,str]]:
         SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'b'"
         self.cur.execute(SQL, (email_seq,))
 
@@ -573,7 +574,7 @@ class connect:
         self.cur.execute(sql)
 
     @_convert_to_dict 
-    def get_finance_headers_summary(self) -> List[dict]:
+    def get_finance_headers_summary(self) -> List[Dict[str,str]]:
         SQL = "SELECT * FROM finance_hdr_summary"
         self.cur.execute(SQL)
 
@@ -636,7 +637,7 @@ class connect:
         docket_seq = %s"""
         self.cur.execute(SQL, (seq,))
 
-    def get_docket_attachment(self, attach_seq):
+    def get_docket_attachment(self, attach_seq) -> tuple[str,bytes]:
         SQL = """SELECT file_name ,file_data FROM docket_attachments WHERE
         seq = %s"""
         self.cur.execute(SQL, (attach_seq,))
@@ -738,7 +739,7 @@ class connect:
         self.cur.execute(SQL, (_class, start, end, user_seq, seq))
 
     @_convert_to_dict
-    def get_all_path_rules(self) -> List[dict]:
+    def get_all_path_rules(self) -> List[Dict[str,str]]:
         SQL = """SELECT A.seq, B.plugin_name, A.path_func_name, C.name_short
         as 'pathperm', D.name_short as 'adminperm'
         FROM plugin_permissions A, plugin_defn B, perm_types C, perm_types D
