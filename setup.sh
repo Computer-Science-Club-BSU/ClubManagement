@@ -100,6 +100,13 @@ then
   $SCRIPT_DIR/.venv/bin/pip install -r $SCRIPT_DIR/requirements.txt > /dev/null
 fi
 
+sudo mkdir -p /etc/cms/
+sudo mkdir -p /var/log/cms/
+
+sudo chown www-data:www-data /etc/cms
+sudo chown www-data:www-data /var/log/cms
+
+
 if [[ -z "`sudo mysql -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='management'" 2>&1`" ]];
 then
 	echo 'Initializing Database'
