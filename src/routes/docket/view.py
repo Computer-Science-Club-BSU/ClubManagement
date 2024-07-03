@@ -1,5 +1,7 @@
 """Handles requests for viewing docket"""
+
 import bleach
+from flask import Response
 import logging
 import tempfile
 from flask import session, send_file
@@ -16,8 +18,10 @@ def get_doc_view():
 
     with connect() as conn:
         records = conn.get_all_non_archived_docket()
+
         # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
         return render_template("doc/view.liquid", results=records)
+
 
 @app.route('/doc/view/<seq>', methods=['GET'])
 def get_doc_view_by_seq(seq):

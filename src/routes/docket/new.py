@@ -1,4 +1,4 @@
-""""""
+"""Contains functions pertaining to create docket record endpoints"""
 import logging
 from flask import session, request, redirect
 from app import app
@@ -9,7 +9,8 @@ logger = logging.getLogger('DocketNew')
 
 @app.route('/doc/create/', methods=['GET'])
 def get_new_docket_item():
-    """"""
+    """Handles /doc/create/ requests [GET]
+    Sends a form for creating docket requests"""
     with connect() as conn:
         docket_users = conn.get_docket_users()
         return render_template("doc/new.liquid", docket_users=docket_users)
@@ -17,7 +18,8 @@ def get_new_docket_item():
 
 @app.route('/doc/create/', methods=['POST'])
 def post_new_docket_item():
-    """"""
+    """Handles /doc/create/ requests [POST]
+    Handles form requests and creates relevant data."""
     with connect() as conn:
         title = request.form.get('title')
         body = request.form.get('body')
@@ -37,7 +39,8 @@ def post_new_docket_item():
 
 @app.route('/doc/conv/add', methods=['POST'])
 def post_add_conv():
-    """"""
+    """Handles /doc/conv/add requests [POST]
+    Handles posts to a docket's conversation tab."""
     with connect() as conn:
         conv_body = request.form.get("convBody", "")
         doc_seq = request.args.get('seq')

@@ -1,3 +1,4 @@
+"""Contains all functions pertaining to sending emails from web interface"""
 import bleach
 from flask import request, session, abort
 from app import app
@@ -6,10 +7,14 @@ from src.utils.db_utilities import connect
 
 @app.route('/email/compose/', methods=['GET'])
 def get_email_compose():
+    """Handle /email/compose/ requests [GET]
+    Returns the email composition form."""
     return render_template('email/compose.liquid')
 
 @app.route('/email/preview/', methods=['POST'])
 def post_email_preview():
+    """Handles /email/preview/ requests [POST]
+    Creates an email draft and renders the draft to the user."""
     body = request.form.get('emailBody')
     config = load_config()
     with connect() as conn:
@@ -39,6 +44,8 @@ def post_email_preview():
 
 @app.route('/email/send', methods=['POST'])
 def post_send_email():
+  """Handles requests to /email/send [POST]. Sends email ID requested"""
+
     user = bleach.clean(session.get('user_seq'))
     with connect() as conn:
         email_id = request.args.get('seq')
