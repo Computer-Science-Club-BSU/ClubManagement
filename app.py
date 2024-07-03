@@ -7,21 +7,21 @@ import datetime
 from src.utils import cfg_utils
 from src.utils.send_email import send_email
 from src.utils.db_utilities import connect
-@lambda _: _()
-def start_time():
-    # cfg = cfg_utils.get_cfg_params()
-    # # Sun, June 30, 2024 16:22
-    # start_time = datetime.datetime.now().strftime("%a, %B %d, %Y %H:%M:%S")
-    # with connect() as conn:
-    #     emails = conn.get_dev_email_addr()
-    # send_email("Application Started", f"""
-    #            <body>
-    #            <p>Club Management Server has started at {start_time}</p>
-    #            <p>SMTP Settings: {cfg[0]}</p>
-    #            <p>Database Settings: {cfg[1]}</p>
-    #            </body>
-    #            """, "root@example.com", emails, [], [])
-    return start_time
+# @lambda _: _()
+# def start_time():
+#     # cfg = cfg_utils.get_cfg_params()
+#     # # Sun, June 30, 2024 16:22
+#     # start_time = datetime.datetime.now().strftime("%a, %B %d, %Y %H:%M:%S")
+#     # with connect() as conn:
+#     #     emails = conn.get_dev_email_addr()
+#     # send_email("Application Started", f"""
+#     #            <body>
+#     #            <p>Club Management Server has started at {start_time}</p>
+#     #            <p>SMTP Settings: {cfg[0]}</p>
+#     #            <p>Database Settings: {cfg[1]}</p>
+#     #            </body>
+#     #            """, "root@example.com", emails, [], [])
+#     return start_time
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
