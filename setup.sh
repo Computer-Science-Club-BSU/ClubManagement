@@ -103,8 +103,8 @@ fi
 sudo mkdir -p /etc/cms/
 sudo mkdir -p /var/log/cms/
 
-sudo chown www-data:www-data /etc/cms
-sudo chown www-data:www-data /var/log/cms
+sudo chown www:www-data /etc/cms
+sudo chown www:www-data /var/log/cms
 
 
 if [[ -z "`sudo mysql -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='management'" 2>&1`" ]];
