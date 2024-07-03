@@ -44,7 +44,7 @@ def post_email_preview():
 
 @app.route('/email/send', methods=['POST'])
 def post_send_email():
-  """Handles requests to /email/send [POST]. Sends email ID requested"""
+    """Handles requests to /email/send [POST]. Sends email ID requested"""
 
     user = bleach.clean(session.get('user_seq'))
     with connect() as conn:
