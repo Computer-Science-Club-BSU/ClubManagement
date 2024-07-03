@@ -668,7 +668,7 @@ class connect:
             assignments[row[6]] = class_row
         return assignments
 
-    def can_user_access_endpoint(self, user_seq: str | int, endpoint: str):
+    def can_user_access_endpoint(self, user_seq: str | int, endpoint: str) -> bool:
         SQL = """SELECT * FROM plugin_permissions WHERE path_func_name = %s
         AND (perm_seq in (SELECT B.perm_seq FROM perms B, class_assignments C
         WHERE B.class_seq = C.class_seq AND C.user_seq = %s AND B.granted = 1)

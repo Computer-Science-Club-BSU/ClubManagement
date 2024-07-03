@@ -13,7 +13,7 @@ def check_perms(request:Request,
     with connect() as conn:
         if request.endpoint is None:
             abort(404)
-        if conn.can_user_access_endpoint(user_seq, request.endpoint)[0]:
+        if conn.can_user_access_endpoint(user_seq, request.endpoint):
             return
         else:
             print(request.endpoint)
