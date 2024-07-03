@@ -507,7 +507,7 @@ class connect:
 
     def get_nav_pages(self):
         self.cur.execute("SELECT menu_path FROM plugin_defn WHERE is_active=1")
-        return [x[0] for x in self.cur.fetchall()]
+        return [str(x[0]) for x in self.cur.fetchall()]
 
     @_convert_to_dict_single
     def get_email_header(self, email_seq: int) -> dict:

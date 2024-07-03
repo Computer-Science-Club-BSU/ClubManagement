@@ -1,3 +1,4 @@
+"""Handles requests pertaining to Admin Permission Assignment endpoints"""
 from logging import getLogger
 from flask import request, session
 from app import app
@@ -8,6 +9,9 @@ logger = getLogger("AdminPermissions")
 
 @app.route('/admin/permissions/', methods=['GET'])
 def get_admin_permissions():
+    """Handles requests to /admin/permissions [GET].
+    Gets perms, classes, and class perms and
+    renders a form to users for editing"""
     with connect() as conn:
         perm_desc = conn.get_permission_data()
         db_classes=conn.get_user_classes()
@@ -19,6 +23,8 @@ def get_admin_permissions():
 
 @app.route('/admin/permissions/edit', methods=['POST'])
 def post_admin_permissions_edit():
+    """Handles requests to /admin/permissions/edit [POST]
+    Updates all information in the DB regarding permissions."""
     user_seq = session.get('user_seq')
     with connect() as conn:
         perms = conn.get_all_db_perms()
@@ -32,6 +38,8 @@ def post_admin_permissions_edit():
 
 @app.route('/admin/permissions/class/new', methods=['POST'])
 def post_admin_permissions_class_new():
+    """Handles /admin/permissions/class/new [POST]
+    Creates a new class in the database and adds in all permission fields."""
     class_name = request.json['name']
     user = session.get('user_seq')
     with connect() as conn:
