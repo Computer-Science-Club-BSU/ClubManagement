@@ -58,7 +58,7 @@ class connect:
             for row in data:
 
                 row_data.append(
-                    {key: bleach.clean(val)
+                    {key: bleach.clean(val) if isinstance(val, str) else val
                         for key, val in zip(field_names, row)
                     }
                 )
@@ -73,7 +73,7 @@ class connect:
             field_names = [bleach.clean(i[0]) for i in self.cur.description]
             data = self.cur.fetchone()
 
-            return {key: bleach.clean(val)
+            return {key: bleach.clean(val) if isinstance(val, str) else val
                         for key, val in zip(field_names, data)
                     }
         return wrapper
