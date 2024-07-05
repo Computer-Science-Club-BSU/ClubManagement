@@ -78,4 +78,4 @@ from ((((`management`.`users` `A` join `management`.`class_assignments` `B`) joi
 where `A`.`seq` = `B`.`user_seq`
   and `C`.`seq` = `B`.`class_seq`
   and `B`.`start_term` = `dA`.`seq`
-  and `B`.`end_term` = `dB`.`seq`
+  and `B`.`end_term` = `dB`.`seq`;
