@@ -674,6 +674,7 @@ class connect:
         WHERE B.class_seq = C.class_seq AND C.user_seq = %s AND B.granted = 1)
         OR perm_seq = (SELECT seq FROM perm_types
         WHERE perm_desc = 'guest'))"""
+        logger.debug(SQL % (endpoint, user_seq))
         self.cur.execute(SQL, (endpoint, user_seq))
         return self.cur.rowcount > 0
 

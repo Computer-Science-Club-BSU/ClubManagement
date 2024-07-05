@@ -33,6 +33,7 @@ logging.basicConfig(filename="/var/log/cms/gen.log", level=logging.DEBUG,
 app = Flask(__name__,
             static_folder="src/interface/static",
             template_folder="src/interface/templates/")
+app.url_map.strict_slashes = False
 if app.debug != True:
     logger.info('Application Started')
 app.secret_key = "secret"

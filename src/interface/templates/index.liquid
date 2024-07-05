@@ -14,10 +14,21 @@
         <h3>{{ sys_name }}</h3>
       </header>
       <div class="grid2x2">
-        {% include top_left %}
-        {% include top_right %}
-        {% include bot_left %}
-        {% include bot_right %}
+        {% if top_left != nil %}
+          {% include top_left %}
+        {% endif %}
+
+        {% if top_right != nil %}
+          {% include top_right %}
+        {% endif %}
+
+        {% if bot_left != nil %}
+          {% include bot_left %}
+        {% endif %}
+
+        {% if bot_right != nil %}
+          {% include bot_right %}
+        {% endif %}
       </div>
 
     </article>
