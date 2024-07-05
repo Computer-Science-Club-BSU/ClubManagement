@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Search</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/46bfd90bcf.js" crossorigin="anonymous"></script>
+    {% if user.theme != nil %}
+      <link rel="stylesheet" href="/static/theme/{{user.theme}}.css">
+    {% else %}
+      <link rel="stylesheet" href="/static/theme/1.css">
+    {% endif %}
+    <link rel="stylesheet" href="/static/theme/structure.css">
+    <script>
+        function getData(itemSeq){
+            callback(document.getElementById(`item_name${itemSeq}`).innerText,
+            document.getElementById(`item_price${itemSeq}`).innerText)
+            window.close()
+        }
+    </script>
+  </head>
+  <body>
+
+    <article>
+      <div class="grid">
+        <div class="box">
+          <table>
+            <tr>
+              <th>Vendor</th>
+              <th>Name</th>
+              <th>Cost</th>
+              <th>Effective Date</th>
+              <th></th>
+            </tr>
+            {% for item in items %}
+              <tr>
+                <td>{{ item.item_vendor }}</td>
+                <td id="item_name{{item.seq}}">{{ item.item_name }}</td>
+                <td id="item_price{{item.seq}}">{{ item.price }}</td>
+                <td>{{ item.eff_date }}</td>
+                <td style="width: 3rem">
+                  <button onclick="getData({{item.seq}})">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

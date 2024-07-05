@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Docket Record</title>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <form
+          class="grid"
+          action="/doc/create"
+          method="POST">
+
+          <div class="box">
+            <h1>Create a new Docket Record</h1>
+            <h2>Created By: {{ user.first_name }} {{ user.last_name }}</h2>
+            <h3>
+              <label for="title">Docket Title</label>
+            </h3>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              style="margin-left:20px;"> <br>
+            <h3>
+              <label for="body">Docket Body</label>
+            </h3>
+            <textarea
+              name="body"
+              id="body"
+              style="margin-left:20px; height: 40%"></textarea>
+            <input
+              type="submit"
+              value="Create Record"
+              style="margin-left:20px;">
+          </div>
+          <div class="box">
+            <h2>Assignees</h2>
+            <select
+              name="assignees"
+              id="assignees"
+              style="margin-left:20px;"
+              multiple>
+              {% for doc_user in docket_users %}
+                <option value="{{doc_user.seq}}">{{ doc_user.first_name }} {{ doc_user.last_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </form>
+
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Assignment</title>
+
+    <script>
+        function update() {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/admin/edit_assignment/{{data.assignment_seq}}')
+            xhr.setRequestHeader('Content-Type', 'application/json')
+
+            xhr.send(JSON.stringify({
+                "role": document.getElementById('role').value,
+                "start": document.getElementById('start').value,
+                "end": document.getElementById('end').value
+            }))
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        callback()
+                        window.close()
+                    }
+                    else {
+                        alert('Could not update class assignment')
+                    }
+                }
+            }
+        }
+    </script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <h1>Edit Class Assignment</h1>
+      <h3>{{ data.first_name }} {{ data.last_name }}</h3>
+      <label for="role">Class</label>
+      <select name="role" id="role">
+        {% for class in _classes %}
+          <option value="{{class.seq}}">{{ class.position_name }}</option>
+        {% endfor %}
+      </select>
+      <br>
+      <label for="start">Start Date</label>
+      <select name="start" id="start">
+        {% for term in terms %}
+          <option
+            value="{{term.seq}}"
+            {% if term.start_date == data.start_date %}
+            selected
+            {% endif %}
+            title="{{term.start_date}} &rarr; {{term.end_date}}">{{ term.term_desc }}</option>
+        {% endfor %}
+      </select>
+      <label for="end">End Date</label>
+      <select name="end" id="end">
+        {% for term in terms %}
+          <option
+            value="{{term.seq}}"
+            {% if term.end_date == data.end_date %}
+            selected
+            {% endif %}
+            title="{{term.start_date}} &rarr; {{term.end_date}}">{{ term.term_desc }}</option>
+        {% endfor %}
+      </select>
+      <button onclick="update()">Update</button>
+    </article>
+    {% include "footer.liquid" %}
+
+  </body>
+</html>

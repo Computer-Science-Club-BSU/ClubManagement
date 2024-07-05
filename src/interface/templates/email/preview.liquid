@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Email</title>
+    <script>
+
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
+
+
+        function onLoad() {
+            document.getElementById('emailBody').innerHTML = decodeHtml(`{{ body }}`)
+        }
+
+        function sendMail(){
+          let xhr = new XMLHttpRequest()
+          xhr.open('POST','/email/send?seq={{ id }}')
+          xhr.send()
+          xhr.onreadystatechange = (() => {
+            if(xhr.readyState == 4){
+              if(xhr.status == 200){
+                alert("Email sent or queued for delivery.")
+              } else {
+                alert('Email could not be sent at this time.')
+              }
+            }
+          })
+        }
+
+    </script>
+  </head>
+  <body onload="onLoad()">
+    <div class="grid">
+      <div class="box">
+        <img
+          src="/static/logo.png"
+          alt="Computer Science Club"
+          style="width: 10dvw; display:inline-block">
+        <h2>{{ sys_name }} at {{ sys_loc }}</h2>
+        <div id="emailBody"></div>
+        <button type="button" onclick="sendMail()">Send Mail</button>
+      </div>
+    </div>
+  </body>
+</html>

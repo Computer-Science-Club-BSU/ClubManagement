@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Permissions</title>
+    <script>
+
+        function newClass(){
+            class_name = prompt('Class Name: ')
+            if(class_name == null || class_name == ""){
+                alert("Class name cannot be null or empty")
+                return
+            }
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/admin/permissions/class/new')
+            //console.error("Opened POST")
+            xhr.setRequestHeader("Content-Type", "application/json")
+
+            xhr.send(
+                JSON.stringify({
+                    "name": class_name
+                })
+            )
+           // console.error("JSON Sent")
+            xhr.onreadystatechange = (() => {
+                //console.error(xhr.readyState, xhr.status)
+                if(xhr.readyState == 4){
+                    if(xhr.status != 200){
+                        alert("Could not create class")
+                    }
+                    else{
+                        alert("Class created")
+                        window.location.reload()
+                    }
+                }
+            })
+        }
+
+        function editAssignment(assign_seq){
+          let record = window.open(`/admin/edit_assignment/${assign_seq}`, "Edit Assignment", "width=800,height=600");
+          record.callback = () => {
+            location.reload()
+          }
+        }
+
+        function openTab(evt, cityName) {
+          // Declare all variables
+          var i, tabcontent, tablinks;
+          console.log(evt.currentTarget.className)
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+      }
+    </script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <h2>Edit Permissions</h2>
+          <div class="tab">
+
+            {% for class in db_classes %}
+              <button class="tablinks active" onclick="openTab(event, '{{class.seq}}')">{{ class.position_name }}</button>
+            {% endfor %}
+          </div>
+          {% for class in db_classes %}
+            <div
+              id="{{class.seq}}"
+              class="tabcontent grid"
+              style="display:{% if class == db_classes.first %} block {% else %} none {% endif %};">
+              <div class="box">
+                <h2>{{ class.position_name }}</h2>
+                <table>
+                  <tr>
+                    <th>Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
+                  </tr>
+                  {% for assigned_user in assignments[class.position_name] %}
+                    <tr>
+                      <td>{{ assigned_user[2] }} {{ assigned_user[3] }}</td>
+                      <td>{{ assigned_user[7] }}</td>
+                      <td>{{ assigned_user[8] }}</td>
+                      <td>
+                        <button onclick="editAssignment({{assigned_user[0]}})">Edit</button>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

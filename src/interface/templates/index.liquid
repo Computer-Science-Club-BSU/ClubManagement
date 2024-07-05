@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ sys_name }}</title>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+
+    <article>
+      <header>
+        <h2>Welcome {{ user.first_name }} {{ user.last_name }}</h2>
+        <h3>{{ sys_name }}</h3>
+      </header>
+      <div class="grid2x2">
+        {% include top_left %}
+        {% include top_right %}
+        {% include bot_left %}
+        {% include bot_right %}
+      </div>
+
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

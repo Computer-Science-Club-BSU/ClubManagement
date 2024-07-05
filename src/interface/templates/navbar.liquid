@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/46bfd90bcf.js" crossorigin="anonymous"></script>
+    {% if user.theme != nil %}
+      <link rel="stylesheet" href="/static/theme/{{user.theme}}.css">
+    {% else %}
+      <link rel="stylesheet" href="/static/theme/1.css">
+    {% endif %}
+    <link rel="stylesheet" href="/static/theme/structure.css">
+  </head>
+  <body>
+    <div class="nav_div">
+      <ul id="nav_ul">
+        {% for nav_page in nav_pages %}
+          {% assign p_name = "nav_elem/" | append: nav_page %}
+          {% include p_name %}
+        {% endfor %}
+      </ul>
+
+    </div>
+  </body>
+</html>
