@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="/static/theme/structure.css">
     <script>
         function getData(itemSeq){
-            callback(document.getElementById(`item_name${itemSeq}`).innerText,
-            document.getElementById(`item_price${itemSeq}`).innerText)
+            callback(document,
+            itemSeq)
             window.close()
         }
     </script>
@@ -35,7 +35,7 @@
             </tr>
             {% for item in items %}
               <tr>
-                <td>{{ item.item_vendor }}</td>
+                <td id="item_vendor{{item.seq}}">{{ item.item_vendor }}</td>
                 <td id="item_name{{item.seq}}">{{ item.item_name }}</td>
                 <td id="item_price{{item.seq}}">{{ item.price }}</td>
                 <td>{{ item.eff_date }}</td>

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/static/theme/structure.css">
   </head>
   <body>
-    <div class="nav_div">
+    <div class="nav_div" style="z-index: 10">
       <ul id="nav_ul">
         {% for nav_page in nav_pages %}
           {% assign p_name = "nav_elem/" | append: nav_page %}

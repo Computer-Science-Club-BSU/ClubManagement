@@ -3,12 +3,14 @@ import mariadb
 import bleach
 import sys
 import logging
+import traceback
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError
 from src.utils.cfg_utils import get_cfg
 import base64
-from typing import List, Dict
+from typing import List, Dict, Optional, Type
+from types import TracebackType
 
 logger = logging.getLogger("DatabaseManager")
 
@@ -41,7 +43,7 @@ class connect:
                 return (True, results)
             except Exception as e:
                 self.conn.rollback()
-                logger.error(f"DB Exception Occured {e}")
+                logger.error(f"DB Exception Occured {traceback.format_exc()}")
                 return (False, None)
         return wrapper
 
@@ -298,7 +300,8 @@ class connect:
         FROM users A, class_assignments B, class C, terms Da, terms Db
         WHERE B.user_seq = A.seq AND B.class_seq = C.seq AND
         B.start_term = Da.seq AND B.end_term = Db.seq AND C.displayed = 1
-        AND Db.end_date < current_date ORDER BY Db.end_date DESC"""
+        AND Db.end_date < current_date ORDER BY Db.end_date DESC,
+        A.last_name DESC"""
         self.cur.execute(SQL)
 
 
@@ -582,19 +585,23 @@ class connect:
     def get_finance_users(self):
         SQL = """SELECT DISTINCT
                     A.* FROM users A, class_assignments B, class C, perms D,
-                    perm_types E WHERE B.user_seq = A.seq AND
+                    perm_types E, terms tA, terms tB WHERE B.user_seq = A.seq AND
                     B.class_seq = C.seq AND D.class_seq = C.seq
                     AND D.perm_seq = E.seq AND E.perm_desc = 'fin_add'
-                    AND D.granted = 1 AND A.is_active = 1"""
+                    AND D.granted = 1 AND A.is_active = 1 AND B.start_term = tA.seq AND
+                    B.end_term = tB.seq AND tA.start_date <= current_timestamp
+                AND current_timestamp <= tB.end_date"""
         self.cur.execute(SQL)
 
     @_convert_to_dict
     def get_finance_approvers(self):
         SQL = """SELECT DISTINCT A.* FROM users A, class_assignments B,
-                    class C, perms D, perm_types E WHERE B.user_seq = A.seq
+                    class C, perms D, perm_types E, terms tA, terms tB WHERE B.user_seq = A.seq
                 AND B.class_seq = C.seq AND D.class_seq = C.seq
                 AND D.perm_seq = E.seq AND E.perm_desc = 'fin_approve'
-                AND D.granted = 1 AND A.is_active = 1"""
+                AND D.granted = 1 AND A.is_active = 1 AND B.start_term = tA.seq AND
+                    B.end_term = tB.seq AND tA.start_date <= current_timestamp
+                AND current_timestamp <= tB.end_date"""
         self.cur.execute(SQL)
 
     @_convert_to_dict
@@ -794,12 +801,58 @@ class connect:
     B.home_page_seq = A.seq AND B.seq = %s"""
         self.cur.execute(SQL, (user_seq,))
 
+    @_exec_safe
+    def create_class_assignment(self, user: str, _class: str, start: str,
+                                end: str, user_seq: str):
+        SQL = """INSERT INTO class_assignments (
+            user_seq, class_seq, start_term, end_term, added_by, updated_by
+        )
+        VALUES (%s,%s,%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (user, _class, start, end, user_seq, user_seq))
+
+    @_exec_safe
+    def delete_class_assignment(self, assignment_seq, user_seq):
+        SQL = """
+        INSERT INTO del_class_assignments (
+            user_seq, class_seq, start_term, end_term, added_by, updated_by,
+            added_dt, update_dt)
+            SELECT user_seq, class_seq, start_term, end_term, added_by, %s,
+            added_dt, current_timestamp FROM class_assignments WHERE seq = %s;
+        """
+        self.cur.execute(SQL, (user_seq, assignment_seq))
+        SQL = """DELETE FROM class_assignments WHERE seq = %s"""
+        self.cur.execute(SQL, (assignment_seq,))
+    
+    @_exec_safe
+    def create_fin_item(self, vendor, name, price, date, visible, user):
+        SQL = """INSERT INTO items (item_vendor, item_name, displayed,
+        added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (vendor, name, visible, user, user))
+        seq = self.cur.lastrowid
+        SQL = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
+        updated_by) VALUES (%s,%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (seq, date, price, user, user))
+    
+    @_exec_safe
+    def update_fin_item(self, vendor, name, price, date, visible, user):
+        SQL = """UPDATE items SET displayed = %s WHERE item_name = %s AND
+        item_vendor = %s"""
+        self.cur.execute(SQL, (visible, vendor, name))
+        SQL = "SELECT seq FROM items WHERE item_vendor = %s AND item_name = %s"
+        self.cur.execute(SQL, (vendor, name))
+        seq = self.cur.fetchone()[0]
+        SQL = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
+        updated_by) VALUES (%s,%s,%s,%s,%s)"""
+        self.cur.execute(SQL, (seq, date, price, user, user))
+
     # __methods__
     def __enter__(self):
         logger.debug("DB Opened in Context Manager")
         return self
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
+    def __exit__(self, exctype: Optional[Type[BaseException]],
+             excinst: Optional[BaseException],
+             exctb: Optional[TracebackType]):
         try:
             self.conn.rollback()
         except InterfaceError:
@@ -807,10 +860,11 @@ class connect:
             logger.warning('Database failed to roll back')
         self.conn.close()
         logger.debug("DB Instance Closed")
-        if exc_type is not None:
-            logger.error(f"DB Exited with errors!")
-            logger.error(f"{exc_type=}")
-            logger.error(f"{exc_value=}")
-            logger.error(f"{exc_tb=}")
+        if exctype is not None:
+            logger.critical(f"DB Closed with errors!")
+            error_str = f"""Exception: {exctype.__class__}
+            {excinst}
+            Traceback:\n {'\n'.join(traceback.format_tb(exctb))}"""
+            logger.critical(error_str)
 
     

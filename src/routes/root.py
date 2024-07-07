@@ -3,8 +3,9 @@
 Contains the Root '/' path, as well as the before-request handler
 """
 import logging
-from flask import request, session
+from flask import request, session, send_file
 from app import app
+from conf import LOG_DIR
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
 from src.utils.permission_checker import check_perms
@@ -28,9 +29,10 @@ def get_root_index():
                 total = abs(total)
             gen_log = ""
             access_log = ""
-            with open('/var/log/cms/access.log', 'r', encoding='utf-8') as log:
+            print(f'{LOG_DIR}gen.log')
+            with open(f'{LOG_DIR}access.log', 'r', encoding='utf-8') as log:
                 access_log = [x.strip() for x in log.readlines()]
-            with open('/var/log/cms/gen.log', 'r', encoding='utf-8') as log:
+            with open(f'{LOG_DIR}gen.log', 'r', encoding='utf-8') as log:
                 gen_log = [x.strip() for x in log.readlines()]
             home_page_prefs = conn.get_home_widgets(session['user_seq'])
 
@@ -38,8 +40,8 @@ def get_root_index():
                                fin_sum=fin_sum, doc_sum=doc_sum, isPos=is_pos,
                                doc_count=sum(doc_sum.values()),
                                fin_count=sum(fin_sum.values()),
-                               gen_log_data=gen_log[::-1],
-                               access_log_data=access_log[::-1],
+                               gen_log_data=gen_log[:100],
+                               access_log_data=access_log[:100],
                                top_left = home_page_prefs.get('top_left'),
                                top_right = home_page_prefs.get('top_right'),
                                bot_left = home_page_prefs.get('bot_left'),
@@ -47,6 +49,14 @@ def get_root_index():
                                )
 
     return render_template('index.liquid')
+
+@app.get('/favicon.ico')
+def get_favicon_ico():
+    return send_file('src/interface/private/favicon.ico')
+
+@app.get('/robots.txt')
+def get_robots_txt():
+    return send_file('src/interface/private/robots.txt')
 
 @app.before_request
 def handle_pre_request():

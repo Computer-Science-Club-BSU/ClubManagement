@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Permissions</title>
     <script>
-
+        function onload() {
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          let tab = urlParams.get('tab')
+          showTab(tab);
+        }
         function newClass(){
             class_name = prompt('Class Name: ')
             if(class_name == null || class_name == ""){
@@ -44,30 +49,59 @@
           }
         }
 
-        function openTab(evt, cityName) {
+        function createAssignment(){
+          let record = window.open(`/admin/create_assignment/`, "Edit Assignment", "width=800,height=600");
+          record.callback = () => {
+            location.reload()
+          }
+        }
+
+        function deleteAssignment(seq) {
+          let xhr = new XMLHttpRequest()
+          xhr.open('POST', `/admin/delete_assignment/${seq}`)
+          xhr.setRequestHeader('Content-Type', 'application/json')
+          xhr.send()
+        }
+
+        function showTab(assnSeq){
           // Declare all variables
           var i, tabcontent, tablinks;
-          console.log(evt.currentTarget.className)
+          let target = document.getElementById(`btn${assnSeq}`)
+          console.log(target.className)
 
             // Get all elements with class="tabcontent" and hide them
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-            }
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
 
-            // Get all elements with class="tablinks" and remove the class "active"
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
+          // Get all elements with class="tablinks" and remove the class "active"
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
 
-            // Show the current tab, and add an "active" class to the button that opened the tab
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " active";
+          // Show the current tab, and add an "active" class to the button that opened the tab
+          document.getElementById(assnSeq).style.display = "block";
+          target.className += " active";
+          }
+
+        function openTab(evt, assnSeq) {
+          showTab(assnSeq);
+          const current_url = window.location.href.split('?')[0]
+          const nextURL = current_url + `?tab=${assnSeq}`
+          const nextTitle = document.title;
+          const nextState = { additionalInformation: '' };
+
+          // This will create a new entry in the browser's history, without reloading
+          window.history.pushState(nextState, nextTitle, nextURL);
+
+          // This will replace the current entry in the browser's history, without reloading
+          window.history.replaceState(nextState, nextTitle, nextURL);
       }
     </script>
   </head>
-  <body>
+  <body onload="onload()">
     {% include "navbar.liquid" %}
     <article>
       <div class="grid">
@@ -76,7 +110,10 @@
           <div class="tab">
 
             {% for class in db_classes %}
-              <button class="tablinks active" onclick="openTab(event, '{{class.seq}}')">{{ class.position_name }}</button>
+              <button
+                class="tablinks active"
+                id='btn{{class.seq}}'
+                onclick="openTab(event, '{{class.seq}}')">{{ class.position_name }}</button>
             {% endfor %}
           </div>
           {% for class in db_classes %}
@@ -100,11 +137,13 @@
                       <td>{{ assigned_user[8] }}</td>
                       <td>
                         <button onclick="editAssignment({{assigned_user[0]}})">Edit</button>
+                        <button onclick="deleteAssignment({{assigned_user[0]}})">Delete</button>
                       </td>
                     </tr>
                   {% endfor %}
                 </table>
               </div>
+              <button onclick="createAssignment()">Add Assignment</button>
             </div>
           {% endfor %}
         </div>

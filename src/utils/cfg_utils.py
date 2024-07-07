@@ -1,10 +1,11 @@
 import configparser
 from typing import Dict
+from conf import CFG_DIR
 
 
 def _load_cfg():
     cfg = configparser.ConfigParser()
-    cfg.read('/etc/cms/conf.cfg')
+    cfg.read(f'{CFG_DIR}conf.cfg')
     return cfg
 
 

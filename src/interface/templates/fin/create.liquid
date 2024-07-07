@@ -34,11 +34,10 @@
                 alert("Please select a date for the invoice");
                 return;
             }
-            let item = window.open(`/finances/items/search?invDate=${invDate}`, "ItemSearch", "width=800,height=600");
-            item.callback = (name, price) => {
-              console.log(name, price)
-              document.getElementById(`ItemInfo${rowID}`).value = name
-              document.getElementById(`ItemPrice${rowID}`).value = price
+            let item = window.open(`/finance/items/search?invDate=${invDate}`, "ItemSearch", "width=800,height=600");
+            item.callback = (doc, seq) => {
+              document.getElementById(`ItemInfo${rowID}`).value = doc.getElementById(`item_name${seq}`).innerText
+              document.getElementById(`ItemPrice${rowID}`).value = doc.getElementById(`item_price${seq}`).innerText
             }  
           }
 
