@@ -284,7 +284,8 @@ class connect:
 
     @_convert_to_dict
     def get_about_page_assignments(self) -> List[Dict[str,str]]:
-        SQL = """SELECT e.title_desc as 'title', CONCAT(a.first_name, ' ', a.last_name) AS 'name',
+        SQL = """SELECT e.title_desc as 'title',
+        CONCAT(a.first_name, ' ', a.last_name) AS 'name',
         c.position_name FROM users a, class_assignments b, class c,
         terms d_a, terms d_b, titles e WHERE
         b.user_seq = a.seq AND b.class_seq = c.seq AND c.displayed = 1
@@ -301,7 +302,7 @@ class connect:
         FROM users A, class_assignments B, class C, terms Da, terms Db,
         titles e WHERE B.user_seq = A.seq AND B.class_seq = C.seq AND
         B.start_term = Da.seq AND B.end_term = Db.seq AND C.displayed = 1
-        AND Db.end_date < current_date and e.seq = a.title
+        AND Db.end_date < current_date and e.seq = A.title
         ORDER BY Db.end_date DESC, A.last_name DESC"""
         self.cur.execute(SQL)
 
