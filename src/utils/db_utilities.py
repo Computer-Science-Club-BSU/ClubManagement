@@ -284,24 +284,25 @@ class connect:
 
     @_convert_to_dict
     def get_about_page_assignments(self) -> List[Dict[str,str]]:
-        SQL = """SELECT a.title, CONCAT(a.first_name, ' ', a.last_name) AS 'name',
+        SQL = """SELECT e.title_desc as 'title', CONCAT(a.first_name, ' ', a.last_name) AS 'name',
         c.position_name FROM users a, class_assignments b, class c,
-        terms d_a, terms d_b WHERE
+        terms d_a, terms d_b, titles e WHERE
         b.user_seq = a.seq AND b.class_seq = c.seq AND c.displayed = 1
         AND a.is_active = 1 AND b.start_term = d_a.seq AND b.end_term = d_b.seq
         AND d_a.start_date <= current_timestamp AND
-        d_b.end_date >= current_timestamp ORDER BY c.ranking ASC;"""
+        d_b.end_date >= current_timestamp and e.seq = a.title
+        ORDER BY c.ranking ASC;"""
         self.cur.execute(SQL)
 
     @_convert_to_dict
     def get_about_former_officers(self) -> List[Dict[str,str]]:
-        SQL = """SELECT A.title, concat(A.first_name, ' ', A.last_name) as
+        SQL = """SELECT e.title_desc as 'title', concat(A.first_name, ' ', A.last_name) as
         'name', C.position_name, Da.term_desc as 'start', Db.term_desc as 'end'
-        FROM users A, class_assignments B, class C, terms Da, terms Db
-        WHERE B.user_seq = A.seq AND B.class_seq = C.seq AND
+        FROM users A, class_assignments B, class C, terms Da, terms Db,
+        titles e WHERE B.user_seq = A.seq AND B.class_seq = C.seq AND
         B.start_term = Da.seq AND B.end_term = Db.seq AND C.displayed = 1
-        AND Db.end_date < current_date ORDER BY Db.end_date DESC,
-        A.last_name DESC"""
+        AND Db.end_date < current_date and e.seq = a.title
+        ORDER BY Db.end_date DESC, A.last_name DESC"""
         self.cur.execute(SQL)
 
 
