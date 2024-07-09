@@ -847,6 +847,32 @@ class connect:
         updated_by) VALUES (%s,%s,%s,%s,%s)"""
         self.cur.execute(SQL, (seq, date, price, user, user))
 
+    @_convert_to_dict
+    def fetch_pending_user_requests(self) -> list[dict]:
+        SQL = """SELECT * FROM pending_users WHERE process_flag = 'S'"""
+        self.cur.execute(SQL)
+
+    @_convert_to_dict
+    def get_non_approval_titles(self):
+        SQL = """SELECT * FROM titles WHERE approval_req = 0"""
+        self.cur.execute(SQL)
+    
+    def get_user_admin_emails(self):
+        SQL = """SELECT usr.email FROM users usr, class_assignments cls,
+        terms tA, terms tB, perms p, perm_types pt WHERE cls.user_seq = usr.seq
+        AND cls.start_term = tA.seq AND cls.end_term = tB.seq AND
+        p.class_seq = cls.class_seq AND p.granted = 1 AND p.perm_seq = pt.seq
+        and pt.perm_desc = 'user_admin' and tA.start_date <= current_timestamp
+        AND current_timestamp <= tB.end_date AND email is not null and
+        email != ''"""
+        self.cur.execute(SQL)
+        return [x[0] for x in self.cur.fetchall()]
+    
+    @_exec_safe
+    def update_pending_user_flag(self, request_seq, flag):
+        SQL = """UPDATE pending_users SET process_flag=%s WHERE seq=%s"""
+        self.cur.execute(SQL, (flag, request_seq))
+
     # __methods__
     def __enter__(self):
         logger.debug("DB Opened in Context Manager")
