@@ -284,24 +284,26 @@ class connect:
 
     @_convert_to_dict
     def get_about_page_assignments(self) -> List[Dict[str,str]]:
-        SQL = """SELECT a.title, CONCAT(a.first_name, ' ', a.last_name) AS 'name',
+        SQL = """SELECT e.title_desc as 'title',
+        CONCAT(a.first_name, ' ', a.last_name) AS 'name',
         c.position_name FROM users a, class_assignments b, class c,
-        terms d_a, terms d_b WHERE
+        terms d_a, terms d_b, titles e WHERE
         b.user_seq = a.seq AND b.class_seq = c.seq AND c.displayed = 1
         AND a.is_active = 1 AND b.start_term = d_a.seq AND b.end_term = d_b.seq
         AND d_a.start_date <= current_timestamp AND
-        d_b.end_date >= current_timestamp ORDER BY c.ranking ASC;"""
+        d_b.end_date >= current_timestamp and e.seq = a.title
+        ORDER BY c.ranking ASC;"""
         self.cur.execute(SQL)
 
     @_convert_to_dict
     def get_about_former_officers(self) -> List[Dict[str,str]]:
-        SQL = """SELECT A.title, concat(A.first_name, ' ', A.last_name) as
+        SQL = """SELECT e.title_desc as 'title', concat(A.first_name, ' ', A.last_name) as
         'name', C.position_name, Da.term_desc as 'start', Db.term_desc as 'end'
-        FROM users A, class_assignments B, class C, terms Da, terms Db
-        WHERE B.user_seq = A.seq AND B.class_seq = C.seq AND
+        FROM users A, class_assignments B, class C, terms Da, terms Db,
+        titles e WHERE B.user_seq = A.seq AND B.class_seq = C.seq AND
         B.start_term = Da.seq AND B.end_term = Db.seq AND C.displayed = 1
-        AND Db.end_date < current_date ORDER BY Db.end_date DESC,
-        A.last_name DESC"""
+        AND Db.end_date < current_date and e.seq = A.title
+        ORDER BY Db.end_date DESC, A.last_name DESC"""
         self.cur.execute(SQL)
 
 
@@ -844,6 +846,32 @@ class connect:
         SQL = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
         updated_by) VALUES (%s,%s,%s,%s,%s)"""
         self.cur.execute(SQL, (seq, date, price, user, user))
+
+    @_convert_to_dict
+    def fetch_pending_user_requests(self) -> list[dict]:
+        SQL = """SELECT * FROM pending_users WHERE process_flag = 'S'"""
+        self.cur.execute(SQL)
+
+    @_convert_to_dict
+    def get_non_approval_titles(self):
+        SQL = """SELECT * FROM titles WHERE approval_req = 0"""
+        self.cur.execute(SQL)
+    
+    def get_user_admin_emails(self):
+        SQL = """SELECT usr.email FROM users usr, class_assignments cls,
+        terms tA, terms tB, perms p, perm_types pt WHERE cls.user_seq = usr.seq
+        AND cls.start_term = tA.seq AND cls.end_term = tB.seq AND
+        p.class_seq = cls.class_seq AND p.granted = 1 AND p.perm_seq = pt.seq
+        and pt.perm_desc = 'user_admin' and tA.start_date <= current_timestamp
+        AND current_timestamp <= tB.end_date AND email is not null and
+        email != ''"""
+        self.cur.execute(SQL)
+        return [x[0] for x in self.cur.fetchall()]
+    
+    @_exec_safe
+    def update_pending_user_flag(self, request_seq, flag):
+        SQL = """UPDATE pending_users SET process_flag=%s WHERE seq=%s"""
+        self.cur.execute(SQL, (flag, request_seq))
 
     # __methods__
     def __enter__(self):
