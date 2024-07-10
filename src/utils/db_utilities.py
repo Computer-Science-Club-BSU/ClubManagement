@@ -872,6 +872,37 @@ class connect:
     def update_pending_user_flag(self, request_seq, flag):
         SQL = """UPDATE pending_users SET process_flag=%s WHERE seq=%s"""
         self.cur.execute(SQL, (flag, request_seq))
+    
+    @_exec_safe
+    def introspect_database(self):
+        self.cur.execute('SHOW FULL TABLES')
+        tables = self.cur.fetchall()
+        for table in tables:
+            table_name = table[0]
+            is_view = 'view' if (table[1] == 'VIEW') else 'table'
+            tbl_sql = "INSERT INTO db_tables (name, type) VALUES (%s, %s)"
+            print(tbl_sql, (table_name, is_view))
+            self.cur.execute(tbl_sql, (table_name, is_view))
+            table_seq = self.cur.lastrowid
+            self.cur.execute(f"DESCRIBE {table_name}")
+            for idx, col in enumerate(self.cur.fetchall()):
+                field_name = col[0]
+                datatype = col[1]
+                row_sql = """INSERT INTO db_rows (rowid, table_seq, name, type)
+                VALUES(%s,%s,%s,%s)"""
+                self.cur.execute(row_sql,
+                                 (idx + 1, table_seq, field_name, datatype))
+            fk_sel = """SELECT
+  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,
+  REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
+            self.cur.execute(fk_sel, (table_name,))
+            for key in self.cur.fetchall():
+                sql = """SELECT A.seq as 'source', B.seq as 'dest' FROM
+                db_rows A, db_rows B, db_tables aT, db_tables bT WHERE
+                A.table_seq = aT.seq AND B.table_seq = bT.seq AND
+                A.name = %s AND aT.name = %s AND B.seq = %s AND bT.seq = %s"""
+                self.cur.execute(sql, (key[1], key[0], key[4], key[3]))
 
     # __methods__
     def __enter__(self):
