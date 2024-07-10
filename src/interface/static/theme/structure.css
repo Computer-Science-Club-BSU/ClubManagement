@@ -80,7 +80,7 @@ html, body{
 }
 
 article{
-    height: 91%;
+    height: 100%;
 }
 h1,h2, h3, h4, h5, h6{
     margin: 5px;
@@ -192,10 +192,13 @@ tr > td {
     outline: 1px solid var(--text-color);
 } */
 
+.spacer{
+    margin-top: 50px;
+}
 
 
 body{
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 /*Welcome to the idiot show... Staring me, the idiot!*/
