@@ -1,0 +1,12 @@
+{% if perms.dev_edit == 1 or perms.dev_read == 1 %}
+
+  <div class="box box4">
+    <h1>Development</h1>
+
+    <textarea style="height:100%;" disabled>
+      {% for line in gen_log_data %}
+        {{ line }}{% endfor %}
+    </textarea>
+
+  </div>
+{% endif %}

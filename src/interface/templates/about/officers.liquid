@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <h2>Officer Roster Page</h2>
+          {% for position in positions %}
+            <h2>{{ position[0] }}</h2>
+            {% for user in position[1] %}
+              <h3 style="padding-left:50px;">{{ user[0] }} {{ user[1] }}</h3>
+
+            {% endfor %}
+          {% endfor %}
+          {% assign former_len = former_officers | size %}
+          {% if former_len > 0 %}
+            <hr>
+
+            <h3>Former Officers</h3>
+            {% for officer in former_officers %}
+              <span style="padding-left: 50px">
+                <h4>{{ officer.title }} {{ officer.name }} [{{ officer.position_name }}] &mdash; {{ officer.start }} - {{ officer.end }}</h4>
+              </span>
+            {% endfor %}
+
+          {% endif %}
+
+        </div>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

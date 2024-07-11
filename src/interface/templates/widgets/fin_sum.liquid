@@ -1,0 +1,29 @@
+{% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_del == 1 or perms.fin_query == 1 %}
+
+  <div class="box box1">
+
+    <h1>Finances</h1>
+    <h2>Balance:
+      {% if isPos %}
+        ${{ total }}
+      {% else %}
+        ${{ total }} Available
+      {% endif %}
+    </h2>
+    <h2>Total Records: {{ fin_count }}
+    </h2>
+    <table>
+      <tr>
+        <th>Status</th>
+        <th>Count</th>
+      </tr>
+      {% for row in fin_sum %}
+        <tr>
+          <td>{{ row[0] }}</td>
+          <td>{{ row[1] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+{% endif %}

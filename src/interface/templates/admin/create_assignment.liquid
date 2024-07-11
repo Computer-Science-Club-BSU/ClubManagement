@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Assignment</title>
+
+    <script>
+        function create() {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/admin/create_assignment/')
+            xhr.setRequestHeader('Content-Type', 'application/json')
+
+            xhr.send(JSON.stringify({
+                "user": document.getElementById('user').value,
+                "role": document.getElementById('role').value,
+                "start": document.getElementById('start').value,
+                "end": document.getElementById('end').value
+            }))
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        callback()
+                        window.close()
+                    }
+                    else {
+                        alert('Could not update class assignment')
+                    }
+                }
+            }
+        }
+    </script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <h1>Create Class Assignment</h1>
+      <label for="user">User</label>
+      <select name="user" id="user">
+        {% for user in users %}
+          <option value="{{user.seq}}">{{ user.first_name }} {{ user.last_name }}</option>
+        {% endfor %}
+      </select>
+      <br>
+      <label for="role">Class</label>
+      <select name="role" id="role">
+        {% for class in _classes %}
+          <option value="{{class.seq}}">{{ class.position_name }}</option>
+        {% endfor %}
+      </select>
+      <br>
+      <label for="start">Start Date</label>
+      <select name="start" id="start">
+        {% for term in terms %}
+          <option
+            value="{{term.seq}}"
+            {% if term.start_date == data.start_date %}
+            selected
+            {% endif %}
+            title="{{term.start_date}} &rarr; {{term.end_date}}">{{ term.term_desc }}</option>
+        {% endfor %}
+      </select>
+      <label for="end">End Date</label>
+      <select name="end" id="end">
+        {% for term in terms %}
+          <option
+            value="{{term.seq}}"
+            {% if term.end_date == data.end_date %}
+            selected
+            {% endif %}
+            title="{{term.start_date}} &rarr; {{term.end_date}}">{{ term.term_desc }}</option>
+        {% endfor %}
+      </select>
+      <button onclick="create()">Create</button>
+    </article>
+    {% include "footer.liquid" %}
+
+  </body>
+</html>
