@@ -1,0 +1,21 @@
+.devGrid{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.devNav{
+    flex-basis: 10%;
+}
+
+.navElem, .navElem:hover{
+    all:unset
+}
+
+.navList{
+    list-style-type:circle;
+    padding-left: 10px;
+}
+
+.devContent{
+    flex-grow: 4;
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Item</title>
+    <script src="/static/finances/new/script.js" defer></script>
+    <link rel="stylesheet" href="/static/finances/new/style.css">
+
+    <script>
+        let mode = null
+        function getUpdate(){
+            // Open a new window to search for an item
+            // The item will be selected and the window will close
+            let date = new Date()
+            let year = String(date.getFullYear())
+            let month = String(date.getMonth() + 1)
+            let day = String(date.getDate())
+            
+            month = month < 10 ? '0' + month : month
+            day = day < 10 ? '0' + day: day
+
+            let finDate = year + '-' + month + '-' + day
+            
+            let item = window.open(`/finance/items/search?invDate=${finDate}`, "ItemSearch", "width=800,height=600");
+            item.callback = (doc, seq) => {
+                let vendor = doc.getElementById(`item_vendor${seq}`)
+                let name = doc.getElementById(`item_name${seq}`)
+                let price = doc.getElementById(`item_price${seq}`)
+                document.getElementById('vendor').value = vendor.innerText
+                document.getElementById('name').value = name.innerText
+                document.getElementById('price').value = price.innerText
+
+                document.getElementById('vendor').disabled = true
+                document.getElementById('name').disabled = true
+                document.getElementById('price').disabled = false
+                document.getElementById('date').disabled = false
+            }
+            mode = 'u'
+        }
+
+        function getCreate(){
+            document.getElementById('vendor').disabled = false
+            document.getElementById('name').disabled = false
+            document.getElementById('price').disabled = false
+            document.getElementById('date').disabled = false
+            document.getElementById('vendor').value = ''
+            document.getElementById('name').value = ''
+            document.getElementById('price').value = ''
+            document.getElementById('date').value = null
+            mode = 'c'
+        }
+
+        function sendRequest(){
+            if(mode == null){
+                alert("You must either Update or Create an item.")
+                return
+            }
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/finance/items/new/')
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({
+                'type': mode,
+                'vendor': document.getElementById('vendor').value,
+                'name': document.getElementById('name').value,
+                'price': document.getElementById('price').value,
+                'date': document.getElementById('date').value{% if perms.fin_admin == 1 %},
+                    'visible': document.getElementById('visible').checked
+                {% endif %}
+            }
+            ))
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        alert('Operation completed successfully')
+                    } else {
+                        alert('Error, Could not perform operation.')
+                    }
+                }
+            }
+        }
+    </script>
+
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <h1>Establish Items</h1>
+          <div>
+            <button type="button" onclick="getUpdate()">Update</button>
+            <button type="button" onclick="getCreate()">Create</button>
+          </div>
+          <table>
+            <tr>
+              <th>
+                <label for="vendor">Vendor</label>
+              </th>
+              <th>
+                <label for="name">Name</label>
+              </th>
+              <th>
+                <label for="price">Price</label>
+              </th>
+              <th>
+                <label for="date">Date</label>
+              </th>
+              {% if perms.fin_admin == 1 %}
+                <th>
+                  <label for="visible">Visible</label>
+                </th>
+              {% endif %}
+            </tr>
+            <tr>
+              <td><input
+                  type="text"
+                  id="vendor"
+                  name="vendor"
+                  style="width: 100%"
+                  disabled></td>
+              <td><input
+                  type="text"
+                  id="name"
+                  name="name"
+                  style="width: 100%"
+                  disabled></td>
+              <td><input
+                  type="number"
+                  id="price"
+                  name="price"
+                  style="width: 100%"
+                  disabled></td>
+              <td><input
+                  type="date"
+                  id="date"
+                  name="date"
+                  style="width: 100%"
+                  disabled></td>
+              {% if perms.fin_admin == 1 %}
+                <td>
+                  <input
+                    type="checkbox"
+                    name="visible"
+                    id="visible">
+                </td>
+              {% endif %}
+            </tr>
+
+          </table>
+          <div>
+            <button onclick="sendRequest()">Update</button>
+          </div>
+        </div>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+
+
+  </body>
+</html>

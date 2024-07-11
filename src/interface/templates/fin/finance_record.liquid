@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="/static/theme/2.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Barlow:ital, wght@0, 100;0, 200;0, 300;0, 400;0, 500;0, 600;0, 700;0, 800;0, 900;1, 100;1, 200;1, 300;1, 400;1, 500;1, 600;1, 700;1, 800;1, 900 &display=swap');
+      .paper {
+        width: 8.5in;
+        height: 11in;
+        padding-top: 0.5in;
+      }
+      .contentArea {
+        width: 7.5in;
+        height: 10in;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .logo > img {
+        height: 100%;
+      }
+      .logo {
+        display: flex;
+        max-width: 2.5in;
+      }
+
+      table {
+        width: 100%;
+      }
+      th {
+        background-color: var(--accent-color);
+        color: white
+      }
+      table,
+      td,
+      th,
+      td {
+        border-collapse: collapse;
+      }
+      .rR {
+        text-align: right;
+        padding-right: 0.1in;
+      }
+      .nB {
+        border: none;
+      }
+      th,
+      td {
+        border-collapse: collapse;
+        border: 1px solid black;
+      }
+      th {
+        text-transform: uppercase;
+      }
+      .lineID {
+        text-align: center;
+      }
+      * {
+        font-family: "Barlow"
+        , sans-serif;
+      }
+      .right {
+        float: right;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+      }
+      .header {
+        max-height: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="paper">
+      <div class="contentArea">
+        <h1>{{ header.type }}</h1>
+
+        <div class="header">
+          <div class="companyInfo">
+            <p>{{ finance.address.name }}<br>
+              {{ finance.address.line1 }} <br>
+              {% if finance.address.line2 != nil %}
+                {{ finance.address.line2 }}
+              {% endif %}
+              {{ finance.address.city }}, {{ finance.address.state }} {{ finance.address.zip }}<br>
+              {{ support_phone }}<br>
+              {{ support_email }}</p>
+          </div>
+          <div class="logo">
+            <img src="/static/logo.png" alt="">
+          </div>
+        </div>
+
+        <hr>
+        <span class="inv_info">
+          <b>RECORD #:</b>
+          {{ header.id }}
+          <span class="right">
+            <b>RECORD DATE:
+            </b>
+            {{ header.inv_date }}</span>
+        </span>
+        <hr>
+        <hr>
+        <span>
+          <b>CREATED BY:</b>
+          {{ header.creator }}
+          <span class="right">
+            <b>APPROVED BY:</b>
+            {{ header.approver }}</span>
+        </span>
+        <hr>
+        <table>
+          <tr>
+            <th>Line</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+          {% for line in li %}
+            <tr>
+              <td class="lineID">{{ line.line_id }}</td>
+              <td>{{ line.item_desc }}</td>
+              <td>{{ line.qty }}</td>
+              <td>{{ line.item_price }}</td>
+              <td>{{ line.total }}</td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="4" class="rR nB">Tax</td>
+            <td>{{ header.tax }}</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="rR nB">Fees</td>
+            <td>{{ header.fees }}</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="rR nB">Total</td>
+            <td>{{ header.total }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

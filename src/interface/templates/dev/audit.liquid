@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Audit</title>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <table>
+            <tr>
+              <th>Path Perm Seq</th>
+              <th>Plugin Name</th>
+              <th>Path Endpoint Name</th>
+              <th>Permission Name</th>
+              <th>Admin Permission</th>
+            </tr>
+            {% for path in paths %}
+              <tr>
+                <td>{{ rules[path]['seq'] }}</td>
+                <td>{{ rules[path]['plugin_name'] }}</td>
+                <td>{{ path }}</td>
+                <td>{{ rules[path]['pathperm'] }}</td>
+                <td>{{ rules[path]['adminperm'] }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

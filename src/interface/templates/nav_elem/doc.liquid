@@ -1,0 +1,43 @@
+{% if perms.doc_view == 1 or perms.doc_add == 1 or perms.doc_edit == 1 or perms.doc_admin == 1 or perms.doc_query %}
+  <div class="parent">
+    <a href="#">Maintain Docket</a>
+    <ul class="child">
+      {% if perms.doc_view == 1 or perms.doc_admin == 1 %}
+        <li>
+          <a href="/doc/view">View All Records</a>
+        </li>
+      {% endif %}
+      {% if perms.doc_edit == 1 or perms.doc_admin == 1 %}
+        <li>
+          <a href="/doc/create">Create a Docket</a>
+        </li>
+      {% endif %}
+      {% if perms.doc_admin == 1 %}
+        <li>
+          <a href="/doc/admin">Administrate Docket</a>
+        </li>
+      {% endif %}
+      {% if perms.doc_query == 1 or perms.doc_admin %}
+        <li>
+          <a href="/doc/query">Query Docket</a>
+        </li>
+      {% endif %}
+      {% assign doc_dash_len = docket_dashboards | size %}
+      {% if doc_dash_len > 0 %}
+        <li class="parent">
+          <a href="#">Dashboards<span class="expand">&raquo;</span>
+          </a>
+          <ul class="child">
+            {% for dash in docket_dashboards %}
+              <li>
+                <a href="/doc/dash?dash={{dash.seq}}">{{ dash.dash_name }}</a>
+              </li>
+            {% endfor %}
+
+
+          </ul>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+{% endif %}

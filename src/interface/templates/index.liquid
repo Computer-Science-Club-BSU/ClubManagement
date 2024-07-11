@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ sys_name }}</title>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+
+    <article>
+      <header>
+        <h2>Welcome {{ user.first_name }} {{ user.last_name }}</h2>
+        <h3>{{ sys_name }}</h3>
+      </header>
+      <div class="grid2x2">
+        {% if top_left != nil %}
+          {% include top_left %}
+        {% endif %}
+
+        {% if top_right != nil %}
+          {% include top_right %}
+        {% endif %}
+
+        {% if bot_left != nil %}
+          {% include bot_left %}
+        {% endif %}
+
+        {% if bot_right != nil %}
+          {% include bot_right %}
+        {% endif %}
+      </div>
+
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

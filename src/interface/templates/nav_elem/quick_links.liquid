@@ -1,0 +1,10 @@
+<div class="parent">
+  <a href="#">Quick Links</a>
+  <ul class="child">
+    {% for link in quick_links %}
+      <li class="parent">
+        <a href="{{link.link}}" target="_blank">{{ link.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
