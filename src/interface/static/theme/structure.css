@@ -85,7 +85,7 @@ article{
     flex-wrap: wrap;
     align-items: flex-start;
     min-height: 91%;
-    margin-bottom: calc(8dvh + 15px);
+    margin-bottom: calc(8dvh + 25px);
 }
 h1,h2, h3, h4, h5, h6{
     margin: 5px;
