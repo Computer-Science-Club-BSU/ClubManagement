@@ -1,78 +1,4 @@
-.parent {
-    display: block;
-    position: relative;
-    float: left;
-    line-height: 4dvh;
-    background-color: var(--accent-color);
-}
-.parent a {
-    margin: 10px;
-    color: var(--primary-color);
-    text-decoration: none;
-}
-.parent:hover > ul {
-    display: block;
-    position: absolute;
-}
-.child {
-    display: none;
-}
-.child li {
-    background-color: var(--accent-color);
-    line-height: 30px;
-    border-bottom: #CCC 1px solid;
-    border-right: #CCC 1px solid;
-    width: 100%;
-}
-.child li a {
-    color: var(--primary-color);
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    min-width: 15em;
-}
-ul ul ul {
-    left: 100%;
-    top: 0;
-    margin-left: 1px;
-}
-li:hover {
-    background-color: var(--accent-hover-color);
-}
-.parent li:hover {
-    background-color: var(--accent-hover-color);
-}
 
-.nav_div {
-    width: 100%;
-    height: 4%;
-    background-color: var(--accent-color)
-}
-.right {
-    float: right;
-}
-.right:hover > ul {
-    float: right;
-    right: -100%;
-}
-.foot_wrap{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width:100%;
-}
-footer{
-    outline:1px solid black;
-    width: 100%;
-    height: 5%;
-    background-color: var(--accent-color);
-    color: var(--primary-color);
-    text-align: center;
-    margin: auto;
-    padding: 10px;
-}
 
 html, body{
     height: 100%;
@@ -145,6 +71,7 @@ header > h2, header > h3 {
 }
   
 header{
+    width: 100%;
     padding: 2px;
 }
 
@@ -197,18 +124,10 @@ tr > td {
     outline: 1px solid var(--text-color);
 } */
 
-.spacer{
-    margin-top: 50px;
-}
 
 
 body{
     overflow-x: hidden;
 }
 
-.nav_wrap{
-    height: 5dvh
-}
-
 /*Welcome to the idiot show... Staring me, the idiot!*/
-

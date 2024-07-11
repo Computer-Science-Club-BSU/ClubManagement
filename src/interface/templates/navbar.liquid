@@ -12,14 +12,16 @@
     <link rel="stylesheet" href="/static/theme/structure.css">
   </head>
   <body>
-    <div class="nav_div" style="z-index: 10">
-      <ul id="nav_ul">
+    <div class="nav_div">
+      <ul id="nav_ul" class="flex">
         {% for nav_page in nav_pages %}
           {% assign p_name = "nav_elem/" | append: nav_page %}
           {% include p_name %}
         {% endfor %}
-      </ul>
+        <li class="parent wide"></li>
+        {% include 'nav_elem/account.liquid' %}
 
+      </ul>
     </div>
   </body>
 </html>

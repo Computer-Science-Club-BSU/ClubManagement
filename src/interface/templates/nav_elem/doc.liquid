@@ -1,5 +1,5 @@
 {% if perms.doc_view == 1 or perms.doc_add == 1 or perms.doc_edit == 1 or perms.doc_admin == 1 or perms.doc_query %}
-  <li class="parent">
+  <div class="parent">
     <a href="#">Maintain Docket</a>
     <ul class="child">
       {% if perms.doc_view == 1 or perms.doc_admin == 1 %}
@@ -39,5 +39,5 @@
         </li>
       {% endif %}
     </ul>
-  </li>
+  </div>
 {% endif %}
