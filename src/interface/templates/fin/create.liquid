@@ -18,6 +18,7 @@
             let table = document.getElementById("prods");
             let row = table.insertRow();
             row.innerHTML = `
+                <td style='display: none' id="ItemNum${rowid}"></td>
                 <td>${rowid}</td>
                 <td><input disabled type="text" id="ItemInfo${rowid}" id="ItemInfo" style='width:80%'><button onclick='searchItem(${rowid})'><i class="fa-solid fa-magnifying-glass"></i></button></td>
                 <td><input disabled type="text" id="ItemPrice${rowid}" style="width: 100px;"></td>
@@ -38,6 +39,7 @@
             item.callback = (doc, seq) => {
               document.getElementById(`ItemInfo${rowID}`).value = doc.getElementById(`item_name${seq}`).innerText
               document.getElementById(`ItemPrice${rowID}`).value = doc.getElementById(`item_price${seq}`).innerText
+              document.getElementById(`ItemNum${rowID}`).innerText = seq
             }  
           }
 
@@ -94,6 +96,7 @@
             for (let i = 1; i < table.rows.length; i++){
                 let line = {
                     "line_id": i,
+                    "item_seq": document.getElementById(`ItemNum${i}`).innerText,
                     "item_desc": document.getElementById(`ItemInfo${i}`).value,
                     "item_price": document.getElementById(`ItemPrice${i}`).value,
                     "qty": document.getElementById(`Quantity${i}`).value,
@@ -127,9 +130,9 @@
 
         function createRecord(){
             let record_object = getRecordObject();
-            // XHR POST Request to /finances/new/
+            // XHR POST Request to /finances/create/
             let xhrHTTP = new XMLHttpRequest();
-            xhrHTTP.open("POST", "/finances/new/");
+            xhrHTTP.open("POST", "/finances/create/");
             xhrHTTP.setRequestHeader("Content-Type", "application/json");
             xhrHTTP.send(JSON.stringify(record_object));
             xhrHTTP.onreadystatechange = function(){
