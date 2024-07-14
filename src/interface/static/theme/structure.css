@@ -80,6 +80,10 @@ html, body{
     background-color: var(--primary-color);
 }
 
+article > .grid {
+    width: 100%;
+}
+
 article{
     display: flex;
     flex-wrap: wrap;

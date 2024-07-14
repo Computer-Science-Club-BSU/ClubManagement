@@ -21,7 +21,15 @@
               <th style="text-align: center;">Actions</th>
             </tr>
             {% for row in records %}
-
+              <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.CreatedBy }}</td>
+                <td>{{ row.ApprovedBy }}</td>
+                <td>{{ row.stat_desc }}</td>
+                <td>{{ row.type_desc }}</td>
+                <td>{{ row.Total }}</td>
+                <td></td>
+              </tr>
             {% endfor %}
           </table>
         </div>
