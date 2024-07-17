@@ -4,16 +4,17 @@ import bleach
 import sys
 import logging
 import traceback
+import datetime
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError
 from src.utils.cfg_utils import get_cfg
 import base64
-from typing import List, Dict, Optional, Type
+from typing import List, Dict, Optional, Type, Sequence, Any
 from types import TracebackType
+from conf import LOG_DIR
 
-logger = logging.getLogger("DatabaseManager")
-
+logger = logging.getLogger('DatabaseManager')
 
 class connect:
     def __init__(self):
@@ -79,7 +80,20 @@ class connect:
                         for key, val in zip(field_names, data)
                     }
         return wrapper
-
+    
+    # All statements should call `run_statements` to ensure proper logging.
+    def run_statement(self, statement: str, data: Sequence = (), buffered: Any|None = None):
+        now = datetime.datetime.now()
+        date_str = now.strftime("%Y-%m-%-d %-H:%M:%S")
+        log_str = f'[{date_str}] SQL Statement: {statement}\n'
+        log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
+        with open(f'{LOG_DIR}sql.log', 'a') as f:
+            try:
+                self.cur.execute(statement, data,buffered)
+                f.write(f'[INFO]{log_str}')
+            except Exception as e:
+                f.write(f'[ERROR]{log_str}')
+                raise e
     
     def get_user_by_seq(self, user_seq):
         """Get a user by their seq
@@ -100,7 +114,7 @@ class connect:
     def get_user_data_by_seq(self, user_seq) -> dict:
         # Select User from SQL Table
         logger.debug(f"Getting User Data for User Seq {user_seq}")
-        SQL = "SELECT * FROM users WHERE seq = %s"
+        SQL = "SELECT * FROM user_info_vw WHERE seq = %s"
         self.cur.execute(SQL, (user_seq,))
 
     @_convert_to_dict
@@ -184,6 +198,7 @@ class connect:
         for finance in finances:
             total += finance['tax'] + finance['fees']
             for line in finance['lines']:
+                logger.debug(line)
                 total += (line['price'] * line['qty'])
         return total
 
@@ -853,7 +868,7 @@ class connect:
         self.cur.execute(SQL)
 
     @_convert_to_dict
-    def get_non_approval_titles(self):
+    def get_standard_titles(self):
         SQL = """SELECT * FROM titles WHERE approval_req = 0"""
         self.cur.execute(SQL)
     

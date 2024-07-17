@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 def configLogging():
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
-    logging.basicConfig(filename=f"{LOG_DIR}gen.log", level=logging.DEBUG,
+    logging.basicConfig(filename=f"{LOG_DIR}gen.log", level=logging.ERROR,
                     datefmt='%Y-%m-%d %H:%M:%S',
                     format="[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
                     )

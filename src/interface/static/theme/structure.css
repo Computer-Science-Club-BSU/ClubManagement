@@ -41,6 +41,9 @@ ul ul ul {
 li:hover {
     background-color: var(--accent-hover-color);
 }
+.parent:hover {
+    background-color: var(--accent-hover-color);
+}
 .parent li:hover {
     background-color: var(--accent-hover-color);
 }

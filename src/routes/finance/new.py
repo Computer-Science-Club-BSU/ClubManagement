@@ -1,4 +1,5 @@
 """Serves requests pertaining to creation of finances"""
+from flask import request, session, abort
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
@@ -18,3 +19,15 @@ def get_finances_new():
                            approvers=approvers,
                            finance_types=types,
                            statuses=statuses)
+
+@app.post('/finances/create/')
+def post_finances_create():
+    """Serves the /finances/create/ POST request."""
+    with connect() as conn:
+        res, _ = conn.create_finance_record(
+            request.json,
+            session['user_seq']
+        )
+    if res:
+        return ""
+    abort(400)
