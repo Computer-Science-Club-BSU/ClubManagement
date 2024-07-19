@@ -121,8 +121,8 @@ class connect:
     def get_user_classes_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
         logger.debug(f"Getting User Classes for User Seq {user_seq}")
 
-        SQL = """SELECT a.position_name FROM class a, class_assignments b
-        WHERE a.seq = b.class_seq AND b.user_seq = %s"""
+        SQL = """SELECT position_name FROM current_position
+        WHERE user_seq = %s"""
         self.cur.execute(SQL, (user_seq,))
 
 
@@ -209,7 +209,10 @@ class connect:
 
     @_convert_to_dict
     def get_finance_lines_by_hdr(self, hdr_seq: int) -> List[Dict[str,str]]:
-        SQL = """SELECT * FROM finance_line WHERE finance_seq = %s"""
+        SQL = """SELECT A.seq, A.finance_seq, A.line_id, B.price, A.qty,
+        A.added_by, A.updated_by, A.added_dt, A.update_dt FROM
+        finance_line A, item_cost B WHERE A.item_id = B.seq AND
+        A.finance_seq=%s"""
         self.cur.execute(SQL, (hdr_seq,))
 
     def get_finances(self) -> List[Dict[str,str]]:

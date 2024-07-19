@@ -17,14 +17,14 @@
 .child {
     display: none;
 }
-.child li {
+.child .navli {
     background-color: var(--accent-color);
     line-height: 30px;
     border-bottom: #CCC 1px solid;
     border-right: #CCC 1px solid;
     width: 100%;
 }
-.child li a {
+.child .navli a {
     color: var(--primary-color);
 }
 ul {
@@ -38,13 +38,13 @@ ul ul ul {
     top: 0;
     margin-left: 1px;
 }
-li:hover {
+.navli:hover {
     background-color: var(--accent-hover-color);
 }
 .parent:hover {
     background-color: var(--accent-hover-color);
 }
-.parent li:hover {
+.parent .navli:hover {
     background-color: var(--accent-hover-color);
 }
 

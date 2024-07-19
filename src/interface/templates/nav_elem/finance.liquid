@@ -1,37 +1,40 @@
 {% if perms.fin_view == 1 or perms.fin_add == 1 or perms.fin_edit == 1 or perms.fin_admin == 1 or perms.fin_query %}
-  <li class="parent">
+  <li  class="navli parent">
     <a href="#">Maintain Treasury</a>
     <ul class="child">
       {% if perms.fin_admin == 1 or perms.fin_view == 1 %}
-        <li class="parent">
+        <li  class="navli" class="parent">
           <a href="/finances/">View All Records</a>
         </li>
       {% endif %}
       {% if perms.fin_admin == 1 or perms.fin_add == 1 %}
-        <li class="parent">
+        <li  class="navli" class="parent">
           <a href="/finances/create/">New Record</a>
         </li>
       {% endif %}
       {% if perms.fin_admin == 1 %}
-        <li class="parent">
+        <li  class="navli" class="parent">
           <a href="URL">Administrate Finances</a>
+        </li>
+        <li  class="navli" class="parent">
+          <a href="/finance/items/new">Create Item</a>
         </li>
       {% endif %}
 
       {% if perms.fin_admin == 1 or perms.fin_query == 1 %}
-        <li class="parent">
+        <li  class="navli" class="parent">
           <a href="URL">Query Finances</a>
         </li>
       {% endif %}
 
       {% assign fin_dash_len = finance_dashboards | size %}
       {% if fin_dash_len > 0 %}
-        <li class="parent">
+        <li  class="navli" class="parent">
           <a href="#">Dashboards<span class="expand">&raquo;</span>
           </a>
           <ul class="child">
             {% for dash in finance_dashboards %}
-              <li>
+              <li  class="navli">
                 <a href="/finance/dashboards/{{dash.seq}}">{{ dash.name }}</a>
               </li>
             {% endfor %}

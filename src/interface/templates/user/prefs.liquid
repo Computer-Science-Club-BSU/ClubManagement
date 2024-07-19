@@ -54,12 +54,52 @@
         </div>
         <div class="box">
           <h2>User Security</h2>
+          <form action="/user/preferences/security/{{user.seq}}" method="post">
+            <label for="current">Current Password</label>
+            <input
+              type="password"
+              name="current"
+              id="current"> <br>
+            <label for="new">New Password</label><input
+              type="password"
+              name="new"
+              id="new"> <br>
+            <label for="confirm">Confirm Password</label><input
+              type="password"
+              name="confirm"
+              id="confirm"> <br>
+            <input type="submit" value="Update">
+          </form>
         </div>
         <div class="box">
           <h2>General Info</h2>
+          <h3>Current Positions:</h3>
+          <ul>
+            {% for class in classes %}
+              <h4>{{ class.position_name }}</h4>
+            {% endfor %}
+          </ul>
         </div>
         <div class="box">
           <h2>User Audit</h2>
+          <table>
+            <tr>
+              <th>Added By</th>
+              <td>{{ user_audit.added_by }}</td>
+            </tr>
+            <tr>
+              <th>Added DateTime</th>
+              <td>{{ user_audit.added_dt }}</td>
+            </tr>
+            <tr>
+              <th>Updated By</th>
+              <td>{{ user_audit.updated_by }}</td>
+            </tr>
+            <tr>
+              <th>Update DateTime</th>
+              <td>{{ user_audit.update_dt }}</td>
+            </tr>
+          </table>
         </div>
       </div>
       {{ user }}
