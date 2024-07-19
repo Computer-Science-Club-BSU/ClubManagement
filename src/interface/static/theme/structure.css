@@ -57,8 +57,8 @@ ul ul ul {
     float: right;
 }
 .right:hover > ul {
-    float: right;
-    right: -100%;
+    position: absolute;
+    right:0px;
 }
 .foot_wrap{
     position: fixed;
