@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Preferences</title>
+  </head>
+  <body>
+    {% include 'navbar.liquid' %}
+    <article>
+      <h1>User Preferences</h1>
+      <div class="grid2x2">
+        <div class="box">
+          <h2>General Info</h2>
+          <form action="/user/preferences/general/{{user.seq}}" method="POST">
+            <label for="fName">Name:
+            </label>
+            <input
+              type="text"
+              name="fName"
+              id="fName"
+              value="{{user.first_name}}"><input
+              type="text"
+              name="lName"
+              id="lName"
+              value="{{user.last_name}}">
+            <br>
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value="{{user.email}}">
+            <br>
+            <label for="title">Title</label>
+            <select name="title" id="title">
+              {% assign found_title = false %}
+              {% for title in titles %}
+                {% if title.title_desc == user.title %}
+                  {% assign found_title = true %}
+                  <option value="{{title.seq}}" selected>{{ title.title_desc }}</option>
+                {% else %}
+                  <option value="{{title.seq}}">{{ title.title_desc }}</option>
+
+                {% endif %}
+              {% endfor %}
+              {% if found_title != true %}
+                <option value="_">{{ user.title }}</option>
+              {% endif %}
+            </select>
+            <br>
+            <input type="submit" value="Update">
+          </form>
+        </div>
+        <div class="box">
+          <h2>User Security</h2>
+          <form action="/user/preferences/security/{{user.seq}}" method="post">
+            <label for="current">Current Password</label>
+            <input
+              type="password"
+              name="current"
+              id="current"> <br>
+            <label for="new">New Password</label><input
+              type="password"
+              name="new"
+              id="new"> <br>
+            <label for="confirm">Confirm Password</label><input
+              type="password"
+              name="confirm"
+              id="confirm"> <br>
+            <input type="submit" value="Update">
+          </form>
+        </div>
+        <div class="box">
+          <h2>General Info</h2>
+          <h3>Current Positions:</h3>
+          <ul>
+            {% for class in classes %}
+              <h4>{{ class.position_name }}</h4>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="box">
+          <h2>User Audit</h2>
+          <table>
+            <tr>
+              <th>Added By</th>
+              <td>{{ user_audit.added_by }}</td>
+            </tr>
+            <tr>
+              <th>Added DateTime</th>
+              <td>{{ user_audit.added_dt }}</td>
+            </tr>
+            <tr>
+              <th>Updated By</th>
+              <td>{{ user_audit.updated_by }}</td>
+            </tr>
+            <tr>
+              <th>Update DateTime</th>
+              <td>{{ user_audit.update_dt }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {{ user }}
+    </article>
+    {% include 'footer.liquid' %}
+  </body>
+</html>
