@@ -4,6 +4,7 @@ import bleach
 import sys
 import logging
 import traceback
+import datetime
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError, Cursor
@@ -13,6 +14,7 @@ import base64
 from typing import List, Dict, Optional, Type, Sequence, Any
 from types import TracebackType
 from conf import LOG_DIR
+
 
 # Create a new logger
 handler = logging.FileHandler(f'{LOG_DIR}sql.log')
@@ -92,14 +94,18 @@ class connect:
     
     # All statements should call `run_statements` to ensure proper logging.
     def run_statement(self, statement: str, data: Sequence = (), buffered: Any|None = None):
-        log_str = f'SQL Statement: {statement}'
-        log_str += f'\n\tArgs:{data}' if len(data) > 0 else ''
-        try:
-            self.cur.execute(statement, data,buffered)
-            sqllogger.info(log_str)
-        except Exception as e:
-            sqllogger.error(log_str)
-            raise e
+
+        now = datetime.datetime.now()
+        date_str = now.strftime("%Y-%m-%-d %-H:%M:%S")
+        log_str = f'[{date_str}] SQL Statement: {statement}\n'
+        log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
+        with open(f'{LOG_DIR}sql.log', 'a') as f:
+            try:
+                self.cur.execute(statement, data,buffered)
+                f.write(f'[INFO]{log_str}')
+            except Exception as e:
+                f.write(f'[ERROR]{log_str}')
+                raise e
     
     def get_user_by_seq(self, user_seq):
         """Get a user by their seq
@@ -120,16 +126,18 @@ class connect:
     def get_user_data_by_seq(self, user_seq) -> dict:
         # Select User from SQL Table
         logger.debug(f"Getting User Data for User Seq {user_seq}")
-        SQL = "SELECT * FROM users WHERE seq = %s"
-        self.run_statement(SQL, (user_seq,))
+
+        SQL = "SELECT * FROM user_info_vw WHERE seq = %s"
+        self.cur.execute(SQL, (user_seq,))
+
 
     @_convert_to_dict
     def get_user_classes_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
         logger.debug(f"Getting User Classes for User Seq {user_seq}")
 
-        SQL = """SELECT a.position_name FROM class a, class_assignments b
-        WHERE a.seq = b.class_seq AND b.user_seq = %s"""
-        self.run_statement(SQL, (user_seq,))
+        SQL = """SELECT position_name FROM current_position
+        WHERE user_seq = %s"""
+        self.cur.execute(SQL, (user_seq,))
 
 
     def get_user_perms_by_user_seq(self, user_seq):
@@ -204,6 +212,7 @@ class connect:
         for finance in finances:
             total += finance['tax'] + finance['fees']
             for line in finance['lines']:
+                logger.debug(line)
                 total += (line['price'] * line['qty'])
         return total
 
@@ -218,6 +227,7 @@ class connect:
         A.added_by, A.updated_by, A.added_dt, A.update_dt FROM
         finance_line A, item_cost B WHERE A.item_id = B.seq AND
         A.finance_seq=%s"""
+
         self.run_statement(SQL, (hdr_seq,))
 
     def get_finances(self) -> List[Dict[str,str]]:
@@ -876,7 +886,7 @@ class connect:
         self.run_statement(SQL)
 
     @_convert_to_dict
-    def get_non_approval_titles(self):
+    def get_standard_titles(self):
         SQL = """SELECT * FROM titles WHERE approval_req = 0"""
         self.run_statement(SQL)
     
