@@ -2,6 +2,7 @@ from flask_liquid import render_template as _render
 from flask import session
 import json
 from src.utils.db_utilities import connect
+from conf import CFG_DIR
 
 
 def render_template(template_name, **context):
@@ -35,5 +36,5 @@ def render_template(template_name, **context):
 
 
 def load_config():
-    with open('/etc/cms/config.json', 'r') as f:
+    with open(f'{CFG_DIR}config.json', 'r') as f:
         return json.load(f)

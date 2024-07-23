@@ -939,9 +939,10 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         logger.debug("DB Instance Closed")
         if exctype is not None:
             logger.critical(f"DB Closed with errors!")
+            tb = '\n'.join(traceback.format_tb(exctb))
             error_str = f"""Exception: {exctype.__class__}
             {excinst}
-            Traceback:\n {'\n'.join(traceback.format_tb(exctb))}"""
+            Traceback:\n {tb}"""
             logger.critical(error_str)
 
     
