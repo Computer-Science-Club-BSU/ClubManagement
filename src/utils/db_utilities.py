@@ -5,6 +5,7 @@ import sys
 import logging
 import traceback
 import datetime
+from uuid import uuid4
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError
@@ -922,7 +923,24 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                 A.name = %s AND aT.name = %s AND B.seq = %s AND bT.seq = %s"""
                 self.cur.execute(sql, (key[1], key[0], key[4], key[3]))
 
+    from uuid import uuid4
+    @_exec_safe
+    def create_password_reset(self, username,request):
+        SQL = """INSERT INTO password_reset (user_seq, password_token,added_by_addr) 
+        VALUES ((select seq FROM users WHERE user_name=%s),%s,%s);"""
+        self.cur.execute(SQL, (username, uuid4(), request.remote_addr))
+
+    @_exec_safe
+    def reset_password_token(self, token: str, form: dict):
+        sql = """UPDATE users SET hash_pass = %s
+        WHERE seq = (SELECT user_seq FROM password_reset WHERE password_token = %s)"""
+        hash_pass = bcrypt.hashpw(form['password'].encode(), bcrypt.gensalt())
+        self.cur.execute(sql, (hash_pass, token))
+        sql = """DELETE FROM password_reset WHERE password_token = %s"""
+        self.cur.execute(sql, (token,))
+
     # __methods__
+
     def __enter__(self):
         logger.debug("DB Opened in Context Manager")
         return self
