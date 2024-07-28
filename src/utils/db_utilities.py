@@ -104,7 +104,7 @@ class connect:
     def run_statement(self, statement: str, data: Sequence = (), buffered: Any|None = None):
 
         now = datetime.datetime.now()
-        date_str = now.strftime("%Y-%m-%-d %-H:%M:%S")
+        date_str = now.strftime("%Y-%m-%d %H:%M:%S")
         log_str = f'[{date_str}] sql Statement: {statement}\n'
         log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
         with open(f'{LOG_DIR}sql.log', 'a') as f:
