@@ -25,8 +25,8 @@ from src.utils.send_email import send_email
 handler = logging.FileHandler(f'{LOG_DIR}sql.log')
 handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 
-# Call it "SQL Log, set the default level to INFO, and add the log location 'sql.log'"
-sqllogger = logging.getLogger("SQL Log")
+# Call it "sql Log, set the default level to INFO, and add the log location 'sql.log'"
+sqllogger = logging.getLogger("sql Log")
 sqllogger.setLevel(logging.DEBUG)
 sqllogger.addHandler(handler)
 
@@ -134,8 +134,8 @@ class connect:
     def get_user_data_by_seq(self, user_seq):
         # Select User from sql Table
         logger.debug(f"Getting User Data for User Seq {user_seq}")
-        SQL = "SELECT * FROM user_info_vw WHERE seq = %s"
-        self.run_statement(SQL, (user_seq,))
+        sql = "SELECT * FROM user_info_vw WHERE seq = %s"
+        self.run_statement(sql, (user_seq,))
 
 
 
@@ -158,7 +158,7 @@ class connect:
         AND c.user_seq = %s AND ea.seq = c.start_term AND eb.seq = c.end_term
         AND ea.start_date <= current_timestamp
         AND eb.end_date >= current_timestamp;"""
-        self.run_statement(SQL, (user_seq,))
+        self.run_statement(sql, (user_seq,))
 
         field_names = [i[0] for i in self.cur.description]
         data = self.cur.fetchall()
@@ -183,7 +183,7 @@ class connect:
         class_assignments ca WHERE da.dash_seq = dash.seq
         AND da.class_seq = ca.seq AND ca.user_seq = %s;"""
 
-        self.run_statement(SQL, (user_seq,))
+        self.run_statement(sql, (user_seq,))
 
     
     def authorize_user(self, username: str, password: str) -> int:
@@ -227,8 +227,8 @@ class connect:
 
     @_convert_to_dict
     def get_finance_headers(self) -> List[Dict[str,str]]:
-        SQL = """SELECT * FROM finance_hdr"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM finance_hdr"""
+        self.run_statement(sql)
 
 
     @_convert_to_dict
@@ -237,7 +237,7 @@ class connect:
         A.added_by, A.updated_by, A.added_dt, A.update_dt FROM
         finance_line A, item_cost B WHERE A.item_id = B.seq AND
         A.finance_seq=%s"""
-        self.run_statement(SQL, (hdr_seq,))
+        self.run_statement(sql, (hdr_seq,))
 
 
     def get_finances(self) -> List[Dict[str,str]]:
@@ -252,27 +252,27 @@ class connect:
 
     @_convert_to_dict
     def get_finance_statuses(self) -> List[Dict[str,str]]:
-        SQL = "SELECT * from finance_status"
-        self.run_statement(SQL)
+        sql = "SELECT * from finance_status"
+        self.run_statement(sql)
 
 
     @_convert_to_dict
     def get_finance_hdr_by_status(self, stat_desc: str) -> List[Dict[str,str]]:
         sql = """SELECT a.* from finance_hdr a,
         finance_status b where a.stat_seq = b.seq AND b.stat_desc = %s"""
-        self.run_statement(SQL, (stat_desc,))
+        self.run_statement(sql, (stat_desc,))
 
 
     @_convert_to_dict
     def get_docket_statuses(self) -> List[Dict[str,str]]:
-        SQL = "SELECT * from docket_status"
-        self.run_statement(SQL)
+        sql = "SELECT * from docket_status"
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_docket_hdr_by_status(self, stat_desc: str) -> List[Dict[str,str]]:
         sql = """SELECT a.* from docket_hdr a,
         docket_status b where a.stat_seq = b.seq AND b.stat_desc = %s"""
-        self.run_statement(SQL, (stat_desc,))
+        self.run_statement(sql, (stat_desc,))
 
 
     @_convert_to_dict_single
@@ -285,7 +285,7 @@ class connect:
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq
         AND hdr.added_by = u.seq AND hdr.seq = %s;"""
-        self.run_statement(SQL, (seq,))
+        self.run_statement(sql, (seq,))
 
 
     @_convert_to_dict
@@ -296,7 +296,7 @@ class connect:
         WHERE conv.creator = usr.seq
         AND conv.docket_seq = %s
         ORDER BY dt_added;"""
-        self.run_statement(SQL, (seq,))
+        self.run_statement(sql, (seq,))
 
 
     @_convert_to_dict
@@ -306,7 +306,7 @@ class connect:
         FROM docket_assignees assn, users usr
         WHERE assn.user_seq = usr.seq AND
         assn.docket_seq = %s ORDER BY assn.added_dt;"""
-        self.run_statement(SQL, (seq,))
+        self.run_statement(sql, (seq,))
 
 
     def get_all_docket_data_by_seq(self, seq):
@@ -339,7 +339,7 @@ class connect:
         AND d_a.start_date <= current_timestamp AND
         d_b.end_date >= current_timestamp and e.seq = a.title
         ORDER BY c.ranking ASC;"""
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
 
     @_convert_to_dict
@@ -351,7 +351,7 @@ class connect:
         B.start_term = Da.seq AND B.end_term = Db.seq AND C.displayed = 1
         AND Db.end_date < current_date and e.seq = A.title
         ORDER BY Db.end_date DESC, A.last_name DESC"""
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
 
     def get_docket_summary(self):
@@ -371,7 +371,7 @@ class connect:
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq AND
         LOWER(stat.stat_desc) != 'archived' AND hdr.added_by = u.seq;"""
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
     def can_user_edit_docket(self, user_seq, docket_seq) -> bool:
         user_perms = self.get_user_perms_by_user_seq(user_seq)
@@ -390,8 +390,8 @@ class connect:
 
     @_convert_to_dict
     def get_docket_users(self):
-        SQL = "SELECT * FROM docket_users"
-        self.run_statement(SQL)
+        sql = "SELECT * FROM docket_users"
+        self.run_statement(sql)
 
     @_exec_safe
     def create_docket_conversation(self,
@@ -401,7 +401,7 @@ class connect:
         sql = """INSERT INTO docket_conversations
         (docket_seq, creator, body) VALUES (%s,%s,%s)"""
 
-        self.run_statement(SQL, (doc_seq,user_seq,conv_data))
+        self.run_statement(sql, (doc_seq,user_seq,conv_data))
 
 
     def create_docket_item(self,
@@ -425,7 +425,7 @@ class connect:
         sql = """INSERT INTO docket_assignees (docket_seq, user_seq,
         added_by, updated_by) VALUES (%s,%s,%s,%s)"""
 
-        self.run_statement(SQL, (doc_seq, assignee, user_seq, user_seq))
+        self.run_statement(sql, (doc_seq, assignee, user_seq, user_seq))
 
     @_exec_safe
     def create_docket_and_assign(self,
@@ -450,7 +450,7 @@ class connect:
         dash_assign da, class_assignments ca WHERE da.dash_seq = dash.seq AND
         ca.user_seq = %s AND da.class_seq = ca.class_seq AND dash.seq = %s;"""
 
-        self.run_statement(SQL, (user_seq, dash_seq))
+        self.run_statement(sql, (user_seq, dash_seq))
         if self.cur.rowcount != 1:
             return False
         sp_name = self.cur.fetchone()[0]
@@ -459,8 +459,8 @@ class connect:
 
     @_convert_to_dict
     def get_docket_vote_types(self):
-        SQL = "SELECT * FROM vote_types"
-        self.run_statement(SQL)
+        sql = "SELECT * FROM vote_types"
+        self.run_statement(sql)
 
     @_exec_safe
     def update_docket(self,
@@ -485,22 +485,22 @@ class connect:
 
         sql += " WHERE seq = %s"
         vals.append(doc_seq)
-        self.run_statement(SQL, vals)
+        self.run_statement(sql, vals)
 
     @_convert_to_dict
     def get_permission_data(self) -> List[Dict[str,str]]:
-        SQL = """SELECT * FROM perm_types WHERE grantable=1;"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM perm_types WHERE grantable=1;"""
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_all_db_perms(self) -> List[Dict[str,str]]:
-        SQL = "SELECT * FROM perms"
-        self.run_statement(SQL)
+        sql = "SELECT * FROM perms"
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_user_classes(self) -> List[Dict[str,str]]:
-        SQL = """SELECT * FROM class"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM class"""
+        self.run_statement(sql)
 
     def get_class_perms(self) -> dict[dict]:
         sql = """SELECT perms.seq, perms.granted, c.position_name,
@@ -508,7 +508,7 @@ class connect:
         ON (perms.class_seq = c.seq AND perms.perm_seq = p.seq
         AND p.grantable = 1);"""
 
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
         perms = {}
         for row in self.cur.fetchall():
@@ -523,7 +523,7 @@ class connect:
     def create_class(self, class_name, user_seq):
         sql = """INSERT INTO class (position_name, added_by, updated_by,
         displayed) VALUES (%s, %s, %s, 0)"""
-        self.run_statement(SQL, (class_name, user_seq, user_seq))
+        self.run_statement(sql, (class_name, user_seq, user_seq))
         class_seq = self.cur.lastrowid
         perm_sql = """INSERT INTO perms (class_seq, perm_seq,
         added_by, updated_by) VALUES (%s, %s, %s, %s)"""
@@ -544,7 +544,7 @@ class connect:
                      bcc: list) -> tuple[bool, int]:
         sql = """INSERT INTO emails (email_subject, email_body, added_by,
         state) VALUES (%s,%s,%s, 'd')"""
-        self.run_statement(SQL, (subject,body,user_seq))
+        self.run_statement(sql, (subject,body,user_seq))
 
         email_seq = self.cur.lastrowid
         recp_sql = """INSERT INTO email_recp (email_seq, contact_seq, recp_type)
@@ -574,23 +574,23 @@ class connect:
     @_convert_to_dict_single
     def get_email_header(self, email_seq: int) -> dict:
 
-        SQL = "SELECT * FROM emails WHERE seq = %s"
-        self.run_statement(SQL, (email_seq,))
+        sql = "SELECT * FROM emails WHERE seq = %s"
+        self.run_statement(sql, (email_seq,))
 
     @_convert_to_dict
     def get_email_to(self, email_seq) -> List[Dict[str,str]]:
-        SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 't'"
-        self.run_statement(SQL, (email_seq,))
+        sql = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 't'"
+        self.run_statement(sql, (email_seq,))
 
     @_convert_to_dict
     def get_email_cc(self, email_seq) -> List[Dict[str,str]]:
-        SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'c'"
-        self.run_statement(SQL, (email_seq,))
+        sql = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'c'"
+        self.run_statement(sql, (email_seq,))
 
     @_convert_to_dict
     def get_email_bcc(self, email_seq) -> List[Dict[str,str]]:
-        SQL = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'b'"
-        self.run_statement(SQL, (email_seq,))
+        sql = "SELECT * FROM email_recp WHERE email_seq=%s AND recp_type = 'b'"
+        self.run_statement(sql, (email_seq,))
 
     def get_email_data(self, email_seq):
         email_hdr = self.get_email_header(email_seq)
@@ -627,7 +627,7 @@ class connect:
     @_exec_safe
     def clear_exp_password_reset(self):
         sql = """DELETE FROM password_reset WHERE
-        TIMESTAMPDIFF(DAY, created_dt, current_timestamp) >= 1;"""
+        TIMESTAMPDIFF(DAY, added_dt, current_timestamp) >= 1;"""
         self.run_statement(sql)
 
 
@@ -639,8 +639,8 @@ class connect:
     @_convert_to_dict 
     def get_finance_headers_summary(self) -> List[Dict[str,str]]:
 
-        SQL = "SELECT * FROM finance_hdr_summary"
-        self.run_statement(SQL)
+        sql = "SELECT * FROM finance_hdr_summary"
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_finance_users(self):
@@ -653,7 +653,7 @@ class connect:
                     B.end_term = tB.seq AND tA.start_date <= current_timestamp
                 AND current_timestamp <= tB.end_date"""
 
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_finance_approvers(self):
@@ -664,12 +664,12 @@ class connect:
                 AND D.granted = 1 AND A.is_active = 1 AND B.start_term = tA.seq AND
                     B.end_term = tB.seq AND tA.start_date <= current_timestamp
                 AND current_timestamp <= tB.end_date"""
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_finance_types(self):
-        SQL = """SELECT * FROM finance_type"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM finance_type"""
+        self.run_statement(sql)
 
 
     @_convert_to_dict
@@ -681,17 +681,17 @@ class connect:
         SELECT MAX(eff_date) FROM item_cost B
         WHERE B.item_seq = items.seq AND B.eff_date <= %s )"""
 
-        self.run_statement(SQL, (date,))
+        self.run_statement(sql, (date,))
 
     @_convert_to_dict_single
     def get_finance_status_by_seq(self, seq):
-        SQL = """SELECT * FROM finance_status WHERE seq = %s"""
-        self.run_statement(SQL, (seq,))
+        sql = """SELECT * FROM finance_status WHERE seq = %s"""
+        self.run_statement(sql, (seq,))
 
     @_convert_to_dict_single
     def get_finance_type_by_seq(self, seq) -> dict:
-        SQL = """SELECT * FROM finance_type WHERE seq = %s"""
-        self.run_statement(SQL, (seq,))
+        sql = """SELECT * FROM finance_type WHERE seq = %s"""
+        self.run_statement(sql, (seq,))
 
 
     @_exec_safe
@@ -708,14 +708,14 @@ class connect:
         sql = """SELECT seq, file_name as name FROM docket_attachments WHERE
         docket_seq = %s"""
 
-        self.run_statement(SQL, (seq,))
+        self.run_statement(sql, (seq,))
 
 
     def get_docket_attachment(self, attach_seq) -> tuple[str,bytes]:
         sql = """SELECT file_name ,file_data FROM docket_attachments WHERE
         seq = %s"""
 
-        self.run_statement(SQL, (attach_seq,))
+        self.run_statement(sql, (attach_seq,))
 
         result = self.cur.fetchone()
         name = result[0]
@@ -725,8 +725,8 @@ class connect:
     @_convert_to_dict
     def get_users(self):
 
-        SQL = """SELECT * FROM users WHERE is_active = 1"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM users WHERE is_active = 1"""
+        self.run_statement(sql)
 
 
     def get_assignments(self):
@@ -739,7 +739,7 @@ class connect:
         # WHERE ca.class_seq = c.seq AND ca.user_seq = u.seq AND u.is_active=1"""
         assignments = {}
 
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
         data = self.cur.fetchall()
         for row in data:
@@ -755,8 +755,8 @@ class connect:
         OR perm_seq = (SELECT seq FROM perm_types
         WHERE perm_desc = 'guest'))"""
 
-        logger.debug(SQL % (endpoint, user_seq))
-        self.run_statement(SQL, (endpoint, user_seq))
+        logger.debug(sql % (endpoint, user_seq))
+        self.run_statement(sql, (endpoint, user_seq))
 
         return self.cur.rowcount > 0
 
@@ -771,7 +771,7 @@ class connect:
                 (docket_seq, user_seq, added_by, updated_by)
                 VALUES (%s,%s,%s,%s)"""
 
-                self.run_statement(SQL, (docket_seq, user, user_seq, user_seq))
+                self.run_statement(sql, (docket_seq, user, user_seq, user_seq))
 
 
         for user in assignees:
@@ -781,7 +781,7 @@ class connect:
                 sql = """DELETE FROM docket_assignees WHERE
                 docket_seq = %s AND user_seq = %s"""
 
-                self.run_statement(SQL, (docket_seq, user))
+                self.run_statement(sql, (docket_seq, user))
 
 
     @_exec_safe
@@ -791,7 +791,7 @@ class connect:
             (email_address, first_name, last_name, is_active)
             VALUES (%s,%s,%s,1)"""
 
-        self.run_statement(SQL, (data.get('email'),
+        self.run_statement(sql, (data.get('email'),
 
                                data.get('fName'),
                                data.get('lName')))
@@ -801,7 +801,7 @@ class connect:
         VALUES
         (%s,%s,%s,%s,%s, 'S')"""
 
-        self.run_statement(SQL, (data.get('uName'),
+        self.run_statement(sql, (data.get('uName'),
 
                                data.get('fName'),
                                data.get('lName'),
@@ -811,13 +811,13 @@ class connect:
     @_convert_to_dict_single
     def get_class_assignment_by_seq(self, seq):
 
-        SQL = """SELECT * FROM officer_lookup WHERE assignment_seq = %s"""
-        self.run_statement(SQL, (seq,))
+        sql = """SELECT * FROM officer_lookup WHERE assignment_seq = %s"""
+        self.run_statement(sql, (seq,))
 
     @_convert_to_dict
     def get_terms(self):
-        SQL = """SELECT * FROM terms ORDER BY end_date DESC"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM terms ORDER BY end_date DESC"""
+        self.run_statement(sql)
 
     @_exec_safe
     def update_class_assignment(self,
@@ -829,7 +829,7 @@ class connect:
         sql = """UPDATE class_assignments SET class_seq=%s,start_term=%s,
         end_term=%s,updated_by=%s WHERE seq=%s"""
 
-        self.run_statement(SQL, (_class, start, end, user_seq, seq))
+        self.run_statement(sql, (_class, start, end, user_seq, seq))
 
 
     @_convert_to_dict
@@ -840,11 +840,11 @@ class connect:
         WHERE A.plugin_seq = B.seq AND A.perm_seq = C.seq AND
         B.admin_perm = D.seq"""
 
-        self.run_statement(SQL)
+        self.run_statement(sql)
 
     def get_dev_email_addr(self):
-        SQL = "SELECT * FROM developer_emails"
-        self.run_statement(SQL)
+        sql = "SELECT * FROM developer_emails"
+        self.run_statement(sql)
         return [x[0] for x in self.cur.fetchall()]
 
     @_exec_safe
@@ -852,8 +852,8 @@ class connect:
                            perm_seq: int,
                            grant_status: bool, user_seq: int):
 
-        SQL = """SELECT granted FROM perms WHERE seq=%s"""
-        self.run_statement(SQL, (perm_seq,))
+        sql = """SELECT granted FROM perms WHERE seq=%s"""
+        self.run_statement(sql, (perm_seq,))
 
         granted = self.cur.fetchone()[0]
         if (granted == 1) == grant_status:
@@ -889,7 +889,7 @@ class connect:
     WHERE
     B.home_page_seq = A.seq AND B.seq = %s"""
 
-        self.run_statement(SQL, (user_seq,))
+        self.run_statement(sql, (user_seq,))
 
 
     @_exec_safe
@@ -900,7 +900,7 @@ class connect:
         )
         VALUES (%s,%s,%s,%s,%s,%s)"""
 
-        self.run_statement(SQL, (user, _class, start, end, user_seq, user_seq))
+        self.run_statement(sql, (user, _class, start, end, user_seq, user_seq))
 
 
     @_exec_safe
@@ -913,9 +913,9 @@ class connect:
             added_dt, current_timestamp FROM class_assignments WHERE seq = %s;
         """
 
-        self.run_statement(SQL, (user_seq, assignment_seq))
-        SQL = """DELETE FROM class_assignments WHERE seq = %s"""
-        self.run_statement(SQL, (assignment_seq,))
+        self.run_statement(sql, (user_seq, assignment_seq))
+        sql = """DELETE FROM class_assignments WHERE seq = %s"""
+        self.run_statement(sql, (assignment_seq,))
 
     
     @_exec_safe
@@ -923,7 +923,7 @@ class connect:
         sql = """INSERT INTO items (item_vendor, item_name, displayed,
         added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
 
-        self.run_statement(SQL, (vendor, name, visible, user, user))
+        self.run_statement(sql, (vendor, name, visible, user, user))
 
         seq = self.cur.lastrowid
         sql = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
@@ -937,25 +937,25 @@ class connect:
         sql = """UPDATE items SET displayed = %s WHERE item_name = %s AND
         item_vendor = %s"""
 
-        self.run_statement(SQL, (visible, vendor, name))
-        SQL = "SELECT seq FROM items WHERE item_vendor = %s AND item_name = %s"
-        self.run_statement(SQL, (vendor, name))
+        self.run_statement(sql, (visible, vendor, name))
+        sql = "SELECT seq FROM items WHERE item_vendor = %s AND item_name = %s"
+        self.run_statement(sql, (vendor, name))
 
         seq = self.cur.fetchone()[0]
         sql = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
         updated_by) VALUES (%s,%s,%s,%s,%s)"""
 
-        self.run_statement(SQL, (seq, date, price, user, user))
+        self.run_statement(sql, (seq, date, price, user, user))
 
     @_convert_to_dict
     def fetch_pending_user_requests(self) -> list[dict]:
-        SQL = """SELECT * FROM pending_users WHERE process_flag = 'S'"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM pending_users WHERE process_flag = 'S'"""
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_standard_titles(self):
-        SQL = """SELECT * FROM titles WHERE approval_req = 0"""
-        self.run_statement(SQL)
+        sql = """SELECT * FROM titles WHERE approval_req = 0"""
+        self.run_statement(sql)
 
     
     def get_user_admin_emails(self):
@@ -967,7 +967,7 @@ class connect:
         AND current_timestamp <= tB.end_date AND email is not null and
         email != ''"""
 
-        self.run_statement(SQL)
+        self.run_statement(sql)
         return [x[0] for x in self.cur.fetchall()]
     
     @_exec_safe
@@ -1037,10 +1037,10 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         sql = """DELETE FROM password_reset WHERE password_token = %s"""
         self.cur.execute(sql, (token,))
 
-
-
+    @_exec_safe
+    def update_pending_user_flag(self, request_seq, flag):
         SQL = """UPDATE pending_users SET process_flag=%s WHERE seq=%s"""
-        self.run_statement(SQL, (flag, request_seq))
+        self.cur.execute(SQL, (flag, request_seq))
     
     @_exec_safe
     def introspect_database(self):
@@ -1099,12 +1099,12 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                 self.update_row_ref(seq, source, dest)
     
     def insert_row_ref(self, source, dest):
-        SQL = """INSERT INTO db_rels (col, target_col) VALUES (%s,%s)"""
-        self.run_statement(SQL, (source, dest))
+        sql = """INSERT INTO db_rels (col, target_col) VALUES (%s,%s)"""
+        self.run_statement(sql, (source, dest))
     
     def update_row_ref(self, seq, source, dest):
-        SQL = """UPDATE db_rels SET maintained = 1 WHERE seq = %s"""
-        self.run_statement(SQL, (seq,))
+        sql = """UPDATE db_rels SET maintained = 1 WHERE seq = %s"""
+        self.run_statement(sql, (seq,))
     
     def create_db_introspection_table(self, table: tuple[str,str]):
         table_sql = "INSERT INTO db_tables (name, type) VALUES (%s,%s)"
