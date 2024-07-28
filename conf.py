@@ -1,2 +1,2 @@
-LOG_DIR = '/var/log/cms2/'
-CFG_DIR = '/etc/cms/'
+LOG_DIR = 'C:\\cms\\log\\'
+CFG_DIR = 'C:\\cms\\cfg\\'

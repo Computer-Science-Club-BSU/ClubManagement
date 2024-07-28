@@ -5,7 +5,7 @@ import bs4
 from os import environ
 from src.utils.cfg_utils import get_cfg
 
-def send_email(subject, body, send_from, to: list, cc: list, bcc: list):
+def send_email(subject, body, send_from, to: list, cc: list = [], bcc: list = []):
     cnf = get_cfg()['SMTP']
     message = MIMEMultipart('alternative')
     message['Subject'] = subject
@@ -19,6 +19,10 @@ def send_email(subject, body, send_from, to: list, cc: list, bcc: list):
     text = bs4.BeautifulSoup(body, "html.parser").text
     message.attach(MIMEText(text, 'plain'))
     message.attach(MIMEText(body, 'html'))
+    if send_from == '':
+        send_from_email = cnf.get('SEND_AS')
+        send_alias = cnf.get('SEND_ALIAS')
+        send_from = f"{send_alias} <{send_from_email}>"
 
     with smtplib.SMTP_SSL(cnf.get("HOST"),
                       cnf.get("PORT")) as server:

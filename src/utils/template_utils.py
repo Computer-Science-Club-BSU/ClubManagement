@@ -3,6 +3,7 @@ from flask import session
 import json
 from src.utils.db_utilities import connect
 from conf import CFG_DIR
+from src.utils.cfg_utils import load_config
 
 
 def render_template(template_name, **context):
@@ -35,6 +36,3 @@ def render_template(template_name, **context):
                         nav_pages=nav_pages)
 
 
-def load_config():
-    with open(f'{CFG_DIR}config.json', 'r') as f:
-        return json.load(f)
