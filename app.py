@@ -3,7 +3,9 @@ from flask_liquid import Liquid
 import logging
 from uuid import uuid4
 from os import getcwd
+from werkzeug.middleware.proxy_fix import ProxyFix
 from conf import LOG_DIR
+
 # @lambda _: _()
 # def start_time():
 #     # cfg = cfg_utils.get_cfg_params()
@@ -40,6 +42,9 @@ configLogging()
 app = Flask(__name__,
             static_folder="src/interface/static",
             template_folder="src/interface/templates/")
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 app.url_map.strict_slashes = False
 if app.debug != True:
     logger.info('Application Started')

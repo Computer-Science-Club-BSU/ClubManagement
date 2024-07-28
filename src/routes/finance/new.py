@@ -5,7 +5,7 @@ from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
 
 @app.get('/finances/create/')
-def get_finances_new():
+def get_finances_create():
     """Serves the /finances/create/ GET request.
     Returns a template with all users who can add finances,
     approve finances, as well as statuses and types for finances."""
@@ -31,3 +31,4 @@ def post_finances_create():
     if res:
         return ""
     abort(400)
+

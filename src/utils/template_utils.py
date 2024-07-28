@@ -15,7 +15,6 @@ def render_template(template_name, **context):
             ]
     with connect() as conn:
         nav_pages.extend(conn.get_nav_pages())
-        nav_pages.append('account.liquid')
         if user_seq is not None:
 
             (user,

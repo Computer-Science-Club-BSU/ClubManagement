@@ -1,5 +1,6 @@
 {% if perms.user_view == 1 or perms.user_add == 1 or perms.user_edit == 1 or perms.user_admin == 1 or perms.user_query == 1 or perms.user_delete == 1 %}
   <li class="navli parent">
+
     <a href="">Maintain Users</a>
     <ul class="child">
       {% if perms.user_view == 1 or perms.user_admin == 1 %}
@@ -33,6 +34,6 @@
       {% endif %}
 
     </ul>
-  </li>
+  </div>
 
 {% endif %}
