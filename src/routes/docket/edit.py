@@ -58,7 +58,7 @@ def post_doc_update_assignees(doc):
     user_seq = session.get('user_seq')
     with connect() as conn:
         data = request.form.getlist('assignees')
-        res, _ = conn.update_docket_assignmees(doc, data, user_seq)#pylint: disable=unpacking-non-sequence
+        res, _ = conn.update_docket_assignees(doc, data, user_seq)#pylint: disable=unpacking-non-sequence
         if res:
             return "Assignee added successfully", 201
         return "Error adding assignee", 400
