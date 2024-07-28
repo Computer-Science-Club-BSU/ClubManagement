@@ -1,7 +1,12 @@
 import configparser
 from typing import Dict
 from conf import CFG_DIR
+import json
 
+
+def load_config():
+    with open(f'{CFG_DIR}config.json', 'r') as f:
+        return json.load(f)
 
 def _load_cfg():
     cfg = configparser.ConfigParser()
