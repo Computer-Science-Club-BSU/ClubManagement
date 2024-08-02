@@ -13,6 +13,7 @@
           <table>
             <tr>
               <th style="text-align: center;">ID</th>
+              <th style="text-align: center;">Record Date</th>
               <th style="text-align: center;">Creator</th>
               <th style="text-align: center;">Approver</th>
               <th style="text-align: center;">Status</th>
@@ -21,7 +22,21 @@
               <th style="text-align: center;">Actions</th>
             </tr>
             {% for row in records %}
+              <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.inv_date }}</td>
+                <td>{{ row.CreatedBy }}</td>
+                <td>{{ row.ApprovedBy }}</td>
+                <td>{{ row.stat_desc }}</td>
+                <td>{{ row.type_desc }}</td>
+                <td>{{ row.Total }}</td>
+                <td>
+                  <button>View</button>
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </td>
 
+              </tr>
             {% endfor %}
           </table>
         </div>

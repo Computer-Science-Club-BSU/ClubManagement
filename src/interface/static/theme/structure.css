@@ -17,14 +17,14 @@
 .child {
     display: none;
 }
-.child li {
+.child .navli {
     background-color: var(--accent-color);
     line-height: 30px;
     border-bottom: #CCC 1px solid;
     border-right: #CCC 1px solid;
     width: 100%;
 }
-.child li a {
+.child .navli a {
     color: var(--primary-color);
 }
 ul {
@@ -38,24 +38,28 @@ ul ul ul {
     top: 0;
     margin-left: 1px;
 }
-li:hover {
+.navli:hover {
     background-color: var(--accent-hover-color);
 }
-.parent li:hover {
+.parent:hover {
+    background-color: var(--accent-hover-color);
+}
+.parent .navli:hover {
     background-color: var(--accent-hover-color);
 }
 
 .nav_div {
     width: 100%;
-    height: 4%;
-    background-color: var(--accent-color)
+    height: auto;
+    background-color: var(--accent-color);
+    display: inline-block;
 }
 .right {
     float: right;
 }
 .right:hover > ul {
-    float: right;
-    right: -100%;
+    position: absolute;
+    right:0px;
 }
 .foot_wrap{
     position: fixed;
@@ -79,8 +83,16 @@ html, body{
     background-color: var(--primary-color);
 }
 
+article > .grid {
+    width: 100%;
+}
+
 article{
-    height: 91%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    min-height: 91%;
+    margin-bottom: calc(8dvh + 25px);
 }
 h1,h2, h3, h4, h5, h6{
     margin: 5px;
@@ -96,7 +108,8 @@ header > h2, header > h3 {
 }
 
 .grid2x2 {
-    min-height: 91%;
+    width: 100%;
+    min-height: 80dvh;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -192,10 +205,18 @@ tr > td {
     outline: 1px solid var(--text-color);
 } */
 
+.spacer{
+    margin-top: 50px;
+}
 
 
 body{
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.nav_wrap{
+    height: 5dvh
 }
 
 /*Welcome to the idiot show... Staring me, the idiot!*/
+
