@@ -137,7 +137,10 @@ class connect:
         sql = "SELECT * FROM user_info_vw WHERE seq = %s"
         self.run_statement(sql, (user_seq,))
 
-
+    def does_endpoint_exist(self, endpoint_name):
+        sql = "SELECT * FROM plugin_permissions where path_func_name = %s"
+        self.run_statement(sql, (endpoint_name,))
+        return self.cur.rowcount != 0
 
     @_convert_to_dict
     def get_user_classes_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
@@ -200,6 +203,16 @@ class connect:
             return user_data.get('seq')
 
         return -1
+
+    def check_existing_password(self, user_seq: str|int, password: str) -> bool:
+        sql = "SELECT hash_pass FROM users WHERE seq = %s"
+        self.cur.execute(sql, (user_seq,))
+        if self.cur.rowcount == 0:
+            raise NotImplementedError
+        user_pw = self.cur.fetchone()[0]
+        hashed_pw = user_pw.encode()
+        password = password.encode()
+        return bcrypt.checkpw(password, hashed_pw)
 
 
 
@@ -783,6 +796,18 @@ class connect:
 
                 self.run_statement(sql, (docket_seq, user))
 
+    @_exec_safe
+    def update_user_prefs(self, request_data: dict, user_seq: int):
+        sql = """UPDATE users SET first_name=%s,last_name=%s,title=%s,email=%s,
+        updated_by=%s WHERE seq=%s"""
+        self.run_statement(sql, (
+            request_data.get('fName'),
+            request_data.get('lName'),
+            request_data.get('title'),
+            request_data.get('email'),
+            user_seq,user_seq
+        ))
+
 
     @_exec_safe
     def add_requested_user(self, data: dict) -> tuple[bool, any]:
@@ -957,7 +982,13 @@ class connect:
         sql = """SELECT * FROM titles WHERE approval_req = 0"""
         self.run_statement(sql)
 
-    
+
+    @_exec_safe
+    def update_user_password(self, new_pw: str, user_seq: str|int):
+        sql = """UPDATE users SET hash_pw=%s, updated_by=%s WHERE seq=%s"""
+        hashed_pw = bcrypt.hashpw(new_pw.encode(), bcrypt.gensalt())
+        self.run_statement(sql, (hashed_pw,user_seq))
+
     def get_user_admin_emails(self):
         sql = """SELECT usr.email FROM users usr, class_assignments cls,
         terms tA, terms tB, perms p, perm_types pt WHERE cls.user_seq = usr.seq

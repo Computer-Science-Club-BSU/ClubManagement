@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Preferences</title>
+    {% if err_msg != nil %}
+      <script>
+        alert('{{ err_msg }}')
+      </script>
+    {% endif %}
   </head>
   <body>
     {% include 'navbar.liquid' %}
@@ -12,7 +17,7 @@
       <div class="grid2x2">
         <div class="box">
           <h2>General Info</h2>
-          <form action="/user/preferences/general/{{user.seq}}" method="POST">
+          <form action="/user/preferences/general/" method="POST">
             <label for="fName">Name:
             </label>
             <input

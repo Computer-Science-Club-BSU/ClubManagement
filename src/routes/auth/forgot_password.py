@@ -1,10 +1,10 @@
 import logging
-import string
 
 from flask import request
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
+from src.utils.auth_utils import validate_password
 
 logger = logging.getLogger('ForgotPassword')
 
@@ -23,28 +23,6 @@ def post_forgot_password():
 def get_forgot_password(token: str):
     return render_template('auth/forgot_password.liquid', token=token), 200
 
-def validate_password(new_password, confirm_password):
-    if new_password != confirm_password:
-        return "Passwords do not match"
-
-    if len(new_password) < 8:
-        return "Password must be at least 8 characters"
-
-    required_chars = [
-        string.ascii_letters, string.ascii_letters, string.digits, string.punctuation
-    ]
-
-    for chars in required_chars:
-
-        for char in chars:
-            if char in new_password:
-                break
-        else:
-            return "Password must contain at least one Uppercase character, "\
-                    "One lowercase character, one number character, and one "\
-                    "punctuation character."
-
-    return True
 
 @app.post('/forgot_password/<string:token>')
 def post_forgot_password_token(token: str):
