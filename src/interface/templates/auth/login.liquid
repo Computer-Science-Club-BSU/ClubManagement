@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In!</title>
+    <style>
+      .invalid{
+        outline: 3px solid red;
+      }
+    </style>
+    <script>
+      function forgotPassword(){
+        userName = document.getElementById('uname').value
+        if(userName == ''){
+          document.getElementById('uname').classList += 'invalid'
+          alert('Please enter a username to reset your password.')
+          return
+        } else{
+          document.getElementById('uname').classList = ''
+        }
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/forgot_password/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+
+        xhr.send(JSON.stringify({
+          'username': userName
+        }))
+        xhr.onreadystatechange = () => {
+          if(xhr.readyState == 4){
+            if(xhr.status == 200)
+              alert('If your username was found in our records, then an reset email will be sent shortly.')
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="padleft30">
+        <h2 style="margin-left: 0px;">Log In</h2>
+        {% if err != nil %}
+          <p>{{ err }}</p>
+        {% endif %}
+        <form action="/auth/login/" method="post">
+          <label for="uname">Username</label>
+          <input
+            type="text"
+            name="uname"
+            id="uname"
+            autocomplete="username">
+          <br>
+          <label for="pword">Password</label>
+          <input
+            type="password"
+            name="pword"
+            id="pword">
+          <input type="submit" value="Log In">
+        </form>
+        <button onclick="forgotPassword()">Forgot Password?</button>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

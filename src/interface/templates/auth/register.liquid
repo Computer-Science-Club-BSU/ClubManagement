@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script>
+      function onLoad() {
+        {% if error_msg != nil %}
+        alert("{{error_msg}}")
+          {% endif %}
+        }
+    </script>
+  </head>
+  <body onload="onLoad()">
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="padleft30">
+        <h2 style="margin-left: 0px;">Register</h2>
+        {% if err != nil %}
+          <p>{{ err }}</p>
+        {% endif %}
+        <form action="/auth/register/" method="post">
+          <label for="title">Title</label>
+          <select name="title" id="title">
+            <option value="Dr.">Dr.</option>
+            <option value="Mr.">Mr.</option>
+            <option value="Mrs.">Mrs.</option>
+            <option value="Ms.">Ms.</option>
+            <option value="Mx.">Mx.</option>
+            <option value="Prof.">Prof.</option>
+          </select>
+          <br>
+          <label for="fName">First Name</label>
+          <input
+            type="text"
+            name="fName"
+            id="fName">
+          <br>
+          <label for="lName">Last name</label>
+          <input
+            type="text"
+            name="lName"
+            id="lName"> <br>
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"><br>
+          <label for="uName">User Name</label>
+          <input
+            type="text"
+            name="uName"
+            id="uName">
+          <br>
+          <input type="submit" value="Request Access">
+        </form>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

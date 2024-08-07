@@ -1,1 +1,2 @@
-from src.routes.auth import create, otp, login
+"""Imports endpoints from src/routes/auth source files"""
+from src.routes.auth import root, register, forgot_password

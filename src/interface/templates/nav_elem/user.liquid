@@ -1,0 +1,39 @@
+{% if perms.user_view == 1 or perms.user_add == 1 or perms.user_edit == 1 or perms.user_admin == 1 or perms.user_query == 1 or perms.user_delete == 1 %}
+  <li class="navli parent">
+
+    <a href="">Maintain Users</a>
+    <ul class="child">
+      {% if perms.user_view == 1 or perms.user_admin == 1 %}
+        <li class="navli">
+          <a href="/admin/users">View User</a>
+        </li>
+      {% endif %}
+      {% if perms.user_add == 1 or perms.user_admin == 1 %}
+        <li class="navli">
+          <a href="/admin/users/create">Create User</a>
+        </li>
+      {% endif %}
+      {% if perms.user_admin == 1 %}
+        <li class="navli">
+          <a href="/dev/">Administrate User</a>
+        </li>
+      {% endif %}
+      {% if perms.user_query == 1 or perms.user_admin == 1 %}
+        <li class="navli">
+          <a href="/dev/">Query User</a>
+        </li>
+      {% endif %}
+
+      {% if perms.user_admin == 1 %}
+        <li class="navli">
+          <a href="/admin/permissions/">Manage Permissions</a>
+        </li>
+        <li class="navli">
+          <a href="/admin/class_assignments">Manage Class Assignments</a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </li>
+
+{% endif %}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compose Email</title>
+    <script src="https://cdn.tiny.cloud/1/zwugoy2ou4fphshzw5kd3qeg29q9xpup7crzeidnhumkuh1d/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#emailBody'
+      });
+    </script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <form
+            method="post"
+            action="/email/preview/"
+            class="single_box">
+            <label for="subject" style="padding-right: 10px;">Subject:</label><input
+              type="text"
+              name="subject"
+              id="subject"
+              placeholder="Email Subject"
+              style="width:80%"> <br>
+            <label for="to" style="padding-right: 10px;">To:</label><input
+              type="text"
+              name="to"
+              id="to"
+              placeholder="<Email 1>;<Email 2>..."
+              style="width:80%"> <br>
+            <label for="cc" style="padding-right: 10px;">CC:</label><input
+              type="text"
+              name="cc"
+              id="cc"
+              placeholder="<Email 1>;<Email 2>..."
+              style="width:80%"> <br>
+            <label for="bcc" style="padding-right: 10px;">BCC:</label><input
+              type="text"
+              name="bcc"
+              id="bcc"
+              placeholder="<Email 1>;<Email 2>..."
+              style="width:80%">
+            <textarea id="emailBody" name="emailBody">Hello, World!</textarea>
+            <label for="position">Sign as:</label>
+            <select name="position" id="position">
+              {% for class in classes %}
+                <option value="{{class.position_name}}">{{ class.position_name }}</option>
+              {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="Send Email">
+          </form>
+        </div>
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>
