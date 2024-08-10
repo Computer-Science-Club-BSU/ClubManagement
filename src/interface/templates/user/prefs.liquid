@@ -50,8 +50,15 @@
                 {% endif %}
               {% endfor %}
               {% if found_title != true %}
-                <option value="_">{{ user.title }}</option>
+                <option value="-1" selected>{{ user.title }}</option>
               {% endif %}
+            </select>
+            <label for="theme">Theme: </label>
+            <select id="theme" name="theme">
+              {% for theme in themes %}
+
+              <option value="{{ theme.seq }}" {% if theme.file_name == user.theme %} selected {% endif %}>{{ theme.theme_desc }}</option>
+              {%endfor%}
             </select>
             <br>
             <input type="submit" value="Update">
@@ -59,7 +66,7 @@
         </div>
         <div class="box">
           <h2>User Security</h2>
-          <form action="/user/preferences/security/{{user.seq}}" method="post">
+          <form action="/user/preferences/security/" method="post">
             <label for="current">Current Password</label>
             <input
               type="password"
@@ -90,24 +97,35 @@
           <table>
             <tr>
               <th>Added By</th>
-              <td>{{ user_audit.added_by }}</td>
+              <td>{{ audit.added_by }}</td>
             </tr>
             <tr>
               <th>Added DateTime</th>
-              <td>{{ user_audit.added_dt }}</td>
+              <td>{{ audit.added_dt }}</td>
             </tr>
             <tr>
               <th>Updated By</th>
-              <td>{{ user_audit.updated_by }}</td>
+              <td>{{ audit.updated_by }}</td>
             </tr>
             <tr>
               <th>Update DateTime</th>
-              <td>{{ user_audit.update_dt }}</td>
+              <td>{{ audit.updated_dt }}</td>
+            </tr>
+            <tr>
+              <th>Created Dockets</th>
+              <td>{{ audit.docket_count }}</td>
+            </tr>
+            <tr>
+              <th>Created Finances</th>
+              <td>{{ audit.created_finances }}</td>
+            </tr>
+            <tr>
+              <th>Approved Finances</th>
+              <td>{{ audit.approved_records }}</td>
             </tr>
           </table>
         </div>
       </div>
-      {{ user }}
     </article>
     {% include 'footer.liquid' %}
   </body>

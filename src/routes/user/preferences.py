@@ -10,8 +10,10 @@ def get_user_preferences(err_msg: str|None = None):
         abort(401)
     with connect() as conn:
         titles = conn.get_standard_titles()
+        audit = conn.get_user_audit(session['user_seq'])
+        themes = conn.get_themes()
     return render_template('user/prefs.liquid', titles=titles,
-                           err_msg=err_msg)
+                           err_msg=err_msg, audit=audit, themes=themes)
 
 @app.post('/user/preferences/general/')
 def post_user_prefs_general():
@@ -51,8 +53,9 @@ def post_user_prefs_security():
             new_pw, session['user_seq']
             )
     if res:
-        return redirect('/user/preferences')
+        return get_user_preferences('/user/preferences',err_msg='User password updated '\
+                                    'successfully.')
     else:
         return get_user_preferences(err_msg='Failed to update user'\
                                         ' preferences. Please contact a user '\
-                                        'administrator for more information.')
+                                        'administrator for more information.'), 400
