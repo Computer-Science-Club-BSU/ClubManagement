@@ -17,8 +17,20 @@
         <li  class="navli" class="parent">
           <a href="URL">Administrate Finances</a>
         </li>
-        <li  class="navli" class="parent">
-          <a href="/finance/items/new">Create Item</a>
+        {% comment %}<li  class="navli" class="parent">{% endcomment %}
+          {% comment %}<a href="/finance/items/new">Create Item</a>{% endcomment %}
+        {% comment %}</li>{% endcomment %}
+          <li  class="navli" class="parent">
+          <a href="#">Manage Items<span class="expand">&raquo;</span>
+          </a>
+          <ul class="child">
+              <li  class="navli">
+                <a href="/finance/items/new">Create or Update an Item</a>
+              </li>
+              <li  class="navli">
+                <a href="/finance/vendors/">Create or Update a Vendor</a>
+              </li>
+          </ul>
         </li>
       {% endif %}
 
@@ -43,5 +55,5 @@
         </li>
       {% endif %}
     </ul>
-  </div>
+  </li>
 {% endif %}

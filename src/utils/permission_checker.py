@@ -17,5 +17,7 @@ def check_perms(request:Request,
             return
         else:
             print(request.endpoint)
-            raise Exception
+            if not conn.does_endpoint_exist(request.endpoint):
+                raise Exception(f"Endpoint {request.endpoint} is not set up with valid permissions.")
+            raise abort(401)
         
