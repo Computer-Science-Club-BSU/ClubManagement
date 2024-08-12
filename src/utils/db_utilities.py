@@ -137,7 +137,10 @@ class connect:
         sql = "SELECT * FROM user_info_vw WHERE seq = %s"
         self.run_statement(sql, (user_seq,))
 
-
+    def does_endpoint_exist(self, endpoint_name):
+        sql = "SELECT * FROM plugin_permissions where path_func_name = %s"
+        self.run_statement(sql, (endpoint_name,))
+        return self.cur.rowcount != 0
 
     @_convert_to_dict
     def get_user_classes_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
@@ -200,6 +203,16 @@ class connect:
             return user_data.get('seq')
 
         return -1
+
+    def check_existing_password(self, user_seq: str|int, password: str) -> bool:
+        sql = "SELECT hash_pass FROM users WHERE seq = %s"
+        self.cur.execute(sql, (user_seq,))
+        if self.cur.rowcount == 0:
+            raise NotImplementedError
+        user_pw = self.cur.fetchone()[0]
+        hashed_pw = user_pw.encode()
+        password = password.encode()
+        return bcrypt.checkpw(password, hashed_pw)
 
 
 
@@ -317,8 +330,14 @@ class connect:
         return {
             "docket": docket_data,
             "conv": conversations,
-            "assign": assignees
+            "assign": assignees,
+            "locked": self.is_doc_locked(seq)
         }
+
+    def is_doc_locked(self, seq):
+        sql = "SELECT edit_locked FROM docket_status A, docket_hdr B WHERE A.seq = B.stat_seq AND B.seq = %s;"
+        self.cur.execute(sql, (seq,))
+        return self.cur.fetchone()[0] == 1
 
     def get_finance_summary(self):
         # Get finance statuses
@@ -677,7 +696,7 @@ class connect:
         sql = """SELECT items.item_name, items.item_vendor,
         item_cost.price, date_format(item_cost.eff_date, '%M %D, %Y') "eff_date",item_cost.seq FROM items,item_cost WHERE
         items.seq = item_cost.item_seq AND items.displayed = 1 AND
-    eff_date = (
+    item_cost.eff_date = (
         SELECT MAX(eff_date) FROM item_cost B
         WHERE B.item_seq = items.seq AND B.eff_date <= %s )"""
 
@@ -702,6 +721,12 @@ class connect:
         self.run_statement(sql, (seq, file_json['file_name'],
                                base64.b64encode(file_json['file_data'].encode()),
                                user, user))
+
+    @_convert_to_dict
+    def get_plugins(self):
+        sql = """SELECT A.seq, A.plugin_name, A.author, A.support_email, A.is_active, A.added_by, A.updated_by,
+        B.perm_desc AS "admin_perm" FROM plugin_defn A, perm_types B WHERE A.admin_perm = B.seq"""
+        self.run_statement(sql)
 
     @_convert_to_dict
     def get_docket_attachments_summary(self, seq):
@@ -749,11 +774,11 @@ class connect:
         return assignments
 
     def can_user_access_endpoint(self, user_seq: str | int, endpoint: str) -> bool:
-        sql = """SELECT * FROM plugin_permissions WHERE path_func_name = %s
-        AND (perm_seq in (SELECT B.perm_seq FROM perms B, class_assignments C
+        sql = """SELECT A.* FROM plugin_permissions A, plugin_defn B WHERE A.path_func_name = %s
+        AND (A.perm_seq in (SELECT B.perm_seq FROM perms B, class_assignments C
         WHERE B.class_seq = C.class_seq AND C.user_seq = %s AND B.granted = 1)
-        OR perm_seq = (SELECT seq FROM perm_types
-        WHERE perm_desc = 'guest'))"""
+        OR A.perm_seq = (SELECT seq FROM perm_types
+        WHERE perm_desc = 'guest')) AND B.is_active = 1"""
 
         logger.debug(sql % (endpoint, user_seq))
         self.run_statement(sql, (endpoint, user_seq))
@@ -782,6 +807,19 @@ class connect:
                 docket_seq = %s AND user_seq = %s"""
 
                 self.run_statement(sql, (docket_seq, user))
+
+    @_exec_safe
+    def update_user_prefs(self, request_data: dict, user_seq: int):
+        sql = """UPDATE users SET first_name=%s,last_name=%s,title=%s,email=%s,theme=%s,
+        updated_by=%s WHERE seq=%s"""
+        self.run_statement(sql, (
+            request_data.get('fName'),
+            request_data.get('lName'),
+            request_data.get('title'),
+            request_data.get('email'),
+            request_data.get('theme'),
+            user_seq,user_seq
+        ))
 
 
     @_exec_safe
@@ -957,7 +995,13 @@ class connect:
         sql = """SELECT * FROM titles WHERE approval_req = 0"""
         self.run_statement(sql)
 
-    
+
+    @_exec_safe
+    def update_user_password(self, new_pw: str, user_seq: str|int):
+        sql = """UPDATE users SET hash_pass=%s, updated_by=%s WHERE seq=%s"""
+        hashed_pw = bcrypt.hashpw(new_pw.encode(), bcrypt.gensalt())
+        self.run_statement(sql, (hashed_pw,user_seq,user_seq))
+
     def get_user_admin_emails(self):
         sql = """SELECT usr.email FROM users usr, class_assignments cls,
         terms tA, terms tB, perms p, perm_types pt WHERE cls.user_seq = usr.seq
@@ -1171,29 +1215,6 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
     
     @_exec_safe
     def create_finance_record(self, data: Dict[str,Any], user: int):
-        """{
-  "header": {
-    "id": "123465",
-    "creator": "1",
-    "approver": "",
-    "status": "5",
-    "inv_date": "2024-07-13",
-    "type": "1",
-    "tax": "0.00",
-    "fees": "0.00",
-    "total": "78.00"
-  },
-  "lines": [
-    {
-      "line_id": 1,
-      "item_seq": '1',
-      "item_desc": "Pizza, Cheese",
-      "item_price": "15.7900",
-      "qty": "5",
-      "total": "78.950"
-    }
-  ]
-}"""
         header_seq = self.create_finance_header(data['header'], user)
         for line in data['lines']:
             self.create_finance_line(line, header_seq, user)
@@ -1217,16 +1238,7 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         return self.cur.lastrowid
     
     def create_finance_line(self, line: dict, header_seq:int, user:int):
-        """"lines": [
-    {
-      "line_id": 1,
-      "item_seq": '1',
-      "item_desc": "Pizza, Cheese",
-      "item_price": "15.7900",
-      "qty": "5",
-      "total": "78.950"
-    }
-  ]"""
+
         sql = """INSERT INTO finance_line (finance_seq, line_id, item_id, qty,
         added_by, updated_by) VALUES (%s,%s,%s,%s,%s,%s)"""
         self.cur.execute(sql, (header_seq,
@@ -1236,6 +1248,25 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                                user,
                                user))
     
+    @_exec_safe
+    def update_path_permission(self, data, user: int):
+        # Check if path perm record exists
+        sql = "SELECT * FROM plugin_permissions WHERE path_func_name = %s"
+        self.run_statement(sql, (data['endpoint'],))
+        if self.cur.rowcount == 0:
+            sql = """INSERT INTO plugin_permissions
+                   (plugin_seq, path_func_name, perm_seq, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
+            self.run_statement(sql, (data['plugin'],data['endpoint'],data['perm'], user, user))
+
+    @_convert_to_dict_single
+    def get_user_audit(self, user_seq):
+        sql = "SELECT * FROM user_audit WHERE seq = %s"
+        self.run_statement(sql, (user_seq,))
+
+    @_convert_to_dict
+    def get_themes(self):
+        sql = "SELECT * FROM themes"
+        self.run_statement(sql)
 
     # __methods__
     def __enter__(self):

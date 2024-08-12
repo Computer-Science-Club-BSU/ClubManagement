@@ -218,5 +218,21 @@ body{
     height: 5dvh
 }
 
+.navli:hover > .child {
+    display: block;
+}
+
+button, input[type=submit]{
+    color: var(--primary-color);
+    background: var(--accent-color);
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+button:hover, input[type=submit]:hover{
+    background: var(--accent-hover-color);
+
+}
+
 /*Welcome to the idiot show... Staring me, the idiot!*/
 
