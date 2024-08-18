@@ -1,0 +1,89 @@
+<div id="dialog-form-vend-edit" title="This action requires authentication.">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form>
+    <fieldset>
+      <label for="itemID-vend-edit">Item Sequence</label>
+      <input type="text" name="vendSeq" id="itemID-vend-edit" disabled class="text ui-widget-content ui-corner-all">
+
+      <label for="vendName">Vendor Name</label>
+      <input type="text" name="vendName" id="vendName" value="" class="text ui-widget-content ui-corner-all">
+      <label for="vendStatus">Vendor Status</label>
+      <select name="vendStatus" id="vendStatus" style="color:black;" class="text ui-widget-content ui-corner-all">
+        <option>Active</option>
+      </select>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      uname = $( "#uname" ),
+      password = $( "#password" ),
+      allFields = $( [] ).add( uname ).add( password )
+
+
+    function editVendor() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('DELETE', '/finances/delete/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+                {
+                  "username": document.getElementById('uname').value,
+                  "password": document.getElementById('password').value,
+                  "seq": itemID
+                }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Record deleted successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-vend-edit" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Edit Vendor": editVendor,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      editVendor();
+    });
+
+    $( ".editVend" ).button().on( "click", function() {
+      itemID = this.value
+      document.getElementById('itemID-vend-edit').value = itemID
+      console.log(itemID)
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>

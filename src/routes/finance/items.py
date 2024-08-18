@@ -15,9 +15,11 @@ def get_finance_items_search():
         # return items
         return render_template('fin/item_search.liquid', items=items)
 
-@app.route('/finance/items/new', methods=['GET'])
+@app.route('/finance/items', methods=['GET'])
 def get_finance_items_new():
-    return render_template('fin/item_new.liquid')
+    with connect() as conn:
+        data = conn.get_item_data()
+    return render_template('fin/item_new.liquid', data=data)
 
 @app.route('/finance/items/new', methods=['POST'])
 def post_finance_items_new():

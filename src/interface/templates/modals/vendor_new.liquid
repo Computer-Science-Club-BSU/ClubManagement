@@ -1,0 +1,91 @@
+<div id="dialog-form-vend-new" title="Vendor Creation Form">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form>
+    <fieldset>
+      <label for="itemID">Vendor Sequence</label>
+      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all" value="NEXT">
+
+      <label for="vendName">Vendor Name</label>
+      <input type="text" name="vendName" id="vendName" value="" class="text ui-widget-content ui-corner-all">
+      <label for="vendStatus">Vendor Status</label>
+      <select id="vendStatus" name="vendStatus" style="color:black">
+        <option value="A">Active</option>
+        <option value="I">Inactive</option>
+        <option value="R">Restricted</option>
+      </select>
+
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      uname = $( "#uname" ),
+      password = $( "#password" ),
+      allFields = $( [] ).add( uname ).add( password )
+
+
+    function addUser() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('DELETE', '/finances/delete/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+                {
+                  "username": document.getElementById('uname').value,
+                  "password": document.getElementById('password').value,
+                  "seq": itemID
+                }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Record deleted successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-vend-new" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create Vendor": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( ".newVendor" ).button().on( "click", function() {
+      itemID = this.value
+      document.getElementById('itemID').value = itemID
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>

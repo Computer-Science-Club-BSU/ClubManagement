@@ -11,155 +11,93 @@
     <script src="/static/finances/new/script.js" defer></script>
     <link rel="stylesheet" href="/static/finances/new/style.css">
 
+    <style>
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+  </style>
+      <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrate Finances</title>
     <script>
-        let mode = null
-        function getUpdate(){
-            // Open a new window to search for an item
-            // The item will be selected and the window will close
-            let date = new Date()
-            let year = String(date.getFullYear())
-            let month = String(date.getMonth() + 1)
-            let day = String(date.getDate())
-            
-            month = month < 10 ? '0' + month : month
-            day = day < 10 ? '0' + day: day
-
-            let finDate = year + '-' + month + '-' + day
-            
-            let item = window.open(`/finance/items/search?invDate=${finDate}`, "ItemSearch", "width=800,height=600");
-            item.callback = (doc, seq) => {
-                let vendor = doc.getElementById(`item_vendor${seq}`)
-                let name = doc.getElementById(`item_name${seq}`)
-                let price = doc.getElementById(`item_price${seq}`)
-                document.getElementById('vendor').value = vendor.innerText
-                document.getElementById('name').value = name.innerText
-                document.getElementById('price').value = price.innerText
-
-                document.getElementById('vendor').disabled = true
-                document.getElementById('name').disabled = true
-                document.getElementById('price').disabled = false
-                document.getElementById('date').disabled = false
-            }
-            mode = 'u'
-        }
-
-        function getCreate(){
-            document.getElementById('vendor').disabled = false
-            document.getElementById('name').disabled = false
-            document.getElementById('price').disabled = false
-            document.getElementById('date').disabled = false
-            document.getElementById('vendor').value = ''
-            document.getElementById('name').value = ''
-            document.getElementById('price').value = ''
-            document.getElementById('date').value = null
-            mode = 'c'
-        }
-
-        function sendRequest(){
-            if(mode == null){
-                alert("You must either Update or Create an item.")
-                return
-            }
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', '/finance/items/new/')
-            xhr.setRequestHeader('Content-Type', 'application/json')
-            xhr.send(JSON.stringify({
-                'type': mode,
-                'vendor': document.getElementById('vendor').value,
-                'name': document.getElementById('name').value,
-                'price': document.getElementById('price').value,
-                'date': document.getElementById('date').value{% if perms.fin_admin == 1 %},
-                    'visible': document.getElementById('visible').checked
-                {% endif %}
-            }
-            ))
-            xhr.onreadystatechange = () => {
-                if(xhr.readyState == 4){
-                    if(xhr.status == 200){
-                        alert('Operation completed successfully')
-                    } else {
-                        alert('Error, Could not perform operation.')
-                    }
-                }
-            }
-        }
+      function viewRecord(seq){
+        window.open(`/finances/view/${seq}`, '_blank')
+      }
+      function editRecord(seq){
+        window.open(`/finances/edit/${seq}`, '_blank')
+      }
     </script>
+
+
+
 
   </head>
   <body>
     {% include "navbar.liquid" %}
-    <article>
-      <div class="grid">
-        <div class="box">
-          <h1>Establish Items</h1>
-          <div>
-            <button type="button" onclick="getUpdate()">Update</button>
-            <button type="button" onclick="getCreate()">Create</button>
-          </div>
-          <table>
-            <tr>
-              <th>
-                <label for="vendor">Vendor</label>
-              </th>
-              <th>
-                <label for="name">Name</label>
-              </th>
-              <th>
-                <label for="price">Price</label>
-              </th>
-              <th>
-                <label for="date">Date</label>
-              </th>
-              {% if perms.fin_admin == 1 %}
-                <th>
-                  <label for="visible">Visible</label>
-                </th>
-              {% endif %}
-            </tr>
-            <tr>
-              <td><input
-                  type="text"
-                  id="vendor"
-                  name="vendor"
-                  style="width: 100%"
-                  disabled></td>
-              <td><input
-                  type="text"
-                  id="name"
-                  name="name"
-                  style="width: 100%"
-                  disabled></td>
-              <td><input
-                  type="number"
-                  id="price"
-                  name="price"
-                  style="width: 100%"
-                  disabled></td>
-              <td><input
-                  type="date"
-                  id="date"
-                  name="date"
-                  style="width: 100%"
-                  disabled></td>
-              {% if perms.fin_admin == 1 %}
-                <td>
-                  <input
-                    type="checkbox"
-                    name="visible"
-                    id="visible">
-                </td>
-              {% endif %}
-            </tr>
 
-          </table>
-          <div>
-            <button onclick="sendRequest()">Update</button>
-          </div>
-        </div>
-      </div>
-    </article>
+    <table style="width: 100%">
+      <tr>
+        <th>Vendor Name</th>
+        <th>Vendor Status</th>
+        <th>Edit</th>
+        <th>Item Name</th>
+        <th>Displayed</th>
+        <th>Edit</th>
+        <th>Price</th>
+        <th>Eff Date</th>
+        <th>Edit</th>
+      </tr>
+      {% assign vend_size = data | size %}
+      {% for vendor in (0..vend_size) %}
+        {% assign item_size = data[vendor].items | size %}
+        {% if item_size == 0 %}
+          {% continue %}
+        {% endif %}
+        {% for item in (0..item_size) %}
+            {% assign price_size = data[vendor].items[item].prices | size | minus: 1 %}
+
+          {% for price in (0..price_size) %}
+            <tr>
+              {% if item == 0 and price == 0 %}
+                <td rowspan="{{ data[vendor].count }}">{{ data[vendor].name }}</td>
+                <td rowspan="{{ data[vendor].count }}">{{ data[vendor].status }}</td>
+                <td rowspan="{{ data[vendor].count }}"><button class="editVend" value="{{ data[vendor].name }}">Edit</button></td>
+              {% endif %}
+              {% if price == 0 %}
+                <td rowspan="{{ data[vendor].items[item].count }}">{{ data[vendor].items[item].item_name }}</td>
+                <td rowspan="{{ data[vendor].items[item].count }}">{{ data[vendor].items[item].displayed }}</td>
+                <td rowspan="{{ data[vendor].items[item].count }}"><button class="editItem" value="{{ data[vendor].items[item].item_name }}">Edit</button></td>
+              {% endif %}
+              <td>{{ data[vendor].items[item].prices[price].price }}</td>
+              <td>{{ data[vendor].items[item].prices[price].eff_date }}</td>
+              <td><button class="editPrice" value="data[vendor].items[item].prices[price].seq">Edit</button></td>
+
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+        <tr>
+            <td colspan="3"><button class="newVendor">New Vendor</button></td>
+            <td colspan="3"><button class="newItem">New Item</button></td>
+        </tr>
+    </table>
+
+{{ data }}
+
+    {% include "modals/item_new.liquid" %}
+    {% include "modals/item_cost.liquid" %}
+    {% include "modals/item_edit.liquid" %}
+    {% include "modals/vendor_new.liquid" %}
+    {% include "modals/vendor_edit.liquid" %}
     {% include "footer.liquid" %}
-
 
   </body>
 </html>
