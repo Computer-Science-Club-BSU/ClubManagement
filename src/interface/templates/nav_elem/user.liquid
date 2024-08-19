@@ -18,11 +18,11 @@
           <a href="/dev/">Administrate User</a>
         </li>
       {% endif %}
-      {% if perms.user_query == 1 or perms.user_admin == 1 %}
-        <li class="navli">
-          <a href="/dev/">Query User</a>
-        </li>
-      {% endif %}
+      {% comment %}{% if perms.user_query == 1 or perms.user_admin == 1 %}{% endcomment %}
+        {% comment %}<li class="navli">{% endcomment %}
+          {% comment %}<a href="/dev/">Query User</a>{% endcomment %}
+        {% comment %}</li>{% endcomment %}
+      {% comment %}{% endif %}{% endcomment %}
 
       {% if perms.user_admin == 1 %}
         <li class="navli">

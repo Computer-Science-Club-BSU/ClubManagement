@@ -4,11 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Preferences</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% if err_msg != nil %}
       <script>
         alert('{{ err_msg }}')
       </script>
     {% endif %}
+    <script>
+      function changeTheme(e){
+        document.getElementById('themeLink').href=`/static/theme/${e.id}`
+      }
+      function revertTheme(e){
+        console.log(e)
+        if (!e.children[0].checked)
+          document.getElementById('themeLink').href=`/static/theme/{{ user.theme }}.css`
+
+      }
+    </script>
   </head>
   <body>
     {% include 'navbar.liquid' %}
@@ -53,14 +65,22 @@
                 <option value="-1" selected>{{ user.title }}</option>
               {% endif %}
             </select>
-            <label for="theme">Theme: </label>
-            <select id="theme" name="theme">
-              {% for theme in themes %}
-
-              <option value="{{ theme.seq }}" {% if theme.file_name == user.theme %} selected {% endif %}>{{ theme.theme_desc }}</option>
-              {%endfor%}
-            </select>
             <br>
+            <fieldset>
+              <legend>Theme</legend>
+              {% for theme in themes %}
+              <span onmouseenter="changeTheme(this)" id="{{ theme.file_name }}.css" onmouseleave="revertTheme(this)"><input type="radio" name="theme" id="{{ theme.file_name }}" value="{{ theme.seq }}" {% if theme.file_name == user.theme %} checked {% endif %}> <label for="{{ theme.file_name }}">{{ theme.theme_desc }}</label>
+              <br></span>
+              {% endfor %}
+            </fieldset>
+            {% comment %}<label for="theme">Theme: </label>{% endcomment %}
+            {% comment %}<select id="theme" name="theme" onchange=''>{% endcomment %}
+              {% comment %}{% for theme in themes %}{% endcomment %}
+{% comment %}{% endcomment %}
+              {% comment %}<option value="{{ theme.seq }}" {% if theme.file_name == user.theme %} selected {% endif %}>{{ theme.theme_desc }}</option>{% endcomment %}
+              {% comment %}{%endfor%}{% endcomment %}
+            {% comment %}</select>{% endcomment %}
+            {% comment %}<br>{% endcomment %}
             <input type="submit" value="Update">
           </form>
         </div>

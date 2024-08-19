@@ -15,30 +15,19 @@
       {% endif %}
       {% if perms.fin_admin == 1 %}
         <li  class="navli" class="parent">
-          <a href="URL">Administrate Finances</a>
+          <a href="/finances/admin/">Administrate Finances</a>
         </li>
-        {% comment %}<li  class="navli" class="parent">{% endcomment %}
-          {% comment %}<a href="/finance/items/new">Create Item</a>{% endcomment %}
-        {% comment %}</li>{% endcomment %}
-          <li  class="navli" class="parent">
-          <a href="#">Manage Items<span class="expand">&raquo;</span>
-          </a>
-          <ul class="child">
-              <li  class="navli">
-                <a href="/finance/items/new">Create or Update an Item</a>
-              </li>
-              <li  class="navli">
-                <a href="/finance/vendors/">Create or Update a Vendor</a>
-              </li>
-          </ul>
+        <li  class="navli" class="parent">
+          <a href="/finance/items">Create Item</a>
         </li>
+
       {% endif %}
 
-      {% if perms.fin_admin == 1 or perms.fin_query == 1 %}
-        <li  class="navli" class="parent">
-          <a href="URL">Query Finances</a>
-        </li>
-      {% endif %}
+      {% comment %}{% if perms.fin_admin == 1 or perms.fin_query == 1 %}{% endcomment %}
+        {% comment %}<li  class="navli" class="parent">{% endcomment %}
+          {% comment %}<a href="URL">Query Finances</a>{% endcomment %}
+        {% comment %}</li>{% endcomment %}
+      {% comment %}{% endif %}{% endcomment %}
 
       {% assign fin_dash_len = finance_dashboards | size %}
       {% if fin_dash_len > 0 %}
