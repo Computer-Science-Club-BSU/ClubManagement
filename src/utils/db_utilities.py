@@ -62,7 +62,7 @@ class connect:
             except Exception as e:
                 self.conn.rollback()
                 logger.error(f"DB Exception Occurred {traceback.format_exc()}")
-                return (False, None)
+                return (False, e)
         return wrapper
 
     @staticmethod
@@ -247,10 +247,43 @@ class connect:
     @_convert_to_dict
     def get_finance_lines_by_hdr(self, hdr_seq: int) -> List[Dict[str,str]]:
         sql = """SELECT A.seq, A.finance_seq, A.line_id, B.price, A.qty,
-        A.added_by, A.updated_by, A.added_dt, A.update_dt FROM
-        finance_line A, item_cost B WHERE A.item_id = B.seq AND
-        A.finance_seq=%s"""
+        A.added_by, A.updated_by, A.added_dt, A.update_dt, C.item_name FROM
+        finance_line A, item_cost B, items C WHERE A.item_id = B.seq AND
+        B.item_seq = C.seq AND
+        A.finance_seq=38"""
         self.run_statement(sql, (hdr_seq,))
+
+    @_convert_to_dict_single
+    def get_header_by_seq(self, seq):
+        sql = """SELECT
+                    A.id,
+                    DATE_FORMAT(A.inv_date, '%b %D, %Y') as 'inv_date',
+                    A.type_desc as 'type',
+                    A.CreatedBy as 'creator',
+                    decode_oracle(B.is_approved, 1, A.ApprovedBy, 0, NULL) as 'approver',
+                    B.tax,
+                    B.fees,
+                    A.Total as 'total'
+                FROM
+                    finance_hdr_summary A,
+                    finance_hdr B
+                WHERE A.seq = B.seq
+                AND A.seq = %s"""
+        self.run_statement(sql, (seq,))
+
+    def get_finance_object(self, seq: int):
+        header = self.get_header_by_seq(seq)
+        lines = self.get_finance_lines(seq)
+        return {"header": header, "lines": lines}
+
+    @_convert_to_dict
+    def get_finance_lines(self, seq):
+        sql = """SELECT A.seq, A.finance_seq, A.line_id, B.price AS 'item_price', A.qty,
+        A.added_by, A.updated_by, B.seq as 'item_id',A.added_dt, A.update_dt, C.item_name AS 'item_desc', A.qty * B.price AS 'total' FROM
+        finance_line A, item_cost B, items C WHERE A.item_id = B.seq AND
+        B.item_seq = C.seq AND
+        A.finance_seq=%s"""
+        self.run_statement(sql, (seq,))
 
 
     def get_finances(self) -> List[Dict[str,str]]:
@@ -537,7 +570,33 @@ class connect:
 
         return perms
 
-        
+    @_convert_to_dict_single
+    def get_header_for_edit(self, seq):
+        sql = """SELECT
+                    A.id,
+                    A.seq,
+                    A.inv_date,
+                    A.type_desc as 'type',
+                    A.stat_desc as 'status',
+                    A.CreatedBy as 'creator',
+                    decode_oracle(B.is_approved, 1, A.ApprovedBy, 0, NULL) as 'approver',
+                    B.tax,
+                    B.fees,
+                    A.Total as 'total',
+                    B.created_by,
+                    B.approved_by
+                FROM
+                    finance_hdr_summary A,
+                    finance_hdr B
+                WHERE A.seq = B.seq
+                AND A.seq = %s"""
+        self.run_statement(sql, (seq,))
+
+    def get_finance_object_for_edit(self, seq):
+        lines = self.get_finance_lines(seq)
+        header = self.get_header_for_edit(seq)
+        return header, lines
+
     @_exec_safe
     def create_class(self, class_name, user_seq):
         sql = """INSERT INTO class (position_name, added_by, updated_by,
@@ -955,35 +1014,98 @@ class connect:
         sql = """DELETE FROM class_assignments WHERE seq = %s"""
         self.run_statement(sql, (assignment_seq,))
 
-    
+    @_convert_to_dict
+    def get_items(self):
+        sql = """
+        SELECT
+            A.seq,
+            C.vend_status,
+            C.seq as 'vend_seq',
+            B.seq as "price_seq",
+            C.vend_name,
+            A.item_name,
+            B.price,
+
+            DATE_FORMAT(B.eff_date, '%b %D, %Y') as 'eff_date',
+            A.displayed
+        FROM items A, item_cost B, vendors C WHERE
+        A.seq = B.item_seq AND B.eff_date = (SELECT MAX(B1.eff_date) FROM item_cost B1 WHERE B1.item_seq = B.item_seq)
+        AND A.vendor_seq = C.seq ORDER BY A.vendor_seq, B.price;"""
+        self.run_statement(sql)
+
+    @_convert_to_dict
+    def get_vendors(self):
+        sql = """SELECT
+    A.seq, A.vend_name, A.vend_status,
+    B.full_name AS 'added_by',
+    C.full_name AS 'updated_by', DATE_FORMAT(A.added_dt, '%b %D, %Y') AS 'added_dt',
+    DATE_FORMAT(A.update_dt, '%b %D, %Y') AS 'update_dt'
+    FROM vendors A, user_info_vw B, user_info_vw C WHERE A.added_by = B.seq AND A.updated_by = C.seq"""
+        self.run_statement(sql)
+
     @_exec_safe
-    def create_fin_item(self, vendor, name, price, date, visible, user):
-        sql = """INSERT INTO items (item_vendor, item_name, displayed,
-        added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
+    def create_item(self, item_name, displayed, vend_seq, initial_price, user_seq):
+        sql = """INSERT INTO items (vendor_seq, item_name, displayed, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
+        self.run_statement(sql, (vend_seq, item_name, displayed, user_seq,user_seq))
+        sql = """INSERT INTO item_cost (item_seq, eff_date, eff_status, price, added_by, updated_by) VALUES 
+        (%s,'1900-01-01','A',%s,%s,%s)"""
+        self.run_statement(sql, (self.cur.lastrowid, initial_price, user_seq, user_seq))
 
-        self.run_statement(sql, (vendor, name, visible, user, user))
+    def get_vendor_prices(self, item_obj, seq):
+        sql = "SELECT seq, DATE_FORMAT(eff_date, '%b %D, %Y'), eff_status, price FROM item_cost WHERE item_seq = %s ORDER BY eff_date"
+        self.run_statement(sql, (seq,))
+        prices_raw = self.cur.fetchall()
+        prices = []
+        for price in prices_raw:
+            price_obj = {
+                "seq": price[0],
+                "eff_date": price[1],
+                "price": price[3],
+                "status": price[2]
+            }
+            prices.append(price_obj)
+        item_obj["prices"] = prices
+        return len(prices)
 
-        seq = self.cur.lastrowid
-        sql = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
-        updated_by) VALUES (%s,%s,%s,%s,%s)"""
+    def get_vendor_items(self, vend_obj, seq):
+        sql = "SELECT seq, item_name, displayed, need_approval FROM items WHERE vendor_seq = %s ORDER BY item_name"
+        self.run_statement(sql, (seq,))
+        items_raw = self.cur.fetchall()
+        items = []
+        for item in items_raw:
+            item_obj = {
+                "seq": item[0],
+                "item_name": item[1],
+                "displayed": item[2],
+                "need_approval": item[3],
+                "prices": []
+            }
+            count = self.get_vendor_prices(item_obj, item[0])
+            item_obj['count'] = count
+            items.append(item_obj)
+        vend_obj["items"] = items
+        return sum([x["count"] for x in items])
 
-        self.run_statement(sql, (seq, date, price, user, user))
 
-    
-    @_exec_safe
-    def update_fin_item(self, vendor, name, price, date, visible, user):
-        sql = """UPDATE items SET displayed = %s WHERE item_name = %s AND
-        item_vendor = %s"""
 
-        self.run_statement(sql, (visible, vendor, name))
-        sql = "SELECT seq FROM items WHERE item_vendor = %s AND item_name = %s"
-        self.run_statement(sql, (vendor, name))
+    def get_item_data(self):
+        sql = "SELECT seq, vend_name, vend_status FROM vendors ORDER BY vend_name"
+        self.run_statement(sql)
+        vendors = []
+        raw_vend = self.cur.fetchall()
+        for vendor in raw_vend:
+            vend_obj = {
+                "seq": vendor[0],
+                "name": vendor[1],
+                "status": vendor[2],
+                "items": [],
+                "count": 0
+            }
+            x = self.get_vendor_items(vend_obj, vendor[0])
+            vend_obj['count'] = x
+            vendors.append(vend_obj)
+        return vendors
 
-        seq = self.cur.fetchone()[0]
-        sql = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
-        updated_by) VALUES (%s,%s,%s,%s,%s)"""
-
-        self.run_statement(sql, (seq, date, price, user, user))
 
     @_convert_to_dict
     def fetch_pending_user_requests(self) -> list[dict]:
@@ -1216,10 +1338,19 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
     @_exec_safe
     def create_finance_record(self, data: Dict[str,Any], user: int):
         header_seq = self.create_finance_header(data['header'], user)
+        if len(data['lines']) == 0:
+            raise ValueError('Cannot have zero lines!')
         for line in data['lines']:
             self.create_finance_line(line, header_seq, user)
-    
+
+    def check_duplicate_finance_id(self, id):
+        sql = "SELECT * FROM finance_hdr WHERE id = %s"
+        self.run_statement(sql, (id,))
+        if self.cur.rowcount != 0:
+            raise ValueError('Duplicate finance ID found.')
+
     def create_finance_header(self, data: dict, user: int):
+        self.check_duplicate_finance_id(data['id'])
         sql = """INSERT INTO finance_hdr (id, created_by, approved_by,
         inv_date, stat_seq, type_seq, tax, fees, added_by, updated_by) VALUES
         (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
@@ -1238,7 +1369,9 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         return self.cur.lastrowid
     
     def create_finance_line(self, line: dict, header_seq:int, user:int):
-
+        print(line)
+        if line['qty'] == '0':
+            raise ValueError(f'Quantity for line {line['line_id']} cannot be 0!')
         sql = """INSERT INTO finance_line (finance_seq, line_id, item_id, qty,
         added_by, updated_by) VALUES (%s,%s,%s,%s,%s,%s)"""
         self.cur.execute(sql, (header_seq,
@@ -1267,6 +1400,87 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
     def get_themes(self):
         sql = "SELECT * FROM themes"
         self.run_statement(sql)
+
+    @_convert_to_dict
+    def get_finance_admin_data(self):
+        self.run_statement('SELECT * FROM finance_admin')
+
+    @_exec_safe
+    def update_finance_header(self, seq, header_data, user_seq):
+
+        sql = """UPDATE finance_hdr SET 
+        approved_by=%s, created_by=%s, fees=%s, id=%s, inv_date=%s, stat_seq=%s,tax=%s,type_seq=%s,updated_by=%s
+        WHERE seq=%s"""
+        self.run_statement(sql, (
+            header_data['approver'] if header_data['approver'] != '' else None,
+            header_data['creator'],
+            header_data['fees'],
+            header_data['id'],
+            header_data['inv_date'],
+            header_data['status'],
+            header_data['tax'],
+            header_data['type'],
+            user_seq,
+            seq
+        ))
+
+    @_exec_safe
+    def update_finance_line(self, seq, line_data, user_seq):
+        # Check if line exists:
+        sql = "SELECT * FROM finance_line WHERE line_id = %s AND finance_seq = %s"
+        self.run_statement(sql, (line_data['line_id'], seq))
+        if self.cur.rowcount == 0:
+            # Insert record
+            sql = """INSERT INTO finance_line (finance_seq, line_id, item_id, qty, added_by, updated_by) VALUES
+            (%s,%s,%s,%s,%s,%s)"""
+            self.run_statement(sql, (seq, line_data['line_id'], line_data['item_seq'], line_data['qty'],
+                                     user_seq, user_seq))
+            return self.cur.lastrowid
+        # Update Record
+        sql = """UPDATE finance_line SET item_id=%s, qty=%s, updated_by=%s WHERE finance_seq =%s AND line_id=%s"""
+        self.run_statement(sql, (line_data['item_seq'], line_data['qty'], user_seq, seq, line_data['line_id']))
+        return self.cur.lastrowid
+
+    def update_finance_object(self, seq, data, user):
+        res1, err1 = self.update_finance_header(seq, data['header'], user)
+        if not res1:
+            return res1, err1
+        for line in data['lines']:
+            res2, err2 = self.update_finance_line(seq, line, user)
+            if not res2:
+                return res2, err2
+        return True, ''
+
+    @_exec_safe
+    def update_vendor(self, old_name, new_name, status, user):
+        sql = "UPDATE vendors SET vend_name=%s, vend_status=%s, updated_by= %s WHERE vend_name=%s"
+        self.run_statement(sql, (new_name, status, user, old_name))
+
+    @_exec_safe
+    def delete_finance_rec(self, seq):
+        sql = "DELETE FROM finance_line WHERE finance_seq = %s"
+        self.run_statement(sql, (seq,))
+        sql = "DELETE FROM finance_hdr WHERE seq = %s"
+        self.run_statement(sql, (seq,))
+
+    def can_user_delete_finance(self, seq):
+        sql = """SELECT * FROM class_assignments A, perms B, perm_types C, terms tA, terms tB
+        WHERE A.user_seq = 1 AND A.class_seq = B.class_seq AND B.perm_seq = C.seq AND C.perm_desc = 'fin_delete'
+        AND B.granted = 1 AND tA.seq = A.start_term AND tB.seq = A.end_term
+        AND tA.start_date <= current_timestamp AND current_timestamp <= tB.end_date"""
+        self.run_statement(sql, (seq,))
+        return self.cur.rowcount > 0
+
+    @_exec_safe
+    def create_vendor(self, name, status, user_seq):
+        sql = "INSERT INTO vendors (vend_name, vend_status, added_by, updated_by) VALUES (%s,%s,%s,%s)"
+        self.run_statement(sql, (name, status, user_seq, user_seq))
+
+    @_exec_safe
+    def update_price(self, item, date, price, status, user):
+        sql = """INSERT INTO item_cost(item_seq, eff_date, eff_status, price, added_by, updated_by) VALUES
+        (%s,%s,%s,%s,%s,%s)"""
+        self.run_statement(sql, (item, date, status, price, user,user))
 
     # __methods__
     def __enter__(self):

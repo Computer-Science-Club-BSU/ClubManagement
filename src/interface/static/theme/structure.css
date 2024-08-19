@@ -27,6 +27,16 @@
 .child .navli a {
     color: var(--primary-color);
 }
+.child > .navli > .child {
+    margin-left: 100%;
+  margin-top: -14%;
+  height: 3rem;
+}
+
+legend{
+    color: var(--text-color)
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -232,6 +242,16 @@ button, input[type=submit]{
 button:hover, input[type=submit]:hover{
     background: var(--accent-hover-color);
 
+}
+
+input[type=text], input[type=password]{
+    color: black
+}
+
+.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable{
+    border: 1px solid black;
+    background: var(--modal-color);
+    color: var(--text-color)
 }
 
 /*Welcome to the idiot show... Staring me, the idiot!*/
