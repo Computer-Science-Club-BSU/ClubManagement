@@ -8,8 +8,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Item</title>
-    <script src="/static/finances/new/script.js" defer></script>
-    <link rel="stylesheet" href="/static/finances/new/style.css">
 
     <style>
     label, input { display:block; }
@@ -26,16 +24,6 @@
   <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrate Finances</title>
-    <script>
-      function viewRecord(seq){
-        window.open(`/finances/view/${seq}`, '_blank')
-      }
-      function editRecord(seq){
-        window.open(`/finances/edit/${seq}`, '_blank')
-      }
-    </script>
-
 
 
 
@@ -50,10 +38,9 @@
         <th>Edit</th>
         <th>Item Name</th>
         <th>Displayed</th>
-        <th>Edit</th>
+        <th>Item Actions</th>
         <th>Price</th>
         <th>Eff Date</th>
-        <th>Edit</th>
       </tr>
       {% assign vend_size = data | size %}
       {% for vendor in (0..vend_size) %}
@@ -74,11 +61,10 @@
               {% if price == 0 %}
                 <td rowspan="{{ data[vendor].items[item].count }}">{{ data[vendor].items[item].item_name }}</td>
                 <td rowspan="{{ data[vendor].items[item].count }}">{{ data[vendor].items[item].displayed }}</td>
-                <td rowspan="{{ data[vendor].items[item].count }}"><button class="editItem" value="{{ data[vendor].items[item].item_name }}">Edit</button></td>
+                <td rowspan="{{ data[vendor].items[item].count }}"><button class="editItem" value="{{ data[vendor].items[item].seq }}">Edit</button><button class="editPrice" value="{{ data[vendor].items[item].seq }}">New Price</button></td>
               {% endif %}
               <td>{{ data[vendor].items[item].prices[price].price }}</td>
               <td>{{ data[vendor].items[item].prices[price].eff_date }}</td>
-              <td><button class="editPrice" value="data[vendor].items[item].prices[price].seq">Edit</button></td>
 
             </tr>
           {% endfor %}
@@ -87,10 +73,10 @@
         <tr>
             <td colspan="3"><button class="newVendor">New Vendor</button></td>
             <td colspan="3"><button class="newItem">New Item</button></td>
+            <td colspan="3"></td>
         </tr>
     </table>
 
-{{ data }}
 
     {% include "modals/item_new.liquid" %}
     {% include "modals/item_cost.liquid" %}

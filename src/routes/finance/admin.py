@@ -13,7 +13,7 @@ def get_finances_admin():
     return render_template('fin/admin.liquid', records=data)
 
 
-@app.delete('/finances/delete/')
+@app.delete('/finance/delete/')
 def delete_finances_delete():
     data = request.json
     with connect() as conn:

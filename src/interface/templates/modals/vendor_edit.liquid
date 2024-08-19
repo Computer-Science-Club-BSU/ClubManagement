@@ -1,4 +1,4 @@
-<div id="dialog-form-vend-edit" title="This action requires authentication.">
+<div id="dialog-form-vend-edit" title="Edit Vendor">
   <p class="validateTips">All form fields are required.</p>
 
   <form>
@@ -6,11 +6,13 @@
       <label for="itemID-vend-edit">Item Sequence</label>
       <input type="text" name="vendSeq" id="itemID-vend-edit" disabled class="text ui-widget-content ui-corner-all">
 
-      <label for="vendName">Vendor Name</label>
-      <input type="text" name="vendName" id="vendName" value="" class="text ui-widget-content ui-corner-all">
-      <label for="vendStatus">Vendor Status</label>
-      <select name="vendStatus" id="vendStatus" style="color:black;" class="text ui-widget-content ui-corner-all">
-        <option>Active</option>
+      <label for="vend-edit-new-name">Vendor Name</label>
+      <input type="text" name="vend-edit-new-name" id="vend-edit-new-name" value="" class="text ui-widget-content ui-corner-all">
+      <label for="vend-edit-status">Vendor Status</label>
+      <select name="vend-edit-status" id="vend-edit-status" style="color:black;" class="text ui-widget-content ui-corner-all">
+        <option value="A">Active</option>
+        <option value="I">Inactive</option>
+        <option value="R">Restricted</option>
       </select>
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
@@ -23,9 +25,9 @@
     var dialog, form, itemID,
 
       // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
-      uname = $( "#uname" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( uname ).add( password )
+      vend_edit_name = $( "#vend-edit-new-name" ),
+      vend_edit_status = $( "#vend-edit-status" ),
+      allFields = $( [] ).add( vend_edit_name ).add( vend_edit_status )
 
 
     function editVendor() {
@@ -34,25 +36,26 @@
 
       if ( valid ) {
         let xhr = new XMLHttpRequest()
-        xhr.open('DELETE', '/finances/delete/')
+        xhr.open('POST', '/finance/vend/edit')
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.send(JSON.stringify(
                 {
-                  "username": document.getElementById('uname').value,
-                  "password": document.getElementById('password').value,
-                  "seq": itemID
+                  "old_name": document.getElementById('itemID-vend-edit').value,
+                  "new_name": document.getElementById('vend-edit-new-name').value,
+                  "vend_status": document.getElementById('vend-edit-status').value
                 }
         ))
         xhr.onreadystatechange = () => {
           if (xhr.readyState == 4){
             if (xhr.status == 200){
-              alert('Record deleted successfully')
+              alert('Vendor edited successfully')
               dialog.dialog( "close" );
 
               location.reload()
             } else{
               alert(xhr.responseText)
               allFields.addClass( "ui-state-error" );
+              valid=false
 
             }
           }

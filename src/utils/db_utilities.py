@@ -1044,36 +1044,15 @@ class connect:
         self.run_statement(sql)
 
     @_exec_safe
-    def create_fin_item(self, vendor, name, price, date, visible, user):
-        sql = """INSERT INTO items (item_vendor, item_name, displayed,
-        added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
-
-        self.run_statement(sql, (vendor, name, visible, user, user))
-
-        seq = self.cur.lastrowid
-        sql = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
-        updated_by) VALUES (%s,%s,%s,%s,%s)"""
-
-        self.run_statement(sql, (seq, date, price, user, user))
-
-    
-    @_exec_safe
-    def update_fin_item(self, vendor, name, price, date, visible, user):
-        sql = """UPDATE items SET displayed = %s WHERE item_name = %s AND
-        item_vendor = %s"""
-
-        self.run_statement(sql, (visible, vendor, name))
-        sql = "SELECT seq FROM items WHERE item_vendor = %s AND item_name = %s"
-        self.run_statement(sql, (vendor, name))
-
-        seq = self.cur.fetchone()[0]
-        sql = """INSERT INTO item_cost (item_seq, eff_date, price, added_by,
-        updated_by) VALUES (%s,%s,%s,%s,%s)"""
-
-        self.run_statement(sql, (seq, date, price, user, user))
+    def create_item(self, item_name, displayed, vend_seq, initial_price, user_seq):
+        sql = """INSERT INTO items (vendor_seq, item_name, displayed, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
+        self.run_statement(sql, (vend_seq, item_name, displayed, user_seq,user_seq))
+        sql = """INSERT INTO item_cost (item_seq, eff_date, eff_status, price, added_by, updated_by) VALUES 
+        (%s,'1900-01-01','A',%s,%s,%s)"""
+        self.run_statement(sql, (self.cur.lastrowid, initial_price, user_seq, user_seq))
 
     def get_vendor_prices(self, item_obj, seq):
-        sql = "SELECT seq, DATE_FORMAT(eff_date, '%b %D, %Y'), eff_status, price FROM item_cost WHERE item_seq = %s"
+        sql = "SELECT seq, DATE_FORMAT(eff_date, '%b %D, %Y'), eff_status, price FROM item_cost WHERE item_seq = %s ORDER BY eff_date"
         self.run_statement(sql, (seq,))
         prices_raw = self.cur.fetchall()
         prices = []
@@ -1089,7 +1068,7 @@ class connect:
         return len(prices)
 
     def get_vendor_items(self, vend_obj, seq):
-        sql = "SELECT seq, item_name, displayed, need_approval FROM items WHERE vendor_seq = %s"
+        sql = "SELECT seq, item_name, displayed, need_approval FROM items WHERE vendor_seq = %s ORDER BY item_name"
         self.run_statement(sql, (seq,))
         items_raw = self.cur.fetchall()
         items = []
@@ -1110,7 +1089,7 @@ class connect:
 
 
     def get_item_data(self):
-        sql = "SELECT seq, vend_name, vend_status FROM vendors ORDER BY seq"
+        sql = "SELECT seq, vend_name, vend_status FROM vendors ORDER BY vend_name"
         self.run_statement(sql)
         vendors = []
         raw_vend = self.cur.fetchall()
@@ -1473,6 +1452,11 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         return True, ''
 
     @_exec_safe
+    def update_vendor(self, old_name, new_name, status, user):
+        sql = "UPDATE vendors SET vend_name=%s, vend_status=%s, updated_by= %s WHERE vend_name=%s"
+        self.run_statement(sql, (new_name, status, user, old_name))
+
+    @_exec_safe
     def delete_finance_rec(self, seq):
         sql = "DELETE FROM finance_line WHERE finance_seq = %s"
         self.run_statement(sql, (seq,))
@@ -1486,6 +1470,17 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         AND tA.start_date <= current_timestamp AND current_timestamp <= tB.end_date"""
         self.run_statement(sql, (seq,))
         return self.cur.rowcount > 0
+
+    @_exec_safe
+    def create_vendor(self, name, status, user_seq):
+        sql = "INSERT INTO vendors (vend_name, vend_status, added_by, updated_by) VALUES (%s,%s,%s,%s)"
+        self.run_statement(sql, (name, status, user_seq, user_seq))
+
+    @_exec_safe
+    def update_price(self, item, date, price, status, user):
+        sql = """INSERT INTO item_cost(item_seq, eff_date, eff_status, price, added_by, updated_by) VALUES
+        (%s,%s,%s,%s,%s,%s)"""
+        self.run_statement(sql, (item, date, status, price, user,user))
 
     # __methods__
     def __enter__(self):

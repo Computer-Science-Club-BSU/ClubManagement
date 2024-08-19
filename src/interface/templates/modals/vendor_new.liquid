@@ -6,10 +6,10 @@
       <label for="itemID">Vendor Sequence</label>
       <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all" value="NEXT">
 
-      <label for="vendName">Vendor Name</label>
-      <input type="text" name="vendName" id="vendName" value="" class="text ui-widget-content ui-corner-all">
-      <label for="vendStatus">Vendor Status</label>
-      <select id="vendStatus" name="vendStatus" style="color:black">
+      <label for="vend-create-new-name">Vendor Name</label>
+      <input type="text" name="vend-create-new-name" id="vend-create-new-name" value="" class="text ui-widget-content ui-corner-all">
+      <label for="vend-create-new-stat">Vendor Status</label>
+      <select id="vend-create-new-stat" name="vend-create-new-stat" style="color:black">
         <option value="A">Active</option>
         <option value="I">Inactive</option>
         <option value="R">Restricted</option>
@@ -26,9 +26,9 @@
     var dialog, form, itemID,
 
       // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
-      uname = $( "#uname" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( uname ).add( password )
+      vend_create_new_name = $( "#vend-create-new-name" ),
+      vend_create_new_stat = $( "#vend-create-new-stat" ),
+      allFields = $( [] ).add( vend_create_new_name ).add( vend_create_new_stat )
 
 
     function addUser() {
@@ -37,19 +37,18 @@
 
       if ( valid ) {
         let xhr = new XMLHttpRequest()
-        xhr.open('DELETE', '/finances/delete/')
+        xhr.open('POST', '/finance/vend/new')
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.send(JSON.stringify(
-                {
-                  "username": document.getElementById('uname').value,
-                  "password": document.getElementById('password').value,
-                  "seq": itemID
-                }
+            {
+              "vend_name": document.getElementById('vend-create-new-name').value,
+              "vend_status": document.getElementById('vend-create-new-stat').value
+            }
         ))
         xhr.onreadystatechange = () => {
           if (xhr.readyState == 4){
             if (xhr.status == 200){
-              alert('Record deleted successfully')
+              alert('Vendor created successfully')
               dialog.dialog( "close" );
 
               location.reload()

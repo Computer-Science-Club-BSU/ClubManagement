@@ -1,16 +1,21 @@
-<div id="dialog-form-item-cost" title="This action requires authentication.">
+<div id="dialog-form-item-cost" title="New Item Cost">
   <p class="validateTips">All form fields are required.</p>
 
   <form>
     <fieldset>
-      <label for="itemID">Item Sequence</label>
-      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all">
+      <label for="new-price-item-id">Item Sequence</label>
+      <input type="text" name="new-price-item-id" id="new-price-item-id" disabled class="text ui-widget-content ui-corner-all">
 
-      <label for="uname">Username</label>
-      <input type="text" name="uname" id="uname" value="" class="text ui-widget-content ui-corner-all">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all">
-
+      <label for="new-price-item-price">Price</label>
+      <input type="number" name="new-price-item-price" id="new-price-item-price" value="" class="text ui-widget-content ui-corner-all">
+      <label for="new-price-item-date">Eff. Date</label>
+      <input type="date" name="new-price-item-date" id="new-price-item-date" value="" class="text ui-widget-content ui-corner-all">
+<br>
+      <label for="new-price-item-status">Status</label>
+      <select id="new-price-item-status" name="new-price-item-status">
+        <option value="A">Active</option>
+        <option value="I">Inactive</option>
+      </select>
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
@@ -22,9 +27,9 @@
     var dialog, form, itemID,
 
       // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
-      uname = $( "#uname" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( uname ).add( password )
+      price = $( "#new-price-item-price" ),
+      date = $( "#new-price-item-date" ),
+      allFields = $( [] ).add( price ).add( date )
 
 
     function addUser() {
@@ -33,19 +38,20 @@
 
       if ( valid ) {
         let xhr = new XMLHttpRequest()
-        xhr.open('DELETE', '/finances/delete/')
+        xhr.open('POST', '/finance/item/price/new/')
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.send(JSON.stringify(
                 {
-                  "username": document.getElementById('uname').value,
-                  "password": document.getElementById('password').value,
+                  "price": document.getElementById('new-price-item-price').value,
+                  "date": document.getElementById('new-price-item-date').value,
+                  "status": document.getElementById('new-price-item-status').value,
                   "seq": itemID
                 }
         ))
         xhr.onreadystatechange = () => {
           if (xhr.readyState == 4){
             if (xhr.status == 200){
-              alert('Record deleted successfully')
+              alert('Price Record Created')
               dialog.dialog( "close" );
 
               location.reload()
@@ -66,7 +72,7 @@
       width: 350,
       modal: true,
       buttons: {
-        "Delete Finance": addUser,
+        "Create New Price": addUser,
         Cancel: function() {
           dialog.dialog( "close" );
         }
@@ -80,7 +86,7 @@
 
     $( ".editPrice" ).button().on( "click", function() {
       itemID = this.value
-      document.getElementById('itemID').value = itemID
+      document.getElementById('new-price-item-id').value = itemID
       dialog.dialog( "open" );
     });
   } );

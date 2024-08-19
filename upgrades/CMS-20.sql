@@ -142,4 +142,7 @@ create or replace trigger update_approver_flag before update on finance_hdr
     IF OLD.approved_by != NEW.approved_by OR OLD.tax != NEW.tax OR OLD.fees != NEW.fees THEN
        SET NEW.is_approved = 0;
        SET NEW.process_state = 'R';
-   end if
+   end if;
+
+
+ALTER TABLE items drop column item_vendor
