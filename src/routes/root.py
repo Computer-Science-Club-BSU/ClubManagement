@@ -3,7 +3,7 @@
 Contains the Root '/' path, as well as the before-request handler
 """
 import logging
-from flask import request, session, send_file
+from flask import request, session, send_file, redirect, abort
 from app import app
 from conf import LOG_DIR
 from src.utils.template_utils import render_template
@@ -56,6 +56,15 @@ def get_favicon_ico():
 @app.get('/robots.txt')
 def get_robots_txt():
     return send_file('src/interface/private/robots.txt')
+
+@app.get('/l/<link_code>')
+def get_l_link(link_code):
+    with connect() as conn:
+        _, link = conn.get_redirect_link(link_code)
+        if link != None:
+            return redirect(link)
+        abort(404)
+
 
 @app.before_request
 def handle_pre_request():

@@ -285,6 +285,19 @@ class connect:
         A.finance_seq=%s"""
         self.run_statement(sql, (seq,))
 
+    @_exec_safe
+    def get_redirect_link(self, link_code: str) -> str | None:
+        sql = """SELECT A.seq, A.redirect FROM links A WHERE A.link = %s AND A.eff_date = (
+    SELECT MAX(A1.eff_date) FROM links A1 WHERE A1.link = A.link
+                                          AND A1.eff_date < current_timestamp
+    ) FOR UPDATE;"""
+        self.run_statement(sql, (link_code,))
+        if self.cur.rowcount == 0:
+            return
+        seq, redirect = self.cur.fetchone()
+        sql = """UPDATE links SET visits = visits + 1 WHERE seq = %s"""
+        self.run_statement(sql, (seq,))
+        return redirect
 
     def get_finances(self) -> List[Dict[str,str]]:
         # Get the header data
