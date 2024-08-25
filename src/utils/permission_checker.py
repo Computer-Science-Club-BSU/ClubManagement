@@ -1,10 +1,7 @@
 from logging import Logger
 from src.utils.db_utilities import connect
 from flask import abort, Request
-import re
-
 from typing import NoReturn
-
 
 
 def check_perms(request:Request,

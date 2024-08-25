@@ -57,15 +57,6 @@ def get_favicon_ico():
 def get_robots_txt():
     return send_file('src/interface/private/robots.txt')
 
-@app.get('/l/<link_code>')
-def get_l_link(link_code):
-    with connect() as conn:
-        _, link = conn.get_redirect_link(link_code)
-        if link != None:
-            return redirect(link)
-        abort(404)
-
-
 @app.before_request
 def handle_pre_request():
     """Executes auth checking on all requests and enforces rate limiting on all

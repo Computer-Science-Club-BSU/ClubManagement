@@ -36,6 +36,36 @@
                 }
             })
         }
+        function newPerm(){
+          let perm_name = prompt('Class Name: ')
+            if(perm_name == null || perm_name == ""){
+                alert("Permission name cannot be null or empty")
+                return
+            }
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/admin/permissions/perms/new')
+            //console.error("Opened POST")
+            xhr.setRequestHeader("Content-Type", "application/json")
+
+            xhr.send(
+                JSON.stringify({
+                    "name": perm_name
+                })
+            )
+           // console.error("JSON Sent")
+            xhr.onreadystatechange = (() => {
+                //console.error(xhr.readyState, xhr.status)
+                if(xhr.readyState == 4){
+                    if(xhr.status != 200){
+                        alert("Could not create permission")
+                    }
+                    else{
+                        alert("Permission created")
+                        window.location.reload()
+                    }
+                }
+            })
+        }
     </script>
   </head>
   <body>
@@ -51,6 +81,7 @@
                 {% for permission_desc in perm_descs %}
                   <th style="writing-mode:vertical-lr">{{ permission_desc.name_short }}</th>
                 {% endfor %}
+                <th><button style="writing-mode:vertical-lr" onclick="newPerm()" type="button">Add Permission</button></th>
               </tr>
               {% for class in db_classes %}
                 <tr>
