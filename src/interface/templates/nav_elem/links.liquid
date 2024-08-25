@@ -1,0 +1,14 @@
+{% if perms.add_links == 1 or perms.edit_links == 1 %}
+  <li  class="navli parent">
+
+    <a href="#">Maintain Links</a>
+    <ul class="child">
+      {% if perms.add_links == 1 or perms.edit_links == 1 %}
+        <li  class="navli" class="parent">
+          <a href="/links/">View All Links</a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </li>
+{% endif %}

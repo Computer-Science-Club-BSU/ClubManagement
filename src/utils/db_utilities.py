@@ -19,6 +19,7 @@ from conf import LOG_DIR
 from src.utils.email_utils import send_password_reset
 from src.utils.exceptions import EmailNotFoundException
 from src.utils.send_email import send_email
+from time import sleep
 
 
 # Create a new logger
@@ -182,9 +183,10 @@ class connect:
 
     @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
-        sql = """SELECT dash.* FROM dashboards dash, dash_assign da,
-        class_assignments ca WHERE da.dash_seq = dash.seq
-        AND da.class_seq = ca.seq AND ca.user_seq = %s;"""
+        sql = """SELECT D.* FROM dashboards D, dash_assign DA, class_assignments CA, terms tA, terms tB
+WHERE DA.dash_seq = D.seq AND CA.class_seq = DA.class_seq
+  AND tA.seq = CA.start_term AND tB.seq = CA.end_term AND current_date between tA.start_date AND tB.end_date
+AND CA.user_seq = %s"""
 
         self.run_statement(sql, (user_seq,))
 
@@ -285,6 +287,19 @@ class connect:
         A.finance_seq=%s"""
         self.run_statement(sql, (seq,))
 
+    @_exec_safe
+    def get_redirect_link(self, link_code: str) -> str | None:
+        sql = """SELECT A.seq, A.redirect FROM links A WHERE A.link = %s AND A.eff_date = (
+    SELECT MAX(A1.eff_date) FROM links A1 WHERE A1.link = A.link
+                                          AND A1.eff_date < current_timestamp
+    ) FOR UPDATE;"""
+        self.run_statement(sql, (link_code,))
+        if self.cur.rowcount == 0:
+            return
+        seq, redirect = self.cur.fetchone()
+        sql = """UPDATE links SET visits = visits + 1 WHERE seq = %s"""
+        self.run_statement(sql, (seq,))
+        return redirect
 
     def get_finances(self) -> List[Dict[str,str]]:
         # Get the header data
@@ -498,16 +513,26 @@ class connect:
 
     @_convert_to_dict
     def get_docket_dash_data(self, dash_seq: int, user_seq: int) -> List[Dict[str,str]]:
-        sql = """SELECT dash.sp_name FROM dashboards dash,
+        sql = """SELECT dash.sp_name, dash.UUID FROM dashboards dash,
         dash_assign da, class_assignments ca WHERE da.dash_seq = dash.seq AND
         ca.user_seq = %s AND da.class_seq = ca.class_seq AND dash.seq = %s;"""
 
         self.run_statement(sql, (user_seq, dash_seq))
         if self.cur.rowcount != 1:
             return False
-        sp_name = self.cur.fetchone()[0]
+        sp_name, uuid = self.cur.fetchone()
 
         self.cur.callproc(sp_name)
+        sql = """SELECT hdr.seq, hdr.docket_title, hdr.docket_desc,
+        stat.stat_desc as 'status', vote.vote_desc,
+        hdr.added_by as 'creator_seq',
+        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        concat(u.first_name, ' ', u.last_name) as 'creator'
+        FROM docket_hdr hdr, docket_status stat, vote_types vote, users u, doc_dash dash
+        WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq AND hdr.added_by = u.seq AND
+        hdr.seq = dash.doc_seq AND dash.uuid = %s"""
+        self.run_statement(sql, (uuid,))
+
 
     @_convert_to_dict
     def get_docket_vote_types(self):
@@ -1481,6 +1506,29 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         sql = """INSERT INTO item_cost(item_seq, eff_date, eff_status, price, added_by, updated_by) VALUES
         (%s,%s,%s,%s,%s,%s)"""
         self.run_statement(sql, (item, date, status, price, user,user))
+
+    @_exec_safe
+    def create_perm(self, perm_desc, perm_name, user_seq):
+        sql = "INSERT INTO perm_types (perm_desc, name_short, added_by, updated_by) VALUES (%s,%s,%s,%s)"
+        self.run_statement(sql, (perm_desc, perm_name, user_seq, user_seq))
+        perm_seq = self.cur.lastrowid
+        sql = "SELECT seq FROM class"
+        self.run_statement(sql)
+        for row in self.cur.fetchall():
+            sql = "INSERT INTO perms (class_seq, perm_seq, added_by, updated_by) VALUES (%s,%s,%s,%s)"
+            self.run_statement(sql, (row[0], perm_seq, user_seq, user_seq))
+
+    @_convert_to_dict
+    def get_all_links(self):
+        sql = """SELECT A.seq, link, date_format(A.eff_date, '%b %D, %Y - %l:%i %p') as 'eff_date', A.redirect, A.visits,
+        B.full_name as 'added_by', C.full_name as 'updated_by' FROM links A, user_info_vw B, user_info_vw C WHERE
+        A.added_by = B.seq AND A.updated_by = C.seq ORDER BY link, eff_date"""
+        self.run_statement(sql)
+
+    @_exec_safe
+    def create_link(self, origin, target, start, user):
+        sql = """INSERT INTO links (link, eff_date, redirect, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
+        self.run_statement(sql, (origin, start, target, user, user))
 
     # __methods__
     def __enter__(self):
