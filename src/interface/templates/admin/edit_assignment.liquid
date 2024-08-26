@@ -38,7 +38,11 @@
       <label for="role">Class</label>
       <select name="role" id="role">
         {% for class in _classes %}
-          <option value="{{class.seq}}">{{ class.position_name }}</option>
+          <option
+            value="{{class.seq}}"
+            {% if data.position_name == class.position_name %}
+            selected
+            {% endif %}>{{ class.position_name }}</option>
         {% endfor %}
       </select>
       <br>
@@ -47,7 +51,7 @@
         {% for term in terms %}
           <option
             value="{{term.seq}}"
-            {% if term.start_date == data.start_date %}
+            {% if term.term_desc == data.start_date %}
             selected
             {% endif %}
             title="{{term.start_date}} &rarr; {{term.end_date}}">{{ term.term_desc }}</option>
@@ -58,7 +62,7 @@
         {% for term in terms %}
           <option
             value="{{term.seq}}"
-            {% if term.end_date == data.end_date %}
+            {% if term.term_desc == data.end_date %}
             selected
             {% endif %}
             title="{{term.start_date}} &rarr; {{term.end_date}}">{{ term.term_desc }}</option>

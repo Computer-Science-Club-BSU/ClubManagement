@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    {% if user.theme != nil %}
+      <link rel="stylesheet" href="/static/theme/{{user.theme}}.css">
+    {% else %}
+      <link rel="stylesheet" href="/static/theme/f0036e77-5756-11ef-af4a-e2d356e52ad1.css">
+    {% endif %}
+    <link rel="stylesheet" href="/static/theme/structure.css">
+  </head>
+  <body>
+    <div class="nav_div" style="z-index: -10;">
+      <ul id="nav_ul">
+        <li class="parent">
+          <a href="/">Back to App</a>
+        </li>
+        <li class="parent">
+          <a href="/documentation/">Docs Home</a>
+        </li>
+        <li class="parent">
+          <a href="#">Resources</a>
+          <ul class="child">
+
+            <li class="parent">
+              <a href="#">Style Guides<span class="expand">&raquo;</span>
+              </a>
+              <ul class="child">
+                <li>
+                  <a href="/documentation/style/sql">SQL</a>
+                </li>
+                <li>
+                  <a target="_blank" href="https://google.github.io/styleguide/pyguide.html">Python</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="/documentation/cont_guide">Contribution Guide</a>
+            </li>
+            <li>
+              <a href="/doc/admin">Administrate Docket</a>
+            </li>
+            <li>
+              <a href="/doc/query">Query Docket</a>
+            </li>
+          </ul>
+        </li>
+        <li class="parent">
+          <a href="#">Maintain Docket</a>
+          <ul class="child">
+            <li>
+              <a href="/doc/view">View All Records</a>
+            </li>
+            <li>
+              <a href="/doc/create">Create a Docket</a>
+            </li>
+            <li>
+              <a href="/doc/admin">Administrate Docket</a>
+            </li>
+            <li>
+              <a href="/doc/query">Query Docket</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  </body>
+</html>

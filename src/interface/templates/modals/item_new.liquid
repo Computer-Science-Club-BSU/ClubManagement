@@ -1,0 +1,97 @@
+<div id="dialog-form-item-new" title="Create Item">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form>
+    <>
+      <label for="itemID">Item Sequence</label>
+      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all">
+
+      <label for="item-create-name">Item Name</label>
+      <input type="text" name="item-create-name" id="item-create-name" value="" class="text ui-widget-content ui-corner-all">
+      <input type="checkbox" name="item-create-disp" id="item-create-disp" value="" class="ui-widget-content ui-corner-all" style="display: unset">
+      <label for="item-create-disp">Displayed</label>
+<br>
+      <label for="item-create-vend">Vendor</label>
+      <select id="item-create-vend" name="item-create-vend" style="color: black">
+        {% for vend in data %}
+          <option value="{{ vend.seq }}">{{ vend.name }}</option>
+        {% endfor %}
+      </select>
+      <br>
+        <label for="item-create-init-price">Initial Price</label>
+        <input type="number" id='item-create-init-price' name="item-create-init-price" class="text ui-widget-content ui-corner-all">
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+<script>
+  $( function() {
+    var dialog, form, itemID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      item_name = $( "#item-create-name" ),
+      is_disp = $( "#item-create-disp" ),
+      vendor= $( "#item-create-vend" ),
+      allFields = $( [] ).add( item_name ).add( is_disp ).add(vendor)
+
+
+    function addUser() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/finance/item/new/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+                {
+                  "item_name": document.getElementById('item-create-name').value,
+                  "displayed": document.getElementById('item-create-disp').checked,
+                  "vend_seq": document.getElementById('item-create-vend').value,
+                  "init_price": document.getElementById('item-create-init-price').value
+                }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Item Created successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-item-new" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create Item": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( ".newItem" ).button().on( "click", function() {
+      itemID = this.value
+      document.getElementById('itemID').value = "NEXT"
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>

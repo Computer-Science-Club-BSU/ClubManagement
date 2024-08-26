@@ -4,9 +4,10 @@ from flask import request, session, redirect, Response
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
+from conf import LOG_DIR
 
 
-handler = logging.FileHandler('/var/log/cms/access.log')
+handler = logging.FileHandler(f'{LOG_DIR}access.log')
 handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 
 logger = logging.getLogger("AuthManager")
@@ -46,4 +47,5 @@ def auth_logout():
     """Handles requests to log out of system.
     Clears session and sends back to home page."""
     session.clear()
+
     return redirect('/')

@@ -9,13 +9,13 @@
     {% if user.theme != nil %}
       <link rel="stylesheet" href="/static/theme/{{user.theme}}.css">
     {% else %}
-      <link rel="stylesheet" href="/static/theme/1.css">
+      <link rel="stylesheet" href="/static/theme/f0036e77-5756-11ef-af4a-e2d356e52ad1.css">
     {% endif %}
     <link rel="stylesheet" href="/static/theme/structure.css">
     <script>
         function getData(itemSeq){
-            callback(document.getElementById(`item_name${itemSeq}`).innerText,
-            document.getElementById(`item_price${itemSeq}`).innerText)
+            callback(document,
+            itemSeq)
             window.close()
         }
     </script>
@@ -35,7 +35,7 @@
             </tr>
             {% for item in items %}
               <tr>
-                <td>{{ item.item_vendor }}</td>
+                <td id="item_vendor{{item.seq}}">{{ item.item_vendor }}</td>
                 <td id="item_name{{item.seq}}">{{ item.item_name }}</td>
                 <td id="item_price{{item.seq}}">{{ item.price }}</td>
                 <td>{{ item.eff_date }}</td>

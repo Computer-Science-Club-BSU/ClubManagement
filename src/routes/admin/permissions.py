@@ -1,6 +1,6 @@
 """Handles requests pertaining to Admin Permission Assignment endpoints"""
 from logging import getLogger
-from flask import request, session
+from flask import request, session, redirect
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
@@ -31,10 +31,10 @@ def post_admin_permissions_edit():
         for perm in perms: #pylint: disable=not-an-iterable
             seq = perm['seq']
             stat = request.form.get(str(seq), 'off')
-            res, _ = conn.update_permissions(seq, stat == 'on', user_seq) #pylint: disable=unpacking-non-sequence
+            res, e = conn.update_permissions(seq, stat == 'on', user_seq) #pylint: disable=unpacking-non-sequence
             if not res:
-                return "Err", 400
-    return "Success"
+                return str(e), 400
+    return redirect('/admin/permissions/')
 
 @app.route('/admin/permissions/class/new', methods=['POST'])
 def post_admin_permissions_class_new():
@@ -45,5 +45,16 @@ def post_admin_permissions_class_new():
     with connect() as conn:
         res, _ = conn.create_class(class_name, user) #pylint: disable=unpacking-non-sequence
     if res:
-        return "Success"
+        return "Success", 200
     return "Failed", 500
+
+@app.route('/admin/permissions/perms/new', methods=['POST'])
+def post_admin_permissions_perms_new():
+    """Creates a new permission in the database."""
+    user_seq = session.get('user_seq')
+    perm_name = request.json['name']
+    with connect() as conn:
+        res, _ = conn.create_perm(perm_name.lower().replace(' ', '_'), perm_name, user_seq)
+        if not res:
+            return "Err", 400
+        return "Success", 200

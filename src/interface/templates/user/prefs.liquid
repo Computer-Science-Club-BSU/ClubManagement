@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Preferences</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% if err_msg != nil %}
+      <script>
+        alert('{{ err_msg }}')
+      </script>
+    {% endif %}
+    <script>
+      function changeTheme(e){
+        document.getElementById('themeLink').href=`/static/theme/${e.id}`
+      }
+      function revertTheme(e){
+        console.log(e)
+        if (!e.children[0].checked)
+          document.getElementById('themeLink').href=`/static/theme/{{ user.theme }}.css`
+
+      }
+    </script>
+  </head>
+  <body>
+    {% include 'navbar.liquid' %}
+    <article>
+      <h1>User Preferences</h1>
+      <div class="grid2x2">
+        <div class="box">
+          <h2>General Info</h2>
+          <form action="/user/preferences/general/" method="POST">
+            <label for="fName">Name:
+            </label>
+            <input
+              type="text"
+              name="fName"
+              id="fName"
+              value="{{user.first_name}}"><input
+              type="text"
+              name="lName"
+              id="lName"
+              value="{{user.last_name}}">
+            <br>
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value="{{user.email}}">
+            <br>
+            <label for="title">Title</label>
+            <select name="title" id="title">
+              {% assign found_title = false %}
+              {% for title in titles %}
+                {% if title.title_desc == user.title %}
+                  {% assign found_title = true %}
+                  <option value="{{title.seq}}" selected>{{ title.title_desc }}</option>
+                {% else %}
+                  <option value="{{title.seq}}">{{ title.title_desc }}</option>
+
+                {% endif %}
+              {% endfor %}
+              {% if found_title != true %}
+                <option value="-1" selected>{{ user.title }}</option>
+              {% endif %}
+            </select>
+            <br>
+            <fieldset>
+              <legend>Theme</legend>
+              {% for theme in themes %}
+              <span onmouseenter="changeTheme(this)" id="{{ theme.file_name }}.css" onmouseleave="revertTheme(this)"><input type="radio" name="theme" id="{{ theme.file_name }}" value="{{ theme.seq }}" {% if theme.file_name == user.theme %} checked {% endif %}> <label for="{{ theme.file_name }}">{{ theme.theme_desc }}</label>
+              <br></span>
+              {% endfor %}
+            </fieldset>
+            {% comment %}<label for="theme">Theme: </label>{% endcomment %}
+            {% comment %}<select id="theme" name="theme" onchange=''>{% endcomment %}
+              {% comment %}{% for theme in themes %}{% endcomment %}
+{% comment %}{% endcomment %}
+              {% comment %}<option value="{{ theme.seq }}" {% if theme.file_name == user.theme %} selected {% endif %}>{{ theme.theme_desc }}</option>{% endcomment %}
+              {% comment %}{%endfor%}{% endcomment %}
+            {% comment %}</select>{% endcomment %}
+            {% comment %}<br>{% endcomment %}
+            <input type="submit" value="Update">
+          </form>
+        </div>
+        <div class="box">
+          <h2>User Security</h2>
+          <form action="/user/preferences/security/" method="post">
+            <label for="current">Current Password</label>
+            <input
+              type="password"
+              name="current"
+              id="current"> <br>
+            <label for="new">New Password</label><input
+              type="password"
+              name="new"
+              id="new"> <br>
+            <label for="confirm">Confirm Password</label><input
+              type="password"
+              name="confirm"
+              id="confirm"> <br>
+            <input type="submit" value="Update">
+          </form>
+        </div>
+        <div class="box">
+          <h2>General Info</h2>
+          <h3>Current Positions:</h3>
+          <ul>
+            {% for class in classes %}
+              <h4>{{ class.position_name }}</h4>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="box">
+          <h2>User Audit</h2>
+          <table>
+            <tr>
+              <th>Added By</th>
+              <td>{{ audit.added_by }}</td>
+            </tr>
+            <tr>
+              <th>Added DateTime</th>
+              <td>{{ audit.added_dt }}</td>
+            </tr>
+            <tr>
+              <th>Updated By</th>
+              <td>{{ audit.updated_by }}</td>
+            </tr>
+            <tr>
+              <th>Update DateTime</th>
+              <td>{{ audit.updated_dt }}</td>
+            </tr>
+            <tr>
+              <th>Created Dockets</th>
+              <td>{{ audit.docket_count }}</td>
+            </tr>
+            <tr>
+              <th>Created Finances</th>
+              <td>{{ audit.created_finances }}</td>
+            </tr>
+            <tr>
+              <th>Approved Finances</th>
+              <td>{{ audit.approved_records }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </article>
+    {% include 'footer.liquid' %}
+  </body>
+</html>

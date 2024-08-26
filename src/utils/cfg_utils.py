@@ -1,10 +1,16 @@
 import configparser
 from typing import Dict
+from conf import CFG_DIR
+import json
 
+
+def load_config():
+    with open(f'{CFG_DIR}config.json', 'r') as f:
+        return json.load(f)
 
 def _load_cfg():
     cfg = configparser.ConfigParser()
-    cfg.read('/etc/cms/conf.cfg')
+    cfg.read(f'{CFG_DIR}conf.cfg')
     return cfg
 
 
@@ -18,12 +24,14 @@ def get_smtp_conf(
     user = config.get(smpt_setting_section, "USER")
     pswd = config.get(smpt_setting_section, "PASS")
     send_as = config.get(smpt_setting_section, "SEND_AS")
+    send_alias = config.get(smpt_setting_section, "SEND_ALIAS")
     return {
         "HOST": host,
         "PORT": port,
         "USER": user,
         "PASS": pswd,
-        "SEND_AS": send_as
+        "SEND_AS": send_as,
+        "SEND_ALIAS": send_alias
     }
 
 
