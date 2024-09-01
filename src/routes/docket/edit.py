@@ -27,6 +27,10 @@ def post_doc_edit():
     with connect() as conn:
         title = request.form.get('title')
         body = request.form.get('body')
+        if body.strip() == '':
+            return "Body cannot be blank!", 400
+        if title.strip() == '':
+            return "Title cannot be blank!", 400
         status = request.form.get('stat')
         vote_type = request.form.get('vote')
         res, _ = conn.update_docket( #pylint: disable=unpacking-non-sequence

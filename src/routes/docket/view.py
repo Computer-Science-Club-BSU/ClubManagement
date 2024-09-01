@@ -30,7 +30,8 @@ def get_doc_view_by_seq(seq):
 
     with connect() as conn:
         records = conn.get_all_docket_data_by_seq(seq)
-        user_seq = bleach.clean(session.get('user_seq'))
+
+        user_seq = session.get('user_seq')
         can_user_edit = conn.can_user_edit_docket(user_seq,seq)
         attachments = conn.get_docket_attachments_summary(seq)
         # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean

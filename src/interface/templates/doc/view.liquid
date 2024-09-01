@@ -26,7 +26,7 @@
                 <td>{{ row.status }}</td>
                 <td>{{ row.added_dt }}</td>
                 <td class="actions">
-                  <a href="/doc/view?seq={{row.seq}}">View</a>
+                  <a href="/doc/view/{{row.seq}}">View</a>
                   {% if row.status == 'In Vote' %}
                     <a href="/doc/vote?seq={{row.seq}}">Vote</a>
                   {% endif %}
