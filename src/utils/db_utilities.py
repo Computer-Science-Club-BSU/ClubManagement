@@ -339,13 +339,13 @@ AND CA.user_seq = %s"""
     @_convert_to_dict_single
     def get_docket_by_seq(self, seq: int) -> Dict[str,str]:
         sql = """SELECT hdr.seq as 'seq', hdr.docket_title, hdr.docket_desc,
-        stat.stat_desc as 'status', vote.vote_desc,
+        stat.stat_desc as 'status', stat.edit_locked, vote.vote_desc,
         hdr.added_by as 'creator_seq',
         DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
         concat(u.first_name, ' ', u.last_name) as 'creator'
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq
-        AND hdr.added_by = u.seq AND hdr.seq = %s;"""
+        AND hdr.added_by = u.seq AND hdr.seq = %s"""
         self.run_statement(sql, (seq,))
 
 
@@ -776,15 +776,21 @@ AND CA.user_seq = %s"""
 
 
     @_convert_to_dict
-    def search_items(self, date):
-        sql = """SELECT items.item_name, items.item_vendor,
-        item_cost.price, date_format(item_cost.eff_date, '%M %D, %Y') "eff_date",item_cost.seq FROM items,item_cost WHERE
-        items.seq = item_cost.item_seq AND items.displayed = 1 AND
+
+    def search_items(self, date, user_seq):
+        sql = """SELECT DISTINCT items.item_name, vendors.vend_name as 'item_vendor', displayed,
+        item_cost.price, date_format(item_cost.eff_date, '%M %D, %Y') "eff_date",item_cost.seq FROM items ,item_cost, vendors, class_assignments C,
+terms tA, terms tB, perms P, perm_types pT WHERE
+        items.seq = item_cost.item_seq AND (p.granted = 1 OR (items.displayed = 1 AND item_cost.eff_status = 'A' AND vendors.vend_status = 'A')) AND items.vendor_seq = vendors.seq AND
     item_cost.eff_date = (
         SELECT MAX(eff_date) FROM item_cost B
-        WHERE B.item_seq = items.seq AND B.eff_date <= %s )"""
+        WHERE B.item_seq = items.seq AND B.eff_date <= %s ) AND
+       C.start_term = tA.seq AND C.end_term = tB.seq AND
+       current_date BETWEEN tA.start_date AND tB.start_date
+        AND C.class_seq = P.class_seq AND P.perm_seq = pT.seq AND pT.perm_desc = 'fin_admin' AND C.user_seq = %s
+AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
-        self.run_statement(sql, (date,))
+        self.run_statement(sql, (date,user_seq))
 
     @_convert_to_dict_single
     def get_finance_status_by_seq(self, seq):
