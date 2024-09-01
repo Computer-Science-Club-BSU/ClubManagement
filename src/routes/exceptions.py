@@ -1,9 +1,9 @@
-# from app import app
+from app import app
 
 
-# @app.errorhandler(401)
-# @app.errorhandler(403)
-# @app.errorhandler(404)
-# @app.errorhandler(500)
-# def handle_error(error):
-#     return f"Error: {error=}", 500
+# @app.errorhandler(Exception)
+# def handle_423(e):
+#     e_code = str(e)[0:3]
+#     if e_code.isdigit():
+#         return f'<img src=https://http.cat/{e_code}></img>', int(e_code)
+#     return f"Error: {str(e)}", 400

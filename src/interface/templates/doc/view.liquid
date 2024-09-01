@@ -28,13 +28,13 @@
                 <td class="actions">
                   <a href="/doc/view/{{row.seq}}">View</a>
                   {% if row.status == 'In Vote' %}
-                    <a href="/doc/vote?seq={{row.seq}}">Vote</a>
+                    <a href="/doc/vote/{{row.seq}}">Vote</a>
                   {% endif %}
-                  {% if perms.doc_del %}
-                    <a href="/doc/del?seq={{row.seq}}">Delete</a>
+                  {% if perms.doc_admin %}
+                    <a href="/doc/del/{{row.seq}}">Delete</a>
                   {% endif %}
                   {% if perms.doc_admin == 1 or user.seq == row.creator_seq %}
-                    <a href="/doc/edit?seq={{row.seq}}">Edit</a>
+                    <a href="/doc/edit/{{row.seq}}">Edit</a>
 
                   {% endif %}
                 </td>

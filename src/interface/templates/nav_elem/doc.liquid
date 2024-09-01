@@ -18,11 +18,11 @@
           <a href="/doc/admin">Administrate Docket</a>
         </li>
       {% endif %}
-      {% if perms.doc_query == 1 or perms.doc_admin %}
-        <li class="navli">
-          <a href="/doc/query">Query Docket</a>
-        </li>
-      {% endif %}
+      {% comment %}{% if perms.doc_query == 1 or perms.doc_admin %}{% endcomment %}
+        {% comment %}<li class="navli">{% endcomment %}
+          {% comment %}<a href="/doc/query">Query Docket</a>{% endcomment %}
+        {% comment %}</li>{% endcomment %}
+      {% comment %}{% endif %}{% endcomment %}
       {% assign doc_dash_len = docket_dashboards | size %}
       {% if doc_dash_len > 0 %}
         <li class="parent navli">

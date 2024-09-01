@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ sys_name }}</title>
+      <script>
+          function submitForm() {
+              let xhr = new XMLHttpRequest()
+              xhr.open('POST', '/dev/path_audit/edit/')
+              xhr.setRequestHeader('Content-Type', 'application/json')
+              xhr.send(
+                  JSON.stringify({
+                      "endpoint": "{{ endpoint }}",
+                      "plugin": document.getElementById('plugin').value === '' ? null : document.getElementById('plugin').value,
+                      "perm": document.getElementById('perm').value === '' ? null : document.getElementById('perm').value
+                  })
+              )
+              xhr.onreadystatechange = () => {
+                  if(xhr.readyState == 4){
+                      if(xhr.status == 200){
+                          alert('Permission Updated')
+                          try{
+                              callback()
+                          } catch (e) {
+                              window.close()
+                          }
+                      } else{
+                          alert("Could not update permission. Check logs for more information.")
+                      }
+                  }
+              }
+          }
+      </script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article style="display: unset">
+        <h1>Edit Endpoint Permissions</h1>
+        <h2>Endpoint Name: {{ endpoint }}</h2>
+            <label for="plugin" style="padding-left: 20px;">Plugin</label>
+        <select id="plugin" name="plugin">
+            {% for plugin in plugins %}
+                <option value="{{ plugin.seq }}">{{ plugin.plugin_name }}</option>
+            {% endfor %}
+            <option value=""></option>
+        </select>
+            <br>
+        <label for="perm" style="padding-left: 20px;">Permission</label>
+        <select id="perm" name="perm">
+            {% for _perm in db_perms %}
+                <option value="{{ _perm.seq }}">{{ _perm.name_short }}</option>
+            {% endfor %}
+            <option value=""></option>
+        </select> <br>
+        <button style="margin-left: 20px;" onclick="submitForm()">Submit</button>
+    </article>
+  {% include "footer.liquid" %}
+  </body>
+</html>

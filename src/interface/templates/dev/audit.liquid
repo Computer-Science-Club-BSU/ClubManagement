@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Path Audit</title>
+    <script>
+      function editPath(endpoint){
+        let endpointWin = window.open(`/dev/path_audit/edit/${endpoint}`, "Edit Endpoint Perms", "width=800,height=600");
+        endpointWin.callback = () => {
+          location.reload()
+        }
+
+      }
+    </script>
   </head>
   <body>
     {% include "navbar.liquid" %}
@@ -17,6 +26,7 @@
               <th>Path Endpoint Name</th>
               <th>Permission Name</th>
               <th>Admin Permission</th>
+              <th>Edit</th>
             </tr>
             {% for path in paths %}
               <tr>
@@ -25,6 +35,7 @@
                 <td>{{ path }}</td>
                 <td>{{ rules[path]['pathperm'] }}</td>
                 <td>{{ rules[path]['adminperm'] }}</td>
+                <td><button onclick="editPath('{{ path }}')"><i class="fa-solid fa-file-pen"></i></button></td>
               </tr>
             {% endfor %}
           </table>
