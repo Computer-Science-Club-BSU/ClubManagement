@@ -3,7 +3,7 @@
 Contains the Root '/' path, as well as the before-request handler
 """
 import logging
-from flask import request, session, send_file
+from flask import request, session, send_file, redirect, abort
 from app import app
 from conf import LOG_DIR
 from src.utils.template_utils import render_template
@@ -39,8 +39,8 @@ def get_root_index():
                                fin_sum=fin_sum, doc_sum=doc_sum, isPos=is_pos,
                                doc_count=sum(doc_sum.values()),
                                fin_count=sum(fin_sum.values()),
-                               gen_log_data=gen_log[:100],
-                               access_log_data=access_log[:100],
+                               gen_log_data=gen_log[-100:],
+                               access_log_data=access_log[-100:],
                                top_left = home_page_prefs.get('top_left'),
                                top_right = home_page_prefs.get('top_right'),
                                bot_left = home_page_prefs.get('bot_left'),

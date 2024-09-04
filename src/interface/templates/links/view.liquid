@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ Redirect Links }}</title>
+      <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+        <h1>Link Management</h1>
+        <table style="width: 100%">
+            <tr>
+                <th>Link Location</th>
+                <th>Redirect Location</th>
+                <th>Visits</th>
+                <th>Effective Date</th>
+                <th>Added By</th>
+            </tr>
+            {% for link in links %}
+                <tr>
+                    <td>{{ link.link }}</td>
+                    <td>{{ link.redirect }}</td>
+                    <td>{{ link.visits }}</td>
+                    <td>{{ link.eff_date }}</td>
+                    <td>{{ link.added_by }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="5"><button id="new-link">New Link</button></td>
+            </tr>
+        </table>
+    {% include "modals/redirect_new.liquid" %}
+    {% include "footer.liquid" %}
+  </body>
+</html>

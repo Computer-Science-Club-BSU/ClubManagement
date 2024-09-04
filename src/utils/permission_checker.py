@@ -1,10 +1,7 @@
 from logging import Logger
 from src.utils.db_utilities import connect
 from flask import abort, Request
-import re
-
 from typing import NoReturn
-
 
 
 def check_perms(request:Request,
@@ -17,5 +14,7 @@ def check_perms(request:Request,
             return
         else:
             print(request.endpoint)
-            raise Exception
+            if not conn.does_endpoint_exist(request.endpoint):
+                raise Exception(f"Endpoint {request.endpoint} is not set up with valid permissions.")
+            raise abort(401)
         

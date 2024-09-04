@@ -1,0 +1,91 @@
+<div id="dialog-form-vend-new" title="Redirect Link Creator">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form>
+    <fieldset>
+      <label for="itemID">Link Sequence</label>
+      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all" value="NEXT">
+
+      <label for="link-new-origin">Link Origin</label>
+      <input type="text" name="link-new-origin" id="link-new-origin" value="" class="text ui-widget-content ui-corner-all">
+      <label for="link-new-target">Link Target</label>
+      <input type="url" placeholder="https://example.com" pattern="https://.*" name="link-new-target" id="link-new-target" value="" class="text ui-widget-content ui-corner-all">
+
+      <label for="link-new-date">Link Date</label>
+      <input type="datetime-local" name="link-new-date" id="link-new-date" value="" class="text ui-widget-content ui-corner-all">
+
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      link_new_target = $( "#link-new-target" ),
+      link_new_origin = $( "#link-new-origin" ),
+      link_new_date = $( "#link-new-date" )
+      allFields = $( [] ).add( link_new_target ).add( link_new_origin ).add( link_new_date )
+
+
+    function addUser() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/links/new/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+            {
+              "link_target": document.getElementById('link-new-target').value,
+              "link_origin": document.getElementById('link-new-origin').value,
+              "link_date": document.getElementById('link-new-date').value
+            }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Link created successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-vend-new" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create Link": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( "#new-link" ).button().on( "click", function() {
+      itemID = 'NEXT'
+      document.getElementById('itemID').value = itemID
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>
