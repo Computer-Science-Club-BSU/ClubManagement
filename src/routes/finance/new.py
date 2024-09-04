@@ -24,11 +24,14 @@ def get_finances_create():
 def post_finances_create():
     """Serves the /finances/create/ POST request."""
     with connect() as conn:
-        res, _ = conn.create_finance_record(
-            request.json,
+        data = request.json
+        if data['header']['id'] == '':
+            return "ID Cannot be blank!", 400
+        res, e = conn.create_finance_record(
+            data,
             session['user_seq']
         )
     if res:
         return ""
-    abort(400)
+    return str(e), 400
 

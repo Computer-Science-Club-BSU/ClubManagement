@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Docket Record</title>
+    <script>
+      {% if doc.edit_locked == 1 %}
+        alert("Record is locked for edits.")
+      {% endif %}
+    </script>
   </head>
   <body>
     {% include "navbar.liquid" %}
@@ -11,8 +16,8 @@
       <div class="grid2x2">
         <form
           class="box"
-          action="/doc/edit?seq={{doc.docket.seq}}"
-          method="POST">
+          {% if doc.edit_locked != 1 %} action="/doc/edit?seq={{doc.docket.seq}}"
+          method="POST"{% endif %}>
 
           <div class="box">
             <h1>Editing Docket {{ doc.docket.seq }}</h1>
@@ -26,14 +31,14 @@
               id="title"
               value="{{doc.docket.docket_title}}"
               style="
-              margin-left:20px;"> <br>
+              margin-left:20px;" {% if doc.edit_locked == 1 %} disabled {% endif %}> <br>
             <h3>
               <label for="body">Docket Body</label>
             </h3>
             <textarea
               name="body"
               id="body"
-              style="margin-left:20px; height: 40%">{{ doc.docket.docket_desc }}</textarea><br>
+              style="margin-left:20px; height: 40%" {% if doc.edit_locked == 1 %} disabled {% endif %}>{{ doc.docket.docket_desc }}</textarea><br>
             {% if perms.doc_admin %}
               <label for="stat">Doc Status</label>
               <select name="stat" id="stat">
