@@ -11,7 +11,7 @@ def get_finance_items_search():
     Allows for the search of finance items for finances."""
     with connect() as conn:
         date = datetime.strptime(request.args.get('invDate'), '%Y-%m-%d')
-        items = conn.search_items(date)
+        items = conn.search_items(date, session['user_seq'])
         # return items
         return render_template('fin/item_search.liquid', items=items)
 
