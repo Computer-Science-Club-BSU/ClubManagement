@@ -3,7 +3,7 @@
 Contains the Root '/' path, as well as the before-request handler
 """
 import logging
-from flask import request, session, send_file
+from flask import request, session, send_file, redirect, abort
 from app import app
 from conf import LOG_DIR
 from src.utils.template_utils import render_template

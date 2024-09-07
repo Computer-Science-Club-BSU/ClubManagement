@@ -5,6 +5,7 @@
         --text-color: #FFFFFF;
         --nav-text-color: #FFFFFF;
         --modal-color: darkgray;
+
 }
 input, input:disabled{
     color: black
