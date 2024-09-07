@@ -1,12 +1,11 @@
-/* Forced Dark Theme */
 :root {
-    --primary-color: #212121; /* Dark grey/black */
-    --accent-color: #FF4B5C; /* Vibrant red */
-    --accent-hover-color: #FF6B7A; /* Lighter/intense version of the accent color */
-    --text-color: #FFFFFF;
-    --modal-color: darkgray;
+        --primary-color: #212121; /* Dark grey/black */
+        --accent-color: #89191f; /* Vibrant red */
+        --accent-hover-color: #9C2A30; /* Lighter/intense version of the accent color */
+        --text-color: #FFFFFF;
+        --nav-text-color: #FFFFFF;
+        --modal-color: darkgray;
 }
-
-input:disabled{
+input, input:disabled{
     color: black
 }
