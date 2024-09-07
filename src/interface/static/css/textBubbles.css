@@ -43,3 +43,7 @@ h2{
 .bubble:last-of-type{
     margin-bottom: 50px;
 }
+
+.conv{
+    background: var(--);
+}

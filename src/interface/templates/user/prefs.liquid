@@ -76,16 +76,21 @@
               <br></span>
               {% endfor %}
             </fieldset>
-            {% comment %}<label for="theme">Theme: </label>{% endcomment %}
-            {% comment %}<select id="theme" name="theme" onchange=''>{% endcomment %}
-              {% comment %}{% for theme in themes %}{% endcomment %}
-{% comment %}{% endcomment %}
-              {% comment %}<option value="{{ theme.seq }}" {% if theme.file_name == user.theme %} selected {% endif %}>{{ theme.theme_desc }}</option>{% endcomment %}
-              {% comment %}{%endfor%}{% endcomment %}
-            {% comment %}</select>{% endcomment %}
-            {% comment %}<br>{% endcomment %}
             <input type="submit" value="Update">
           </form>
+          <br>
+          <legend><abbr title="Please contact your admin to change these settings">Static Settings</abbr></legend>
+          <fieldset>
+            <label for="timezone">User Timezone</label>
+            <input id="timezone" value="{{ audit.timezone }}" disabled> <br>
+            <label for="date_format">Date Format</label>
+            <input id="date_format" value="{{ audit.date_format }}" disabled> <br>
+            <label for="date_format">Time Format</label>
+            <input id="date_format" value="{{ audit.time_format }}" disabled><br>
+            <label for="date_format">Datetime Format</label>
+            <input id="date_format" value="{{ audit.datetime_format }}" disabled>
+          </fieldset>
+
         </div>
         <div class="box">
           <h2>User Security</h2>
@@ -107,7 +112,7 @@
           </form>
         </div>
         <div class="box">
-          <h2>General Info</h2>
+          <h2>Class Memberships</h2>
           <h3>Current Positions:</h3>
           <ul>
             {% for class in classes %}
