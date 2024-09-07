@@ -23,14 +23,23 @@
     border-bottom: #CCC 1px solid;
     border-right: #CCC 1px solid;
     width: 100%;
+    color: var(--nav-text-color);
+
+}
+
+.parent.navli > a{
+    color: var(--nav-text-color);
+
 }
 .child .navli a {
-    color: var(--primary-color);
+    color: var(--nav-text-color);
 }
 .child > .navli > .child {
     margin-left: 100%;
   margin-top: -14%;
   height: 3rem;
+    color: var(--nav-text-color);
+
 }
 
 legend{
@@ -50,12 +59,18 @@ ul ul ul {
 }
 .navli:hover {
     background-color: var(--accent-hover-color);
+    color: var(--nav-text-color);
+
 }
 .parent:hover {
     background-color: var(--accent-hover-color);
+    color: var(--nav-text-color);
+
 }
 .parent .navli:hover {
     background-color: var(--accent-hover-color);
+    color: var(--nav-text-color);
+
 }
 
 .nav_div {
