@@ -5,21 +5,23 @@
     <link rel="stylesheet" href="/static/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/46bfd90bcf.js" crossorigin="anonymous"></script>
     {% if user.theme != nil %}
-      <link rel="stylesheet" href="/static/theme/{{user.theme}}.css">
+      <link rel="stylesheet" href="/static/theme/{{user.theme}}.css" id="themeLink">
     {% else %}
-      <link rel="stylesheet" href="/static/theme/1.css">
+      <link rel="stylesheet" href="/static/theme/f0036e77-5756-11ef-af4a-e2d356e52ad1.css" id="themeLink">
     {% endif %}
     <link rel="stylesheet" href="/static/theme/structure.css">
   </head>
   <body>
-    <div class="nav_div" style="z-index: 10">
-      <ul id="nav_ul">
+    <div class="nav_div">
+      <ul id="nav_ul" class="flex">
         {% for nav_page in nav_pages %}
           {% assign p_name = "nav_elem/" | append: nav_page %}
           {% include p_name %}
         {% endfor %}
-      </ul>
+        <li class="parent wide"></li>
+        {% include 'nav_elem/account.liquid' %}
 
+      </ul>
     </div>
   </body>
 </html>

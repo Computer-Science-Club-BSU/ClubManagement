@@ -13,11 +13,12 @@
 
     <script>
         let users = [], approvers = [];
-        let rowid = 1
+        let rowid = 1 + {{ lines | size }}
         function addRow(){
             let table = document.getElementById("prods");
             let row = table.insertRow();
             row.innerHTML = `
+                <td style='display: none' id="ItemNum${rowid}"></td>
                 <td>${rowid}</td>
                 <td><input disabled type="text" id="ItemInfo${rowid}" id="ItemInfo" style='width:80%'><button onclick='searchItem(${rowid})'><i class="fa-solid fa-magnifying-glass"></i></button></td>
                 <td><input disabled type="text" id="ItemPrice${rowid}" style="width: 100px;"></td>
@@ -38,6 +39,7 @@
             item.callback = (doc, seq) => {
               document.getElementById(`ItemInfo${rowID}`).value = doc.getElementById(`item_name${seq}`).innerText
               document.getElementById(`ItemPrice${rowID}`).value = doc.getElementById(`item_price${seq}`).innerText
+              document.getElementById(`ItemNum${rowID}`).innerText = seq
             }  
           }
 
@@ -64,7 +66,7 @@
       }
 
         function popRow(){
-          if(rowid == 0) return
+          if(rowid == (1 + {{ lines | size }})) return
             let table = document.getElementById("prods");
             rowid--
             table.deleteRow(rowid);
@@ -94,6 +96,7 @@
             for (let i = 1; i < table.rows.length; i++){
                 let line = {
                     "line_id": i,
+                    "item_seq": document.getElementById(`ItemNum${i}`).innerText,
                     "item_desc": document.getElementById(`ItemInfo${i}`).value,
                     "item_price": document.getElementById(`ItemPrice${i}`).value,
                     "qty": document.getElementById(`Quantity${i}`).value,
@@ -124,12 +127,31 @@
             }
         }
 
+        function updateRecord(){
+          let record_object = getRecordObject();
+            // XHR POST Request to /finances/create/
+            let xhrHTTP = new XMLHttpRequest();
+            xhrHTTP.open("POST", "/finances/edit/{{ header.seq }}");
+            xhrHTTP.setRequestHeader("Content-Type", "application/json");
+            xhrHTTP.send(JSON.stringify(record_object));
+            xhrHTTP.onreadystatechange = function(){
+                console.log(xhrHTTP.readyState, xhrHTTP.status)
+                if (xhrHTTP.readyState == 4 && xhrHTTP.status == 200){
+                    alert("Record Updated!");
+                    window.location.href = "/finances/";
+                } else {
+                    if(xhrHTTP.readyState == 4 && xhrHTTP.status != 200){
+                        alert(xhrHTTP.responseText);
+                    }
+                }
+            }
+        }
 
         function createRecord(){
             let record_object = getRecordObject();
-            // XHR POST Request to /finances/new/
+            // XHR POST Request to /finances/create/
             let xhrHTTP = new XMLHttpRequest();
-            xhrHTTP.open("POST", "/finances/new/");
+            xhrHTTP.open("POST", "/finances/create/");
             xhrHTTP.setRequestHeader("Content-Type", "application/json");
             xhrHTTP.send(JSON.stringify(record_object));
             xhrHTTP.onreadystatechange = function(){
@@ -215,22 +237,23 @@
               <input
                 type="text"
                 name="invoiceID"
-                id="InvoiceID">
+                id="InvoiceID" value="{{ header.id }}">
               <br> <br>
               <label for="Creator">Creator:</label>
               <select name="Creator" id="Creator">
                 {% for fuser in finance_users %}
-                  <option value="{{ fuser.seq }}">{{ fuser.first_name }} {{ fuser.last_name }}</option>
+                  <option value="{{ fuser.seq }}" {% if fuser.seq == header.created_by %} selected {% endif %}>{{ fuser.first_name }} {{ fuser.last_name }}</option>
                 {% endfor %}
               </select>
               <br>
               <label for="Approver">Approver:</label>
               <select name="Approver" id="Approver">
-                <option value="">Not Approved</option>
+
+                <option value="" {% if header.approved_by == nil %} selected {% endif %}>Not Approved</option>
 
                 {% for fuser in approvers %}
                   {% if fuser.seq != user.seq %}
-                    <option value="{{ fuser.seq }}">{{ fuser.first_name }} {{ fuser.last_name }}</option>
+                    <option value="{{ fuser.seq }}" {% if fuser.seq == header.approved_by %} selected {% endif %}>{{ fuser.first_name }} {{ fuser.last_name }}</option>
                   {% endif %}
                 {% endfor %}
               </select>
@@ -240,19 +263,23 @@
               <input
                 type="date"
                 name="RecordDate"
-                id="RecordDate">
+                id="RecordDate" value="{{ header.inv_date }}">
               <br> <br>
               <label for="Status">Status:</label>
               <select name="Status" id="Status">
                 {% for status in statuses %}
-                  <option value="{{ status.seq }}">{{ status.stat_desc }}</option>
+                  <option value="{{ status.seq }}" {% if status.stat_desc == header.status %}
+                    selected
+                  {% endif %}>{{ status.stat_desc }}</option>
                 {% endfor %}
               </select>
               <br>
               <label for="Type">Type:</label>
               <select name="Type" id="Type">
                 {% for type in finance_types %}
-                  <option value="{{ type.seq }}">{{ type.type_desc }}</option>
+                  <option value="{{ type.seq }}" {% if type.type_desc == header.type %}
+                    selected
+                  {% endif %}>{{ type.type_desc }}</option>
                 {% endfor %}
               </select>
             </fieldset>
@@ -281,7 +308,18 @@
                     <th style="width: 10%">Total</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                {% for line in lines%}
+                  <tr>
+                      <td style="display: none" id="ItemNum1">{{ line.item_id }}</td>
+                      <td>1</td>
+                      <td><input disabled="" type="text" id="ItemInfo1" style="width:80%" value="{{ line.item_desc }}"><button onclick="searchItem(1)"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button></td>
+                      <td><input disabled="" type="text" id="ItemPrice1" style="width: 100px;" value="{{ line.item_price }}"></td>
+                      <td><input onchange="updateGrandTotal()" style="width: 90%;" type="number" name="Quantity" id="Quantity1" value="{{ line.qty }}"></td>
+                      <td><input type="number" name="Total" style="width: 100px;" id="Total1" disabled="" value="{{ line.total }}"></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
               </table>
               <button onclick="addRow()">Add Row</button>
               <button onclick="updateGrandTotal()">Update Total</button>
@@ -305,14 +343,14 @@
                 type="number"
                 name="Taxes"
                 id="Taxes"
-                style="width: 100px;">
+                style="width: 100px;" value="{{ header.tax }}">
               <br> <br>
               <label for="Fees">Fees:</label>
               <input
                 type="number"
                 name="Fees"
                 id="Fees"
-                style="width: 100px;">
+                style="width: 100px;" value="{{ header.fees }}">
               <br> <br>
               <label for="Total">Total:</label>
               <input
@@ -320,12 +358,16 @@
                 name="Total"
                 id="Total"
                 disabled
-                style="width: 100px;">
+                style="width: 100px;" value="{{ header.total }}">
             </fieldset>
             <button onclick="updateGrandTotal()">Update Grand Total</button>
             <br> <br>
             <button onclick="previewRecord()">Preview</button>
+            {% if header == nil %}
             <button onclick="createRecord()">Create Record</button>
+            {% else %}
+              <button onclick="updateRecord()">Update Record</button>
+            {% endif %}
           </div>
 
         </div>

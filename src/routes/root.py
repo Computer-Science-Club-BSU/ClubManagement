@@ -29,7 +29,6 @@ def get_root_index():
                 total = abs(total)
             gen_log = ""
             access_log = ""
-            print(f'{LOG_DIR}gen.log')
             with open(f'{LOG_DIR}access.log', 'r', encoding='utf-8') as log:
                 access_log = [x.strip() for x in log.readlines()]
             with open(f'{LOG_DIR}gen.log', 'r', encoding='utf-8') as log:
@@ -40,8 +39,8 @@ def get_root_index():
                                fin_sum=fin_sum, doc_sum=doc_sum, isPos=is_pos,
                                doc_count=sum(doc_sum.values()),
                                fin_count=sum(fin_sum.values()),
-                               gen_log_data=gen_log[:100],
-                               access_log_data=access_log[:100],
+                               gen_log_data=gen_log[-100:],
+                               access_log_data=access_log[-100:],
                                top_left = home_page_prefs.get('top_left'),
                                top_right = home_page_prefs.get('top_right'),
                                bot_left = home_page_prefs.get('bot_left'),
@@ -71,18 +70,8 @@ def handle_pre_request():
     debug_str += f"has issued a {request.method.upper()} request from IP "
     debug_str += f"{request.remote_addr} for resource {request.path}"
     logger.debug(debug_str)
+    if request.endpoint in ('static', 'get_favicon_ico', 'get_robots_txt'):
+        return
 
     check_perms(request, session.get('user_seq'), logger)
-    # for rule in app.url_map.iter_rules():
-    #     if not (rule.rule == request.path):
-    #         continue
-    #     print(rule.rule, request.path, [
-    #         not plugin.check_endpoint_active(rule.endpoint)
-    #         for plugin in plugins.values()
-    #     ])
-    #     print(plugins)
-    #     if any([
-    #         not plugin.check_endpoint_active(rule.endpoint)
-    #         for plugin in plugins.values()
-    #     ]):
-    #         abort(503)
+

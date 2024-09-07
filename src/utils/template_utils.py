@@ -2,6 +2,8 @@ from flask_liquid import render_template as _render
 from flask import session
 import json
 from src.utils.db_utilities import connect
+from conf import CFG_DIR
+from src.utils.cfg_utils import load_config
 
 
 def render_template(template_name, **context):
@@ -13,7 +15,6 @@ def render_template(template_name, **context):
             ]
     with connect() as conn:
         nav_pages.extend(conn.get_nav_pages())
-        nav_pages.append('account.liquid')
         if user_seq is not None:
 
             (user,
@@ -34,6 +35,3 @@ def render_template(template_name, **context):
                         nav_pages=nav_pages)
 
 
-def load_config():
-    with open('/etc/cms/config.json', 'r') as f:
-        return json.load(f)

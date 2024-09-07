@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+      <style>
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+  </style>
+      <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrate Finances</title>
+    <script>
+      function viewRecord(seq){
+        window.open(`/finances/view/${seq}`, '_blank')
+      }
+      function editRecord(seq){
+        window.open(`/finances/edit/${seq}`, '_blank')
+      }
+    </script>
+
+
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid">
+        <div class="box">
+          <table>
+            <tr>
+              <th style="text-align: center;">Seq</th>
+              <th style="text-align: center;">ID</th>
+              <th style="text-align: center;">Date</th>
+              <th style="text-align: center;">Creator</th>
+              <th style="text-align: center;">Approver</th>
+              <th style="text-align: center;">Approved?</th>
+              <th style="text-align: center;">Proc. State</th>
+              <th style="text-align: center;">Added By</th>
+              <th style="text-align: center;">Updated By</th>
+              <th style="text-align: center;">Status</th>
+              <th style="text-align: center;">Type</th>
+              <th style="text-align: center;">Balance</th>
+              <th style="text-align: center;">Actions</th>
+            </tr>
+            {% for row in records %}
+              <tr>
+                <td>{{ row.seq }}</td>
+                <td>{{ row.id }}</td>
+                <td>{{ row.inv_date }}</td>
+                <td>{{ row.created_by }}</td>
+                <td>{{ row.approved_by }}</td>
+                <td>{% if row.is_approved == 0 %} No {% else %} Yes {% endif %}</td>
+                <td>{{ row.process_state }}</td>
+                <td>{{ row.added_by }}</td>
+                <td>{{ row.updated_by }}</td>
+                <td>{{ row.status }}</td>
+                <td>{{ row.type }}</td>
+                <td>{{ row.balance }}</td>
+                <td>
+                  <button onclick="viewRecord({{ row.seq }})">View</button>
+                  <button onclick="editRecord({{ row.seq }})">Edit</button>
+                  <button class="delete-rec" value="{{ row.seq }}">Delete</button>
+                </td>
+
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </article>
+    {% include "modals/fin_admin.liquid" %}
+    {% include "footer.liquid" %}
+  </body>
+</html>

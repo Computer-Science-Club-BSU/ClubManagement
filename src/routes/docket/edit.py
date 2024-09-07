@@ -1,16 +1,17 @@
 """Handles requests relating to docket editing"""
-from flask import request, session, redirect
+from flask import request, session, redirect, abort
 from app import app
 from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
 
-@app.route('/doc/edit/', methods=['GET'])
-def get_doc_edit():
+@app.route('/doc/edit/<doc_seq>', methods=['GET'])
+def get_doc_edit(doc_seq):
     """Handles requests for /doc/edit/
     Gets docket seq and sends back file to allow for modifications."""
-    doc_seq = request.args.get('seq')
     with connect() as conn:
         doc = conn.get_all_docket_data_by_seq(doc_seq)
+        if doc['locked'] == True:
+            abort(423)
         status = conn.get_docket_statuses()
         vote_types = conn.get_docket_vote_types()
         docket_users = conn.get_docket_users()
@@ -25,8 +26,14 @@ def post_doc_edit():
     doc_seq = request.args.get('seq')
     user_seq = session.get('user_seq')
     with connect() as conn:
+        if conn.is_doc_locked(doc_seq):
+            abort(423)
         title = request.form.get('title')
         body = request.form.get('body')
+        if body.strip() == '':
+            return "Body cannot be blank!", 400
+        if title.strip() == '':
+            return "Title cannot be blank!", 400
         status = request.form.get('stat')
         vote_type = request.form.get('vote')
         res, _ = conn.update_docket( #pylint: disable=unpacking-non-sequence
@@ -58,7 +65,7 @@ def post_doc_update_assignees(doc):
     user_seq = session.get('user_seq')
     with connect() as conn:
         data = request.form.getlist('assignees')
-        res, _ = conn.update_docket_assignmees(doc, data, user_seq)#pylint: disable=unpacking-non-sequence
+        res, _ = conn.update_docket_assignees(doc, data, user_seq)#pylint: disable=unpacking-non-sequence
         if res:
             return "Assignee added successfully", 201
         return "Error adding assignee", 400

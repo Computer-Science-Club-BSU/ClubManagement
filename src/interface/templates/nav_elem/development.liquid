@@ -1,15 +1,13 @@
 {% if perms.dev_edit == 1 or perms.dev_read == 1 %}
 
-  <li class="parent">
+
+  <li class="parent navli">
     <a href="">Maintain Development</a>
     <ul class="child">
-      <li>
-        <a href="/dev/path_permissions/">Manage Path Permissions</a>
-      </li>
-      <li>
+      <li class="navli">
         <a href="/dev/path_audit/">Path Audit</a>
       </li>
-      <li>
+      <li class="navli">
         <a href="/documentation/">Development Documentation</a>
       </li>
     </ul>

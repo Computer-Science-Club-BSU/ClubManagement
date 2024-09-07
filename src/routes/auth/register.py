@@ -17,7 +17,7 @@ def get_auth_register():
 def post_auth_register():
     """Handles submitted requests to register a new user account"""
     with connect() as conn:
-        logger.log("New registration request received. Name: %s %s, Email: %s",
+        logger.info("New registration request received. Name: %s %s, Email: %s",
                     request.form.get('email'),
                     request.form.get('fName'),
                     request.form.get('lName')

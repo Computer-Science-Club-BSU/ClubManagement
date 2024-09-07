@@ -29,33 +29,6 @@ where `ca`.`user_seq` = `usr`.`seq`
   AND current_date <= `tB`.`end_date`
   and `pt`.`perm_desc` in ('doc_edit', 'doc_add', 'doc_admin', 'doc_view');
 
-create or replace view finance_hdr_summary as
-select `H`.`seq`                                           AS `seq`,
-       `H`.`id`                                            AS `id`,
-       `H`.`inv_date`                                      AS `inv_date`,
-       concat_ws(' ', `UA`.`first_name`, `UA`.`last_name`) AS `CreatedBy`,
-       concat_ws(' ', `UB`.`first_name`, `UB`.`last_name`) AS `ApprovedBy`,
-       concat_ws(' ', `UC`.`first_name`, `UC`.`last_name`) AS `AddedBy`,
-       concat_ws(' ', `UD`.`first_name`, `UD`.`last_name`) AS `UpdatedBy`,
-       `S`.`stat_desc`                                     AS `Status`,
-       `T`.`type_desc`                                     AS `Type`,
-       (select sum((select `management`.`item_cost`.`price`
-                    from `management`.`items`
-                             join `management`.`item_cost`
-                    where `management`.`items`.`seq` = `management`.`item_cost`.`item_seq`
-                      and `management`.`items`.`displayed` = 1
-                      and `management`.`item_cost`.`eff_date` = (select max(`B`.`eff_date`)
-                                                                 from `management`.`item_cost` `B`
-                                                                 where `B`.`item_seq` = `management`.`items`.`seq`
-                                                                   and `B`.`eff_date` <= `H`.`inv_date`)) * `L`.`qty`)
-        from `management`.`finance_line` `L`
-        where `L`.`finance_seq` = `H`.`seq`)               AS `Total`
-from ((((((`management`.`finance_hdr` `H` join `management`.`finance_status` `S`
-           on (`H`.`stat_seq` = `S`.`seq`)) join `management`.`finance_type` `T`
-          on (`H`.`type_seq` = `T`.`seq`)) left join `management`.`users` `UA`
-         on (`H`.`created_by` = `UA`.`seq`)) left join `management`.`users` `UB`
-        on (`H`.`approved_by` = `UB`.`seq`)) left join `management`.`users` `UC`
-       on (`H`.`added_by` = `UC`.`seq`)) left join `management`.`users` `UD` on (`H`.`updated_by` = `UD`.`seq`));
 
 create or replace view developer_emails as
 select `A`.`email` AS `email`
@@ -79,3 +52,38 @@ where `A`.`seq` = `B`.`user_seq`
   and `C`.`seq` = `B`.`class_seq`
   and `B`.`start_term` = `dA`.`seq`
   and `B`.`end_term` = `dB`.`seq`;
+
+CREATE OR REPLACE VIEW user_info_vw AS
+SELECT a.seq, concat(a.first_name, ' ', a.last_name) as 'full_name',
+       a.user_name, a.first_name, a.last_name, a.hash_pass, a.email,
+       a.theme, b.title_desc as 'title', a.is_active, a.added_dt, a.update_dt, concat(c.first_name, ' ', c.last_name) as 'added_by',
+       concat(d.first_name, ' ', d.last_name) as 'updated_by'
+FROM users a LEFT JOIN users c ON (a.added_by = c.seq) LEFT JOIN users d ON (a.updated_by = d.seq), titles b WHERE a.title = b.seq;
+
+create view finance_hdr_summary as
+select `A`.`seq`                                             AS `seq`,
+       `A`.`id`                                              AS `id`,
+       `A`.`inv_date`                                        AS `inv_date`,
+       `C`.`stat_desc`                                       AS `stat_desc`,
+       `D`.`type_desc`                                       AS `type_desc`,
+       concat(`UA`.`first_name`, ' ', `UA`.`last_name`)      AS `CreatedBy`,
+       concat(`UB`.`first_name`, ' ', `UB`.`last_name`)      AS `ApprovedBy`,
+       concat(`UC`.`first_name`, ' ', `UC`.`last_name`)      AS `AddedBy`,
+       concat(`UD`.`first_name`, ' ', `UD`.`last_name`)      AS `UpdatedBy`,
+       sum(`E`.`price` * `B`.`qty`) + `A`.`fees` + `A`.`tax` AS `Total`
+from ((((((((`management`.`finance_hdr` `A` left join `management`.`users` `UA`
+             on (`A`.`created_by` = `UA`.`seq`)) left join `management`.`users` `UB`
+            on (`A`.`approved_by` = `UB`.`seq`)) left join `management`.`users` `UC`
+           on (`A`.`added_by` = `UC`.`seq`)) left join `management`.`users` `UD`
+          on (`A`.`updated_by` = `UD`.`seq`)) join `management`.`finance_line` `B`
+         on (`A`.`seq` = `B`.`finance_seq`)) join `management`.`finance_status` `C`
+        on (`A`.`stat_seq` = `C`.`seq`)) join `management`.`finance_type` `D`
+       on (`A`.`type_seq` = `D`.`seq`)) join `management`.`item_cost` `E` on (`B`.`item_id` = `E`.`seq`))
+group by `A`.`seq`;
+
+create or replace view current_position AS
+    SELECT A.seq AS 'user_seq', C.position_name
+    FROM user_info_vw A, class_assignments B, class C, terms tA, terms tB
+    WHERE A.seq = B.user_seq AND B.class_seq = C.seq AND B.start_term = tA.seq AND B.end_term = tB.seq
+AND tA.start_date <= current_date AND current_date <= tB.end_date;
+
