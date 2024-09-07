@@ -254,5 +254,21 @@ input[type=text], input[type=password]{
     color: var(--text-color)
 }
 
+select{
+    color: black
+}
+
+input[type=checkbox]{
+    accent-color: var(--accent-color);
+}
+
+input[type=checkbox]:hover{
+    accent-color: var(--accent-hover-color);
+}
+
+.fullWidth{
+    width: 99%
+}
+
 /*Welcome to the idiot show... Staring me, the idiot!*/
 

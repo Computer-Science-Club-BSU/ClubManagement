@@ -6,7 +6,7 @@ import logging
 import traceback
 import datetime
 from uuid import uuid4
-from flask import Request
+from flask import Request, session
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError, Cursor
@@ -16,7 +16,7 @@ import base64
 from typing import List, Dict, Optional, Type, Sequence, Any
 from types import TracebackType
 from conf import LOG_DIR
-from src.utils.email_utils import send_password_reset
+from src.utils.email_utils import send_password_reset, send_onboarding_email
 from src.utils.exceptions import EmailNotFoundException
 from src.utils.send_email import send_email
 
@@ -85,6 +85,16 @@ class connect:
                 )
             return row_data
         return wrapper
+
+    @_convert_to_dict
+    def get_timezones(self):
+        sql = "SELECT seq, CONCAT_WS('/', continent, region, sub_region) as 'desc' FROM timezones"
+        self.run_statement(sql)
+
+    def onboard_user(self, user_seq, request, session):
+        _, token = self.create_password_reset_admin(user_seq, request, session, onboarding=True)
+        send_onboarding_email(str(token), self.get_user_data_by_seq(user_seq))
+
 
     @staticmethod
     def _convert_to_dict_single(func: Callable):
@@ -253,11 +263,19 @@ class connect:
         A.finance_seq=38"""
         self.run_statement(sql, (hdr_seq,))
 
+    def get_user_date_format(self):
+        sql = """select A.date_format, A.time_format, A.datetime_format FROM datetime_formats A, users B WHERE
+                A.seq = B.date_format AND B.seq = %s"""
+        self.run_statement(sql, (session.get('user_seq', 1),))
+        date, time, dtm_fmt = self.cur.fetchone()
+        return date, time, dtm_fmt
+
     @_convert_to_dict_single
     def get_header_by_seq(self, seq):
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT
                     A.id,
-                    DATE_FORMAT(A.inv_date, '%b %D, %Y') as 'inv_date',
+                    DATE_FORMAT(A.inv_date, %s) as 'inv_date',
                     A.type_desc as 'type',
                     A.CreatedBy as 'creator',
                     decode_oracle(B.is_approved, 1, A.ApprovedBy, 0, NULL) as 'approver',
@@ -269,7 +287,7 @@ class connect:
                     finance_hdr B
                 WHERE A.seq = B.seq
                 AND A.seq = %s"""
-        self.run_statement(sql, (seq,))
+        self.run_statement(sql, (date_format, seq))
 
     def get_finance_object(self, seq: int):
         header = self.get_header_by_seq(seq)
@@ -314,6 +332,25 @@ class connect:
         sql = "SELECT * from docket_status"
         self.run_statement(sql)
 
+    @_exec_safe
+    def add_user(self, user_obj: Dict[str,str], user_session, request: Request):
+        sql = """INSERT INTO users (user_name, first_name, last_name, email, theme, timezone, date_format,
+               title, is_active, added_by, updated_by, home_page_seq) VALUES
+               (%s,%s,%s,%s,%s,%s,%s,%s,%s,1,%s,(SELECT MIN(seq) FROM home_page_defn))"""
+        self.run_statement(sql, (user_obj['uName'], user_obj['fName'], user_obj['lName'], user_obj['email'],
+                                 user_obj['theme'], user_obj['tz'], user_obj['dtFmt'], user_obj['title'],
+                                 user_session['user_seq'], user_session['user_seq']))
+        user_seq = self.cur.lastrowid
+        for u_class in user_obj['classes']:
+            sql = """INSERT INTO class_assignments
+            (user_seq, class_seq, start_term, end_term, added_by, updated_by) VALUES
+            (%s,%s,%s,%s,%s,%s)"""
+            self.run_statement(sql, (user_seq, u_class['pos'], u_class['start'], u_class['end'],
+                                     user_session['user_seq'], user_session['user_seq']))
+
+        if user_obj['onboard']:
+            self.onboard_user(user_seq, request, user_session)
+
     @_convert_to_dict
     def get_docket_hdr_by_status(self, stat_desc: str) -> List[Dict[str,str]]:
         sql = """SELECT a.* from docket_hdr a,
@@ -323,15 +360,16 @@ class connect:
 
     @_convert_to_dict_single
     def get_docket_by_seq(self, seq: int) -> Dict[str,str]:
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT hdr.seq as 'seq', hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', vote.vote_desc,
         hdr.added_by as 'creator_seq',
-        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        DATE_FORMAT(hdr.added_dt, %s) as 'added_dt',
         concat(u.first_name, ' ', u.last_name) as 'creator'
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq
         AND hdr.added_by = u.seq AND hdr.seq = %s;"""
-        self.run_statement(sql, (seq,))
+        self.run_statement(sql, (date_format, seq))
 
 
     @_convert_to_dict
@@ -415,15 +453,16 @@ class connect:
 
     @_convert_to_dict
     def get_all_non_archived_docket(self) -> List[Dict[str,str]]:
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT hdr.seq, hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', vote.vote_desc,
         hdr.added_by as 'creator_seq',
-        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        DATE_FORMAT(hdr.added_dt, %s) as 'added_dt',
         concat(u.first_name, ' ', u.last_name) as 'creator'
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq AND
         LOWER(stat.stat_desc) != 'archived' AND hdr.added_by = u.seq;"""
-        self.run_statement(sql)
+        self.run_statement(sql, (date_format,))
 
     def can_user_edit_docket(self, user_seq, docket_seq) -> bool:
         user_perms = self.get_user_perms_by_user_seq(user_seq)
@@ -752,14 +791,16 @@ class connect:
 
     @_convert_to_dict
     def search_items(self, date):
-        sql = """SELECT items.item_name, items.item_vendor,
-        item_cost.price, date_format(item_cost.eff_date, '%M %D, %Y') "eff_date",item_cost.seq FROM items,item_cost WHERE
+        date_format = self.get_user_date_format()[0]
+        sql = """SELECT items.item_name, vendors.vend_name,
+        item_cost.price, DATE_FORMAT(item_cost.eff_date, %s) AS "eff_date",item_cost.seq FROM items,item_cost, vendors WHERE
         items.seq = item_cost.item_seq AND items.displayed = 1 AND
     item_cost.eff_date = (
         SELECT MAX(eff_date) FROM item_cost B
-        WHERE B.item_seq = items.seq AND B.eff_date <= %s )"""
+        WHERE B.item_seq = items.seq AND B.eff_date <= %s )
+AND items.vendor_seq = vendors.seq ORDER BY vend_name, item_name"""
 
-        self.run_statement(sql, (date,))
+        self.run_statement(sql, (date_format, date,))
 
     @_convert_to_dict_single
     def get_finance_status_by_seq(self, seq):
@@ -812,6 +853,10 @@ class connect:
         sql = """SELECT * FROM users WHERE is_active = 1"""
         self.run_statement(sql)
 
+    @_convert_to_dict
+    def get_user_info(self):
+        sql = "SELECT A.*, B.theme_desc FROM user_info_vw A, themes B WHERE B.file_name = A.theme ORDER BY seq"
+        self.run_statement(sql)
 
     def get_assignments(self):
         sql = """SELECT assignment_seq, user_seq, first_name, last_name,
@@ -868,7 +913,7 @@ class connect:
                 self.run_statement(sql, (docket_seq, user))
 
     @_exec_safe
-    def update_user_prefs(self, request_data: dict, user_seq: int):
+    def update_user_prefs(self, target: int, request_data: dict, user_seq: int):
         sql = """UPDATE users SET first_name=%s,last_name=%s,title=%s,email=%s,theme=%s,
         updated_by=%s WHERE seq=%s"""
         self.run_statement(sql, (
@@ -877,9 +922,13 @@ class connect:
             request_data.get('title'),
             request_data.get('email'),
             request_data.get('theme'),
-            user_seq,user_seq
+            user_seq,target
         ))
 
+    @_exec_safe
+    def update_user_locale(self, target, tz, dt, user):
+        sql = "UPDATE users SET timezone=%s, date_format=%s, updated_by=%s WHERE seq=%s"
+        self.run_statement(sql, (tz, dt, user, target))
 
     @_exec_safe
     def add_requested_user(self, data: dict) -> tuple[bool, any]:
@@ -1016,6 +1065,7 @@ class connect:
 
     @_convert_to_dict
     def get_items(self):
+        date_format = self.get_user_date_format()[0]
         sql = """
         SELECT
             A.seq,
@@ -1026,22 +1076,23 @@ class connect:
             A.item_name,
             B.price,
 
-            DATE_FORMAT(B.eff_date, '%b %D, %Y') as 'eff_date',
+            DATE_FORMAT(B.eff_date, %s) as 'eff_date',
             A.displayed
         FROM items A, item_cost B, vendors C WHERE
         A.seq = B.item_seq AND B.eff_date = (SELECT MAX(B1.eff_date) FROM item_cost B1 WHERE B1.item_seq = B.item_seq)
         AND A.vendor_seq = C.seq ORDER BY A.vendor_seq, B.price;"""
-        self.run_statement(sql)
+        self.run_statement(sql, date_format)
 
     @_convert_to_dict
     def get_vendors(self):
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT
     A.seq, A.vend_name, A.vend_status,
     B.full_name AS 'added_by',
-    C.full_name AS 'updated_by', DATE_FORMAT(A.added_dt, '%b %D, %Y') AS 'added_dt',
-    DATE_FORMAT(A.update_dt, '%b %D, %Y') AS 'update_dt'
+    C.full_name AS 'updated_by', DATE_FORMAT(A.added_dt, %s) AS 'added_dt',
+    DATE_FORMAT(A.update_dt, %s) AS 'update_dt'
     FROM vendors A, user_info_vw B, user_info_vw C WHERE A.added_by = B.seq AND A.updated_by = C.seq"""
-        self.run_statement(sql)
+        self.run_statement(sql, (date_format, date_format))
 
     @_exec_safe
     def create_item(self, item_name, displayed, vend_seq, initial_price, user_seq):
@@ -1052,8 +1103,9 @@ class connect:
         self.run_statement(sql, (self.cur.lastrowid, initial_price, user_seq, user_seq))
 
     def get_vendor_prices(self, item_obj, seq):
-        sql = "SELECT seq, DATE_FORMAT(eff_date, '%b %D, %Y'), eff_status, price FROM item_cost WHERE item_seq = %s ORDER BY eff_date"
-        self.run_statement(sql, (seq,))
+        date_format = self.get_user_date_format()[0]
+        sql = "SELECT seq, DATE_FORMAT(eff_date, %s), eff_status, price FROM item_cost WHERE item_seq = %s ORDER BY eff_date"
+        self.run_statement(sql, (date_format, seq,))
         prices_raw = self.cur.fetchall()
         prices = []
         for price in prices_raw:
@@ -1187,12 +1239,35 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         self.cur.execute(sql, (username, str(token), request.remote_addr))
         sql = """SELECT email FROM users WHERE user_name = %s"""
         self.cur.execute(sql, (username,))
-        print(self.cur.rowcount)
         if self.cur.rowcount != 1:
             return
         email = self.cur.fetchone()[0]
-        print(email)
+        if email is None:
+            return
         send_password_reset(str(token), email)
+
+    @_exec_safe
+    def create_password_reset_admin(self, seq, request, session, onboarding = False):
+        sql = """INSERT INTO password_reset (user_seq, password_token, added_by_addr, added_by_user)
+                VALUES (%s,%s,%s,%s)"""
+        token = uuid4()
+        self.run_statement(sql, (seq, str(token), request.remote_addr, session.get('user_seq')))
+        sql = """SELECT email FROM users WHERE seq = %s"""
+        self.cur.execute(sql, (seq,))
+        if self.cur.rowcount != 1:
+            return
+        email = self.cur.fetchone()[0]
+        if email is None:
+            return
+        if onboarding:
+            return token
+        else:
+            send_password_reset(str(token), email)
+
+    @_convert_to_dict
+    def get_all_titles(self):
+        sql = "SELECT seq, title_desc FROM titles"
+        self.run_statement(sql)
 
     @_exec_safe
     def reset_password_token(self, token: str, form: dict):
@@ -1291,7 +1366,23 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
             else:
                 r_seq = self.cur.fetchone()[0]
                 self.update_row_introspection(r_seq, rowdata)
-            
+
+    @_exec_safe
+    def update_user(self, body, user_seq):
+        sql = """UPDATE users SET first_name=%s, last_name=%s, email=%s, user_name=%s, theme=%s, title=%s, is_active=%s,
+        updated_by=%s WHERE seq=%s"""
+        self.run_statement(sql,
+                           (body.get('fName'),
+                            body.get('lName'),
+                            body.get('email'),
+                            body.get('uName'),
+                            body.get('theme'),
+                            body.get('title'),
+                            body.get('active'),
+                            user_seq,
+                            body.get('seq')
+                            )
+                           )
 
     def update_introspection_flag(self):
         sql = "UPDATE db_tables SET maintained = 0 WHERE self_introspect = 1"
@@ -1481,6 +1572,19 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         sql = """INSERT INTO item_cost(item_seq, eff_date, eff_status, price, added_by, updated_by) VALUES
         (%s,%s,%s,%s,%s,%s)"""
         self.run_statement(sql, (item, date, status, price, user,user))
+
+    @_convert_to_dict
+    def get_all_date_formats(self):
+        sql = """SELECT A.seq, DATE_FORMAT(current_timestamp, A.date_format) AS 'date_format',
+       DATE_FORMAT(current_timestamp, A.time_format) AS 'time_format',
+       DATE_FORMAT(current_timestamp, A.datetime_format) AS 'datetime_format'
+       FROM datetime_formats A"""
+        self.run_statement(sql)
+
+    @_exec_safe
+    def change_user_state(self, target, state, user):
+        sql = "UPDATE users SET is_active=%s, updated_by=%s WHERE seq=%s"
+        self.run_statement(sql, (state, user, target))
 
     # __methods__
     def __enter__(self):
