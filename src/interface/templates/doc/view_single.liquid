@@ -10,13 +10,34 @@
 
       function loadData() {
             let file = document.getElementById("file").files[0];
+            if(file.name.length > 50){
+              alert("File name is too long! Cannot exceed 50 characters!")
+              document.getElementById('file').value = ''
+            }
             let reader = new FileReader();
             reader.onload = function(fileLoadedEvent) {
-                textFromFileLoaded = fileLoadedEvent.target.result;
+                let bufferData = fileLoadedEvent.target.result;
+
+                textFromFileLoaded = btoa(BinaryToString(String.fromCharCode.apply(null, Array.prototype.slice.apply(new Uint8Array(bufferData)))))
             };
 
-            reader.readAsBinaryString(file);
+            reader.readAsArrayBuffer(file);
             return textFromFileLoaded
+        }
+
+        function BinaryToString(binary) {
+            var error;
+
+            try {
+                return decodeURIComponent(escape(binary));
+            } catch (_error) {
+                error = _error;
+                if (error instanceof URIError) {
+                    return binary;
+                } else {
+                    throw error;
+                }
+            }
         }
 
         function sendFile(){

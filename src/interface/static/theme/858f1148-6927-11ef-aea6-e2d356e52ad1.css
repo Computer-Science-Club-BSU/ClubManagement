@@ -15,3 +15,7 @@
 *{
     font-family: BlockFont;
 }
+
+input[type=submit], button {
+    color: var(--nav-text-color) !IMPORTANT;
+}
