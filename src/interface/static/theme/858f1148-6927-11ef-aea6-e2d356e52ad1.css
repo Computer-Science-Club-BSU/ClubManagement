@@ -17,5 +17,5 @@
 }
 
 input[type=submit], button {
-    color: var(--nav-text-color);
+    color: var(--nav-text-color) !IMPORTANT;
 }
