@@ -19,7 +19,7 @@ from conf import LOG_DIR
 from src.utils.email_utils import send_password_reset, send_onboarding_email
 from src.utils.exceptions import EmailNotFoundException
 from src.utils.send_email import send_email
-from time import sleep
+from src.utils.file_utils import save_doc_attachment,get_doc_attachment
 
 
 # Create a new logger
@@ -845,12 +845,16 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
     @_exec_safe
     def add_docket_attachment(self, seq, file_json, user):
-        sql = """INSERT INTO docket_attachments
-        (docket_seq, file_name, file_data, added_by, updated_by) VALUES
-        (%s,%s,%s,%s,%s)"""
-        self.run_statement(sql, (seq, file_json['file_name'],
-                               base64.b64encode(file_json['file_data'].encode()),
-                               user, user))
+        sql = """INSERT INTO docket_attachments (docket_seq, file_name, file_path, revision_id, is_visible, added_by)
+                 VALUES (%s, %s, %s, (
+                 SELECT IFNULL(MAX(revision_id), 0) + 1 FROM docket_attachments B WHERE B.docket_seq = %s AND B.file_name = %s
+                 ),
+                 1, %s)"""
+        print(file_json)
+        file_name = str(uuid4())
+        self.run_statement(sql,
+                           (seq, file_json['file_name'], file_name, seq, file_json['file_name'], user))
+        save_doc_attachment(file_name, file_json['file_data'])
 
     @_convert_to_dict
     def get_plugins(self):
@@ -860,21 +864,23 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
     @_convert_to_dict
     def get_docket_attachments_summary(self, seq):
-        sql = """SELECT seq, file_name as name FROM docket_attachments WHERE
-        docket_seq = %s"""
+        sql = """SELECT A.seq, A.file_name as name FROM docket_attachments A WHERE
+        docket_seq = %s AND A.revision_id = (SELECT MAX(B.revision_id) FROM docket_attachments B
+                                              WHERE A.file_name = B.file_name AND A.docket_seq = B.docket_seq)"""
 
         self.run_statement(sql, (seq,))
 
 
     def get_docket_attachment(self, attach_seq) -> tuple[str,bytes]:
-        sql = """SELECT file_name ,file_data FROM docket_attachments WHERE
+        sql = """SELECT file_name, file_path FROM docket_attachments WHERE
         seq = %s"""
 
         self.run_statement(sql, (attach_seq,))
 
         result = self.cur.fetchone()
         name = result[0]
-        data = base64.b64decode(result[1])
+        path = result[1]
+        data = get_doc_attachment(path)
         return name, data
 
     @_convert_to_dict
