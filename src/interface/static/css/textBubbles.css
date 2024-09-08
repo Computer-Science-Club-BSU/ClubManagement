@@ -38,12 +38,8 @@ h2{
 }
 
 .bubble>p{
-    color: var(--primary-color)
+    color: var(--nav-text-color)
 }
 .bubble:last-of-type{
     margin-bottom: 50px;
-}
-
-.conv{
-    background: var(--);
 }
