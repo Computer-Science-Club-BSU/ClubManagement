@@ -31,3 +31,12 @@ def post_finances_create():
     if res:
         return ""
     abort(400)
+
+@app.get('/finances/create/validate')
+def get_finances_create_validate():
+    with connect() as conn:
+        date = conn.date_check(request.json['recordDate'])
+    if date:
+        return "", 200
+    else:
+        return "This record is outside the allowed finance window. Please proceed with caution", 200

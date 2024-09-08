@@ -963,4 +963,10 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
             Traceback:\n {tb}"""
             logger.critical(error_str)
 
+    @_exec_safe
+    def date_check(self, given_date):
+        SQL = " SELECT 'y' WHERE %s BETWEEN(SELECT MIN(start_date) FROM terms) AND(SELECT MAX(end_date) FROM terms)"
+        self.run_statement(SQL, (given_date,))
+        if self.cur.rowcount != 0:
+            return True
     
