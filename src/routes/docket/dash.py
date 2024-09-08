@@ -11,7 +11,7 @@ def get_doc_dash(dash_seq):
     user_seq = session.get('user_seq')
     with connect() as conn:
         data = conn.get_docket_dash_data(dash_seq, user_seq)
-
+        print(data)
         if len(data) == 0:
             abort(504)
         # deepcode ignore XSS: All results from DB are run through bleach clean
