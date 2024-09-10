@@ -189,7 +189,7 @@ class connect:
         return perm_data
 
     def get_user_finance_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
-        return [{"1": "test"}]
+        return []
 
     @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
