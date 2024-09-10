@@ -1,0 +1,118 @@
+<div id="dialog-form-vend-new" title="Quick Link Editor">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form id="dialog-form-vend-new-form">
+    <fieldset>
+      <label for="link-edit-text">Link Text</label>
+      <input type="text" name="link-edit-text" id="link-edit-text" value="" class="text ui-widget-content ui-corner-all"> <br>
+      <label for="link-edit-target">Link Target</label>
+      <input type="url" placeholder="https://example.com" pattern="https://.*" name="link-edit-target" id="link-edit-target" value="" class="text ui-widget-content ui-corner-all"><br>
+      <label for="link-edit-rank">Link Ranking</label>
+      <input type="number" name="link-edit-rank" id="link-edit-rank" value="" class="text ui-widget-content ui-corner-all"><br>
+      <label for="link-edit-perm">Link Permission</label>
+      <select id="link-edit-perm">
+          {% for perm in db_perms %}
+              <option value="{{ perm.seq }}">{{ perm.name_short }}</option>
+          {% endfor %}
+      </select>
+
+
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID, rowID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      link_new_target = $( "#link-edit-target" ),
+      link_new_text = $( "#link-edit-text" ),
+      link_new_perm = $( "#link-new-perm"),
+      allFields = $( [] ).add( link_new_target ).add( link_new_text ).add(link_new_perm)
+
+
+    function addUser() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/links/quick_links/edit/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+            {
+              "seq": rowID,
+              "link_target": document.getElementById('link-edit-target').value,
+              "link_text": document.getElementById('link-edit-text').value,
+              "perm_seq": document.getElementById('link-edit-perm').value,
+              "ranking": document.getElementById('link-edit-rank').value,
+            }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Link updated successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-vend-new" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Edit Link": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( ".editLink" ).button().on( "click", function() {
+      if(currentDialog) currentDialog.dialog('close');
+      document.getElementById('dialog-form-vend-new-form').reset()
+      currentDialog = dialog
+
+      rowID = this.getAttribute('row')
+      let row = document.getElementById(`row${rowID}`)
+      console.log(row)
+      let link_text = row.children[1].innerText,
+              link_target = row.children[2].innerText,
+              permission = row.children[3].innerText
+
+      document.getElementById('link-edit-target').value = link_target
+      document.getElementById('link-edit-text').value = link_text
+      document.getElementById('link-edit-rank').value = row.children[4].innerText
+      let perms = document.getElementById('link-edit-perm').children
+      let max = perms.length
+      for(let i = 0; i < max; i++){
+        let child = perms[i]
+        if(child.innerText == permission) {
+          child.selected = true;
+        }
+      }
+
+
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>
