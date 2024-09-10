@@ -609,6 +609,11 @@ AND CA.user_seq = %s"""
         self.run_statement(sql)
 
     @_convert_to_dict
+    def get_all_perm_types(self):
+        sql = """SELECT * FROM perm_types"""
+        self.run_statement(sql)
+
+    @_convert_to_dict
     def get_all_db_perms(self) -> List[Dict[str,str]]:
         sql = "SELECT * FROM perms"
         self.run_statement(sql)
@@ -1034,14 +1039,6 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
                            perm_seq: int,
                            grant_status: bool, user_seq: int):
 
-        sql = """SELECT granted FROM perms WHERE seq=%s"""
-        self.run_statement(sql, (perm_seq,))
-
-        granted = self.cur.fetchone()[0]
-        if (granted == 1) == grant_status:
-            logger.debug(f'Req. Grant and DB Grant are the same. Skipping {perm_seq=}')
-            return
-
         check_sql = """SELECT a.granted FROM perms a, class_assignments b
         WHERE b.user_seq = %s
         AND a.perm_seq = (SELECT b.perm_seq FROM perms b WHERE b.seq = %s);"""
@@ -1174,7 +1171,11 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
         vend_obj["items"] = items
         return sum([x["count"] for x in items])
 
-
+    @_exec_safe
+    def create_quick_link(self, link_text, link_target, perm, user_seq):
+        sql = """INSERT INTO quick_links (link_text, link_loc, perm_seq, ranking, added_by,  updated_by)
+        VALUES (%s,%s,%s,(SELECT MAX(a.ranking) + 1 FROM quick_links a), %s,%s)"""
+        self.run_statement(sql, (link_text, link_target, perm, user_seq, user_seq))
 
     def get_item_data(self):
         sql = "SELECT seq, vend_name, vend_status FROM vendors ORDER BY vend_name"
@@ -1420,6 +1421,11 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                             )
                            )
 
+    @_exec_safe
+    def update_quick_link(self, seq, target, text, perm, rank, user_seq):
+        sql = """UPDATE quick_links SET link_text=%s, link_loc=%s, perm_seq=%s, ranking=%s, updated_by=%s WHERE seq=%s"""
+        self.run_statement(sql,(text, target, perm, rank, user_seq, seq))
+
     def update_introspection_flag(self):
         sql = "UPDATE db_tables SET maintained = 0 WHERE self_introspect = 1"
         self.run_statement(sql)
@@ -1644,6 +1650,44 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
     def create_link(self, origin, target, start, user):
         sql = """INSERT INTO links (link, eff_date, redirect, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
         self.run_statement(sql, (origin, start, target, user, user))
+
+    @_convert_to_dict
+    def get_quick_links(self):
+        sql = """SELECT A.seq, A.link_text, A.link_loc, B.name_short, C.full_name as 'added_by', D.full_name as 'updated_by', A.ranking
+FROM quick_links A JOIN perm_types B ON (A.perm_seq = B.seq) LEFT JOIN user_info_vw C ON (A.added_by = C.seq) LEFT JOIN
+user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
+        self.run_statement(sql)
+
+    @_convert_to_dict
+    def get_user_quick_links(self, seq):
+        sql = """(SELECT A.* FROM quick_links A, perms B, class_assignments C, terms tA, terms tB WHERE
+        A.perm_seq = B.perm_seq AND B.class_seq = C.class_seq AND C.user_seq = %s AND
+        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date
+        UNION
+        SELECT A.* FROM quick_links A, perm_types B WHERE A.perm_seq = B.seq AND B.perm_desc = 'guest')
+        ORDER BY ranking"""
+        self.run_statement(sql, (seq,))
+
+    @_exec_safe
+    def delete_quick_link(self, seq, username, password):
+        sql = "SELECT seq FROM users WHERE user_name = %s AND is_active = 1"
+        self.run_statement(sql, (username,))
+        if self.cur.rowcount == 0:
+            raise ValueError("Username or password not correct")
+        user_seq = self.cur.fetchone()[0]
+        is_valid = self.check_existing_password(user_seq, password)
+        if not is_valid:
+            raise ValueError("Username or password not correct")
+        sql = "DELETE FROM quick_links WHERE seq=%s"
+        self.cur.execute(sql, (seq,))
+
+    @_exec_safe
+    def move_quick_link_up(self, seq, user_seq):
+        self.cur.callproc('MOVE_QL_UP', (seq,user_seq))
+
+    @_exec_safe
+    def move_quick_link_down(self, seq, user_seq):
+        self.cur.callproc('MOVE_QL_DOWN', (seq, user_seq))
 
     # __methods__
     def __enter__(self):
