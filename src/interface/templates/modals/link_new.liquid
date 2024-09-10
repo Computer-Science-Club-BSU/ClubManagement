@@ -1,0 +1,99 @@
+<div id="dialog-form-link-new" title="Quick Link Creator">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form id="dialog-form-link-new-form">
+    <fieldset>
+      <label for="itemID">Link Sequence</label>
+      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all" value="NEXT">
+
+      <label for="link-new-origin">Link Text</label>
+      <input type="text" name="link-new-text" id="link-new-text" value="" class="text ui-widget-content ui-corner-all"> <br>
+      <label for="link-new-target">Link Target</label>
+      <input type="url" placeholder="https://example.com" pattern="https://.*" name="link-new-target" id="link-new-target" value="" class="text ui-widget-content ui-corner-all"><br>
+      <label for="link-new-perm">Link Permission</label>
+      <select id="link-new-perm">
+          {% for perm in db_perms %}
+              <option value="{{ perm.seq }}">{{ perm.name_short }}</option>
+          {% endfor %}
+      </select>
+
+
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      link_new_target = $( "#link-new-target" ),
+      link_new_text = $( "#link-new-text" ),
+      link_new_perm = $( "#link-new-perm"),
+      allFields = $( [] ).add( link_new_target ).add( link_new_text )
+
+
+    function addUser() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/links/quick_links/new/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+            {
+              "link_target": document.getElementById('link-new-target').value,
+              "link_text": document.getElementById('link-new-text').value,
+              "perm_seq": document.getElementById('link-new-perm').value
+            }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Link created successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-link-new" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create Link": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( "#new-link" ).button().on( "click", function() {
+      if(currentDialog) currentDialog.dialog('close');
+      document.getElementById('dialog-form-link-new-form').reset()
+      currentDialog = dialog
+
+      itemID = 'NEXT'
+      document.getElementById('itemID').value = itemID
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>
