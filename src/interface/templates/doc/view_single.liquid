@@ -6,6 +6,18 @@
     <title>Docket Records</title>
     <link rel="stylesheet" href="/static/css/textBubbles.css">
     <script>
+
+      function decodeHtml(html) {
+          var txt = document.createElement("textarea");
+          txt.innerHTML = html;
+          return txt.value;
+      }
+
+      function onLoad(){
+        let body = "{{ doc.docket.docket_desc }}"
+        document.getElementById('bodyBlock').innerHTML = decodeHtml(body)
+      }
+
       let textFromFileLoaded
 
       function loadData() {
@@ -94,7 +106,7 @@
           <h3>Status: {{ doc.docket.status }}</h3>
           <h3>Vote Type: {{ doc.docket.vote_desc }}</h3>
           <h3>Body:</h3>
-          <h5>{{ doc.docket.docket_desc }}</h5>
+          <h5 id="bodyBlock"></h5>
           {% if can_user_edit %}
             <button onclick="window.open('/doc/edit/{{doc.docket.seq}}')">Edit</button>
           {% endif %}
