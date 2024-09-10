@@ -106,7 +106,7 @@
           <h3>Status: {{ doc.docket.status }}</h3>
           <h3>Vote Type: {{ doc.docket.vote_desc }}</h3>
           <h3>Body:</h3>
-          <h5 id="bodyBlock"></h5>
+          <pre id="bodyBlock"></pre>
           {% if can_user_edit %}
             <button onclick="window.open('/doc/edit/{{doc.docket.seq}}')">Edit</button>
           {% endif %}

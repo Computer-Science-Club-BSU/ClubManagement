@@ -6,3 +6,11 @@
     --nav-text-color: blue;
     --modal-color: yellow;
 }
+@font-face {
+    font-family: BlockFont;
+    src: url('/static/ttf/blockFont.ttf')
+}
+
+*{
+    font-family: BlockFont;
+}

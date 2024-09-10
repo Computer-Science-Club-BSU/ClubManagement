@@ -39,6 +39,12 @@
     color: var(--nav-text-color);
 }
 
+pre{
+    background: var(--primary-color);
+    color: var(--nav-text-color);
+    border: none;
+
+}
 
 legend{
     color: var(--text-color)
