@@ -21,7 +21,7 @@ def post_user_prefs_general():
         abort(401)
     with connect() as conn:
         res, _ = conn.update_user_prefs(
-            request.form, session.get('user_seq')
+            session.get('user_seq'), request.form, session.get('user_seq')
             )
     if res:
         return redirect('/user/preferences')

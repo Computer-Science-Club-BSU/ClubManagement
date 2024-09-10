@@ -18,14 +18,14 @@
     </div>
     <div style="width: 100%;display: flex;justify-content: center;flex-wrap: wrap;">
       <div id="contentField" style="background-color: white;width: 50%;text-align: center;padding: 2rem;box-shadow: 0 3px 5px 3px black;">
-        <h2 style="color: #5E798B;font-weight: normal;font-size: 15pt;">We received a request to reset your password.</h2>
-        <p style="color: #192D4B;">Use the link below to set up a new password for your account. If you did not request to reset your password, ignore this email and the link will expire on its own.</p>
+        <h2 style="color: #5E798B;font-weight: normal;font-size: 15pt;">Welcome to the Computer Science Club Management System!</h2>
+        <p style="color: #192D4B;">A new user account was created with this email address. Please use the button below to set your password. If you did not request an account to this system, please contact us to update our records.</p>
         <a href="{{ resetLink }}" id="resetLink" style="padding: 10px 10px 10px 10px;background: #89191f;color: white;text-decoration: none ;margin-top: 2rem;">Set New Password</a>
       </div>
     </div>
     <div id="about" style="width: 100%;display: flex;justify-content: center;flex-wrap: wrap;margin-top: 5rem;text-align: center;">
         <p>This email was sent to {{ recp }}
-            <br> This password reset link will expire on {{ expDate }} at {{ expTime }}.</p>
+            <br> Your password reset link will expire on {{ expDate }} at {{ expTime }}.</p>
     </div>
   </body>
 </html>

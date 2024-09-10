@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Preferences</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% if err_msg != nil %}
+      <script>
+        alert('{{ err_msg }}')
+      </script>
+    {% endif %}
+    <script>
+
+      function updateLocale(){
+        tz_seq = $('#timezone')[0].value
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/admin/users/update_locale/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify({
+          "target": {{ tuser.seq }},
+          "timezone": tz_seq,
+          "datetime_format": formats[current_format].seq
+        }))
+        xhr.onreadystatechange = () => {
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+              alert('Locale Settings Updated')
+            } else {
+              alert('Failed to update Locale Settings')
+            }
+          }
+        }
+      }
+
+      function change_user_state() {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/admin/users/change_user_state')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify({
+          "seq": {{ tuser.seq }},
+          "state": $( '#status' )[0].value
+        }))
+        xhr.onreadystatechange = () => {
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+              alert('User State Updated')
+            } else {
+              alert('Failed to update user state.')
+            }
+          }
+        }
+      }
+
+      function changeTheme(e){
+        document.getElementById('themeLink').href=`/static/theme/${e.id}`
+      }
+      function revertTheme(e){
+        console.log(e)
+        if (!e.children[0].checked)
+          document.getElementById('themeLink').href=`/static/theme/{{ user.theme }}.css`
+
+      }
+      let formats = []
+      {% for format in formats %}
+        formats.push({
+          "seq": '{{ format.seq }}',
+          "date": '{{ format.date_format }}',
+          "time": '{{ format.time_format }}',
+          "datetime": '{{ format.datetime_format }}',
+        })
+      {%endfor%}
+      let current_format = 0
+      function onLoad(){
+        let i = 0;
+        formats.forEach((elt) => {
+          if(elt['seq'] == '{{ audit.format_seq }}'){
+            current_format = i;
+            document.getElementById('datetime_format').value = elt['datetime']
+            document.getElementById('date_format').value = elt['date']
+            document.getElementById('time_format').value = elt['time']
+          }
+          i++
+
+        })
+      }
+      function nextFormat(){
+        current_format++
+        if(current_format >= formats.length){
+          current_format--;
+        }
+        document.getElementById('datetime_format').value = formats[current_format]['datetime']
+        document.getElementById('date_format').value = formats[current_format]['date']
+        document.getElementById('time_format').value = formats[current_format]['time']
+      }
+
+      function prevFormat(){
+        current_format--
+        if(current_format < 0){
+          current_format++;
+        }
+        document.getElementById('datetime_format').value = formats[current_format]['datetime']
+        document.getElementById('date_format').value = formats[current_format]['date']
+        document.getElementById('time_format').value = formats[current_format]['time']
+      }
+
+      function requestPasswordReset(){
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/admin/users/reset')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send('{"seq": {{ tuser.seq }}}')
+        xhr.onreadystatechange = () => {
+          if(xhr.readyState == 4){
+            if(xhr.status == 200){
+              alert('A password reset email has been sent to the email on file.')
+            }
+            else {
+              alert(xhr.responseText)
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body onload="onLoad()">
+    {% include 'navbar.liquid' %}
+    <article>
+      <h1>User Preferences</h1>
+      <div class="grid2x2">
+        <div class="box">
+          <h2>General Info</h2>
+          <form action="/admin/users/general/{{ tuser.seq }}" method="POST">
+            <label for="fName">Name:
+            </label>
+            <input
+              type="text"
+              name="fName"
+              id="fName"
+              value="{{tuser.first_name}}"><input
+              type="text"
+              name="lName"
+              id="lName"
+              value="{{tuser.last_name}}">
+            <br>
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value="{{tuser.email}}">
+            <br>
+            <label for="title">Title</label>
+            <select name="title" id="title">
+              {% assign found_title = false %}
+              {% for title in titles %}
+                {% if title.title_desc == tuser.title %}
+                  {% assign found_title = true %}
+                  <option value="{{title.seq}}" selected>{{ title.title_desc }}</option>
+                {% else %}
+                  <option value="{{title.seq}}">{{ title.title_desc }}</option>
+                {% endif %}
+              {% endfor %}
+              {% if found_title != true %}
+                <option value="-1" selected>{{ tuser.title }}</option>
+              {% endif %}
+            </select>
+            <br>
+            <fieldset>
+              <legend>Theme</legend>
+              {% for theme in themes %}
+              <span onmouseenter="changeTheme(this)" id="{{ theme.file_name }}.css" onmouseleave="revertTheme(this)"><input type="radio" name="theme" id="{{ theme.file_name }}" value="{{ theme.seq }}" {% if theme.file_name == tuser.theme %} checked {% endif %}> <label for="{{ theme.file_name }}">{{ theme.theme_desc }}</label>
+              <br></span>
+              {% endfor %}
+            </fieldset>
+            <input type="submit" value="Update">
+          </form>
+          <br>
+          <legend><abbr title="Please contact your admin to change these settings">Static Settings</abbr></legend>
+          <fieldset>
+            <label for="timezone">Locale Settings</label>
+            <select id="timezone">
+              {% for timezone in tz %}
+                <option value="{{ timezone.seq }}"
+                {% if timezone.desc == audit.timezone %}
+                        selected
+                        {% endif %}
+                >{{ timezone.desc }}</option>
+              {% endfor %}
+            </select> <br>
+            <label for="date_format">Date Format</label>
+            <input id="date_format" value="" disabled> <br>
+            <label for="time_format">Time Format</label>
+            <input id="time_format" value="" disabled><br>
+            <label for="datetime_format">Datetime Format</label>
+            <input id="datetime_format" value="" disabled><br>
+            <button onclick="prevFormat()"><i class="fa-solid fa-arrow-left"></i></button><button onclick="nextFormat()"><i class="fa-solid fa-arrow-right"></i></button>
+          <button onclick="updateLocale()">Update Locale Settings</button>
+          </fieldset>
+
+        </div>
+        <div class="box">
+          <h2>User Security</h2>
+          <button onclick="requestPasswordReset()">Send Password Reset</button>
+          <div>
+            <label for="status">User Accout Status</label>
+            <select id="status">
+              <option value="1" {% if tuser.is_active == 1 %}
+                selected
+              {% endif %}>Active</option>
+              <option value="0" {% if tuser.isactive == 0 %} selected {% endif %}>Inactive</option>
+            </select>
+            <button onclick="change_user_state()">Update</button>
+          </div>
+        </div>
+        <div class="box">
+          <h2>Class Memberships</h2>
+          <h3>Current Positions:</h3>
+          <ul>
+            {% for tclass in tclasses %}
+              <h4>{{ tclass.position_name }}</h4>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="box">
+          <h2>User Audit</h2>
+          <table>
+            <tr>
+              <th>Added By</th>
+              <td>{{ audit.added_by }}</td>
+            </tr>
+            <tr>
+              <th>Added DateTime</th>
+              <td>{{ audit.added_dt }}</td>
+            </tr>
+            <tr>
+              <th>Updated By</th>
+              <td>{{ audit.updated_by }}</td>
+            </tr>
+            <tr>
+              <th>Update DateTime</th>
+              <td>{{ audit.updated_dt }}</td>
+            </tr>
+            <tr>
+              <th>Created Dockets</th>
+              <td>{{ audit.docket_count }}</td>
+            </tr>
+            <tr>
+              <th>Created Finances</th>
+              <td>{{ audit.created_finances }}</td>
+            </tr>
+            <tr>
+              <th>Approved Finances</th>
+              <td>{{ audit.approved_records }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </article>
+    {% include 'footer.liquid' %}
+  </body>
+</html>

@@ -50,5 +50,5 @@ def post_add_conv():
             conv_body
             )
         if stat:
-            return redirect(f'/doc/view/?seq={doc_seq}')
+            return redirect(f'/doc/view/{doc_seq}')
         return "Whoops!"

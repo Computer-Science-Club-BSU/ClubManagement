@@ -5,6 +5,7 @@
     --accent-color: #89191f;
     --accent-hover-color: #9C2A30;
     --text-color: #000000;
+    --nav-text-color: #FFFFFF;
     --modal-color: lightgray;
     }
 }
@@ -12,10 +13,12 @@
 @media (prefers-color-scheme: dark){
     :root {
         --primary-color: #212121; /* Dark grey/black */
-    --accent-color: #89191f; /* Vibrant red */
-    --accent-hover-color: #9C2A30; /* Lighter/intense version of the accent color */
-    --text-color: #FFFFFF;
-    --modal-color: darkgray;
+        --accent-color: #89191f; /* Vibrant red */
+        --accent-hover-color: #9C2A30; /* Lighter/intense version of the accent color */
+        --text-color: #FFFFFF;
+        --nav-text-color: #FFFFFF;
+        --modal-color: darkgray;
+
     }
     input{
     color: black
