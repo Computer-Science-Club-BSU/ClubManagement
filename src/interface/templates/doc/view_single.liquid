@@ -96,7 +96,7 @@
           <h3>Body:</h3>
           <h5>{{ doc.docket.docket_desc }}</h5>
           {% if can_user_edit %}
-            <button onclick="window.open('/doc/edit?seq={{doc.docket.seq}}')">Edit</button>
+            <button onclick="window.open('/doc/edit/{{doc.docket.seq}}')">Edit</button>
           {% endif %}
         </div>
         <div class="box" style="overflow: auto; max-height: 50%;">
