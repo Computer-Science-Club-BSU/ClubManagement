@@ -14,7 +14,7 @@
       }
 
       function onLoad(){
-        let body = "{{ doc.docket.docket_desc }}"
+        let body = `{{ doc.docket.docket_desc }}`
         document.getElementById('bodyBlock').innerHTML = decodeHtml(body)
       }
 
