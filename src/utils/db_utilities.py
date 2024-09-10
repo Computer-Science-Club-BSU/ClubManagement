@@ -376,7 +376,7 @@ AND CA.user_seq = %s"""
     @_convert_to_dict_single
     def get_docket_by_seq(self, seq: int) -> Dict[str,str]:
         date_format = self.get_user_date_format()[0]
-        sql = """SELECT hdr.seq as 'seq', hdr.docket_title, REPLACE(hdr.docket_desc, '\\n', '<br>'),
+        sql = """SELECT hdr.seq as 'seq', hdr.docket_title, REPLACE(hdr.docket_desc, '\\n', '<br>') AS 'docket_desc',
         stat.stat_desc as 'status', stat.edit_locked, vote.vote_desc,
         hdr.added_by as 'creator_seq',
         DATE_FORMAT(hdr.added_dt, %s) as 'added_dt',
