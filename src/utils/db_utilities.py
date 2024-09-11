@@ -1662,7 +1662,7 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
     def get_user_quick_links(self, seq):
         sql = """(SELECT A.* FROM quick_links A, perms B, class_assignments C, terms tA, terms tB WHERE
         A.perm_seq = B.perm_seq AND B.class_seq = C.class_seq AND C.user_seq = %s AND
-        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date
+        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date AND B.granted = 1
         UNION
         SELECT A.* FROM quick_links A, perm_types B WHERE A.perm_seq = B.seq AND B.perm_desc = 'guest')
         ORDER BY ranking"""
