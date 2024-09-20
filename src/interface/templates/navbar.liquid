@@ -12,6 +12,31 @@
     <link rel="stylesheet" href="/static/theme/structure.css">
     <script>
       let currentDialog = undefined
+
+      function addFavorite() {
+        let pathDescription = prompt('Enter a description for this favorite.')
+        if(pathDescription === ''){
+          pathDescription = document.title
+        }
+        let requestObject = {
+          "path": window.location.pathname,
+          "text": pathDescription
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/favorites/add')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(requestObject))
+        xhr.onreadystatechange = () => {
+          if(xhr.readyState == 4){
+            if(xhr.status == 200){
+              window.reload()
+            } else{
+              // Something went wrong!
+              alert('An error occurred while trying to process this request.')
+            }
+          }
+        }
+      }
     </script>
   </head>
   <body>

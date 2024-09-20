@@ -1,1 +1,1 @@
-from src.routes.user import preferences
+from src.routes.user import preferences, favorites

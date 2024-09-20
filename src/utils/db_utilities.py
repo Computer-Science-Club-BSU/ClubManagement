@@ -1646,6 +1646,11 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         A.added_by = B.seq AND A.updated_by = C.seq ORDER BY link, eff_date"""
         self.run_statement(sql)
 
+    @_convert_to_dict
+    def get_user_favorites(self,seq):
+        sql = """SELECT * FROM favorites WHERE user_seq = %s"""
+        self.run_statement(sql, (seq,))
+
     @_exec_safe
     def create_link(self, origin, target, start, user):
         sql = """INSERT INTO links (link, eff_date, redirect, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
@@ -1688,6 +1693,12 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
     @_exec_safe
     def move_quick_link_down(self, seq, user_seq):
         self.cur.callproc('MOVE_QL_DOWN', (seq, user_seq))
+
+    @_exec_safe
+    def create_user_favorite(self, user_seq, json_obj):
+        sql = "INSERT INTO favorites (user_seq, path,text) VALUES (%s,%s,%s)"
+        self.run_statement(sql, (user_seq, json_obj['path'],json_obj['text']))
+
 
     # __methods__
     def __enter__(self):
