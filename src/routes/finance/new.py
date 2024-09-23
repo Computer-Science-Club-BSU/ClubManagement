@@ -32,8 +32,8 @@ def post_finances_create():
         return ""
     abort(400)
 
-@app.get('/finances/create/validate')
-def get_finances_create_validate():
+@app.post('/finances/create/validate')
+def post_finances_create_validate():
     with connect() as conn:
         date = conn.date_check(request.json['recordDate'])
     if date:

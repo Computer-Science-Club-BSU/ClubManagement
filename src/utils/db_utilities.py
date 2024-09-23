@@ -85,7 +85,7 @@ class connect:
     # All statements should call `run_statements` to ensure proper logging.
     def run_statement(self, statement: str, data: Sequence = (), buffered: Any|None = None):
         now = datetime.datetime.now()
-        date_str = now.strftime("%Y-%m-%-d %-H:%M:%S")
+        date_str = now.strftime("%Y-%m-%d %H:%M:%S")
         log_str = f'[{date_str}] SQL Statement: {statement}\n'
         log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
         with open(f'{LOG_DIR}sql.log', 'a') as f:
@@ -939,8 +939,13 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         sql = """DELETE FROM password_reset WHERE password_token = %s"""
         self.cur.execute(sql, (token,))
 
-    # __methods__
+    def date_check(self, given_date):
+        SQL = "SELECT 'y' WHERE %s BETWEEN(SELECT MIN(start_date) FROM terms) AND(SELECT MAX(end_date) FROM terms)"
+        self.run_statement(SQL, (given_date,))
+        if self.cur.rowcount != 0:
+            return True
 
+    # __methods__
     def __enter__(self):
         logger.debug("DB Opened in Context Manager")
         return self
@@ -962,11 +967,3 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
             {excinst}
             Traceback:\n {tb}"""
             logger.critical(error_str)
-
-    @_exec_safe
-    def date_check(self, given_date):
-        SQL = " SELECT 'y' WHERE %s BETWEEN(SELECT MIN(start_date) FROM terms) AND(SELECT MAX(end_date) FROM terms)"
-        self.run_statement(SQL, (given_date,))
-        if self.cur.rowcount != 0:
-            return True
-    

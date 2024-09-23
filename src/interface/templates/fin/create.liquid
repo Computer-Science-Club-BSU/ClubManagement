@@ -180,14 +180,14 @@
 
 
         }
-        function RecordDate(){
+        function validateRecordDate(){
             // XHR POST Request to /finances/create/validate
             let xhr = new XMLHttpRequest()
-            xhr.open('GET', "/finances/create/validate");
+            xhr.open('POST', "/finances/create/validate");
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSON.stringify({
-            "recordDate": document.getElementById('RecordDate')
-            })
+            "recordDate": document.getElementById('RecordDate').value
+            }))
             xhr.onreadystatechange = () => {
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
@@ -260,7 +260,7 @@
               <input
                 type="date"
                 name="RecordDate"
-                id="RecordDate" onchange="validateRecordDate()">
+                id="RecordDate" onfocusout="validateRecordDate()">
               <br> <br>
               <label for="Status">Status:</label>
               <select name="Status" id="Status">
