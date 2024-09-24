@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Preferences</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% if err_msg != nil %}
+      <script>
+        alert('{{ err_msg }}')
+      </script>
+    {% endif %}
+    <script>
+      function changeTheme(e){
+        document.getElementById('themeLink').href=`/static/theme/${e.id}`
+      }
+      function revertTheme(e){
+        console.log(e)
+        if (!e.children[0].checked)
+          document.getElementById('themeLink').href=`/static/theme/{{ user.theme }}.css`
+
+      }
+    </script>
   </head>
   <body>
     {% include 'navbar.liquid' %}
@@ -12,13 +30,15 @@
       <div class="grid2x2">
         <div class="box">
           <h2>General Info</h2>
-          <form action="/user/preferences/general/{{user.seq}}" method="POST">
+          <form action="/user/preferences/general/" method="POST">
             <label for="fName">Name:
             </label>
             <input
               type="text"
               name="fName"
               id="fName"
+              placeholder="First"
+
               value="{{user.first_name}}"><input
               type="text"
               name="lName"
@@ -45,16 +65,36 @@
                 {% endif %}
               {% endfor %}
               {% if found_title != true %}
-                <option value="_">{{ user.title }}</option>
+                <option value="-1" selected>{{ user.title }}</option>
               {% endif %}
             </select>
             <br>
+            <fieldset>
+              <legend>Theme</legend>
+              {% for theme in themes %}
+              <span onmouseenter="changeTheme(this)" id="{{ theme.file_name }}.css" onmouseleave="revertTheme(this)"><input type="radio" name="theme" id="{{ theme.file_name }}" value="{{ theme.seq }}" {% if theme.file_name == user.theme %} checked {% endif %}> <label for="{{ theme.file_name }}">{{ theme.theme_desc }}</label>
+              <br></span>
+              {% endfor %}
+            </fieldset>
             <input type="submit" value="Update">
           </form>
+          <br>
+          <legend><abbr title="Please contact your admin to change these settings">Static Settings</abbr></legend>
+          <fieldset>
+            <label for="timezone">User Timezone</label>
+            <input id="timezone" value="{{ audit.timezone }}" disabled> <br>
+            <label for="date_format">Date Format</label>
+            <input id="date_format" value="{{ audit.date_format }}" disabled> <br>
+            <label for="date_format">Time Format</label>
+            <input id="date_format" value="{{ audit.time_format }}" disabled><br>
+            <label for="date_format">Datetime Format</label>
+            <input id="date_format" value="{{ audit.datetime_format }}" disabled>
+          </fieldset>
+
         </div>
         <div class="box">
           <h2>User Security</h2>
-          <form action="/user/preferences/security/{{user.seq}}" method="post">
+          <form action="/user/preferences/security/" method="post">
             <label for="current">Current Password</label>
             <input
               type="password"
@@ -72,7 +112,7 @@
           </form>
         </div>
         <div class="box">
-          <h2>General Info</h2>
+          <h2>Class Memberships</h2>
           <h3>Current Positions:</h3>
           <ul>
             {% for class in classes %}
@@ -85,24 +125,35 @@
           <table>
             <tr>
               <th>Added By</th>
-              <td>{{ user_audit.added_by }}</td>
+              <td>{{ audit.added_by }}</td>
             </tr>
             <tr>
               <th>Added DateTime</th>
-              <td>{{ user_audit.added_dt }}</td>
+              <td>{{ audit.added_dt }}</td>
             </tr>
             <tr>
               <th>Updated By</th>
-              <td>{{ user_audit.updated_by }}</td>
+              <td>{{ audit.updated_by }}</td>
             </tr>
             <tr>
               <th>Update DateTime</th>
-              <td>{{ user_audit.update_dt }}</td>
+              <td>{{ audit.updated_dt }}</td>
+            </tr>
+            <tr>
+              <th>Created Dockets</th>
+              <td>{{ audit.docket_count }}</td>
+            </tr>
+            <tr>
+              <th>Created Finances</th>
+              <td>{{ audit.created_finances }}</td>
+            </tr>
+            <tr>
+              <th>Approved Finances</th>
+              <td>{{ audit.approved_records }}</td>
             </tr>
           </table>
         </div>
       </div>
-      {{ user }}
     </article>
     {% include 'footer.liquid' %}
   </body>

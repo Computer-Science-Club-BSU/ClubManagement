@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script>
+        function updateUser(seq){
+            let user_obj = {
+                "seq": seq,
+                "title": document.getElementById(`title${seq}`).value,
+                "fName": document.getElementById(`fName${seq}`).value,
+                "lName": document.getElementById(`lName${seq}`).value,
+                "email": document.getElementById(`email${seq}`).value,
+                "uName": document.getElementById(`uName${seq}`).value,
+                "theme": document.getElementById(`theme${seq}`).value,
+                "active": document.getElementById(`active${seq}`).checked
+            }
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/admin/users/admin')
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify(user_obj))
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        window.location.reload()
+                    } else {
+                        alert(xhr.responseText)
+                    }
+                }
+            }
+        }
+    </script>
+    </head>
+    <body>
+    {% include "navbar.liquid" %}
+    <table style="width: 100%">
+        <tr>
+            <th>Seq</th>
+            <th>Title</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Theme</th>
+            <th>Is Active</th>
+            <th>Added By</th>
+            <th>Added Dt</th>
+            <th>Updated By</th>
+            <th>Update Dt</th>
+            <th>Edit</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.seq }}</td>
+                <td>
+                    <select class="fullWidth" id="title{{ user.seq }}">
+                    {% for title in titles %}
+                        <option value="{{ title.seq }}"
+                        {% if user.title == title.title_desc%}
+                            selected
+                        {%endif%}
+                        >{{ title.title_desc }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+                <td><input class="fullWidth" id="fName{{ user.seq }}" value="{{ user.first_name }}"></td>
+                <td><input class="fullWidth" id="lName{{ user.seq }}" value="{{ user.last_name }}"></td>
+                <td><input class="fullWidth" id="email{{ user.seq }}" value="{{ user.email }}"></td>
+                <td><input class="fullWidth" id="uName{{ user.seq }}" value="{{ user.user_name }}"></td>
+                <td>
+                    <select class="fullWidth" id="theme{{ user.seq }}">
+                        {% for theme in themes %}
+                            <option {% if theme.file_name == user.theme %}
+                                selected
+                            {% endif %} value="{{ theme.seq }}">{{ theme.theme_desc }}</option>
+                        {% endfor %}
+                    </select>
+                    </td>
+                <td><input type="checkbox" id="active{{ user.seq }}" {% if user.is_active == 1 %}
+                        checked
+                            {% endif %}></td>
+                <td>{{ user.added_by }}</td>
+                <td>{{ user.added_dt }}</td>
+                <td>{{ user.updated_by }}</td>
+                <td>{{ user.update_dt }}</td>
+                <td>
+                    <button onclick="updateUser({{ user.seq }})"><i class="fa-solid fa-upload"></i></button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include "footer.liquid" %}
+    </body>
+</html>

@@ -1,6 +1,7 @@
 """Handles requests for viewing docket"""
 
-import bleach
+
+import io
 from flask import Response
 import logging
 import tempfile
@@ -30,7 +31,7 @@ def get_doc_view_by_seq(seq):
 
     with connect() as conn:
         records = conn.get_all_docket_data_by_seq(seq)
-        user_seq = bleach.clean(session.get('user_seq'))
+        user_seq = session.get('user_seq')
         can_user_edit = conn.can_user_edit_docket(user_seq,seq)
         attachments = conn.get_docket_attachments_summary(seq)
         # deepcode ignore XSS: All data from DB is sterilized with Bleach Clean
@@ -44,7 +45,8 @@ def get_doc_attach(attach_seq):
     with connect() as conn:
         name, data = conn.get_docket_attachment(attach_seq)
         name = name.replace('../', '')
-        with tempfile.TemporaryDirectory() as tmpdir:
-            with open(tmpdir + '/' + name, 'wb') as f:
-                f.write(data)
-            return send_file(tmpdir + '/' + name)
+        return send_file(
+            io.BytesIO(data),
+            download_name=name,
+            mimetype='application/octet-stream'
+        )

@@ -47,4 +47,5 @@ def auth_logout():
     """Handles requests to log out of system.
     Clears session and sends back to home page."""
     session.clear()
+
     return redirect('/')

@@ -1,10 +1,11 @@
 {% if perms.user_view == 1 or perms.user_add == 1 or perms.user_edit == 1 or perms.user_admin == 1 or perms.user_query == 1 or perms.user_delete == 1 %}
   <li class="navli parent">
+
     <a href="">Maintain Users</a>
     <ul class="child">
       {% if perms.user_view == 1 or perms.user_admin == 1 %}
         <li class="navli">
-          <a href="/admin/users">View User</a>
+          <a href="/admin/users/view/">View User</a>
         </li>
       {% endif %}
       {% if perms.user_add == 1 or perms.user_admin == 1 %}
@@ -14,14 +15,14 @@
       {% endif %}
       {% if perms.user_admin == 1 %}
         <li class="navli">
-          <a href="/dev/">Administrate User</a>
+          <a href="/admin/users/admin">Administrate User</a>
         </li>
       {% endif %}
-      {% if perms.user_query == 1 or perms.user_admin == 1 %}
-        <li class="navli">
-          <a href="/dev/">Query User</a>
-        </li>
-      {% endif %}
+      {% comment %}{% if perms.user_query == 1 or perms.user_admin == 1 %}{% endcomment %}
+        {% comment %}<li class="navli">{% endcomment %}
+          {% comment %}<a href="/dev/">Query User</a>{% endcomment %}
+        {% comment %}</li>{% endcomment %}
+      {% comment %}{% endif %}{% endcomment %}
 
       {% if perms.user_admin == 1 %}
         <li class="navli">

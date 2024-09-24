@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Finances</title>
+    <script>
+      function viewRecord(seq){
+        window.open(`/finances/view/${seq}`, '_blank')
+      }
+      function editRecord(seq){
+        window.open(`/finances/edit/${seq}`, '_blank')
+      }
+    </script>
   </head>
   <body>
     {% include "navbar.liquid" %}
@@ -31,10 +39,10 @@
                 <td>{{ row.type_desc }}</td>
                 <td>{{ row.Total }}</td>
                 <td>
-                  <button>View</button>
-                  <button>Edit</button>
-                  <button>Delete</button>
+                  <button onclick="viewRecord({{ row.seq }})">View</button>
+                  <button onclick="editRecord({{ row.seq }})">Edit</button>
                 </td>
+
               </tr>
             {% endfor %}
           </table>

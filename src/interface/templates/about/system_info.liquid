@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Info</title>
+  </head>
+  <body>
+    {% include "navbar.liquid" %}
+    <article>
+      <div class="grid" style="width: 100%; height:100%">
+        <div class="box">
+          <h2>System Information</h2>
+          <h4>This system is configured for the {{ sys_name }}, at {{ sys_loc }}. <br>
+          For support, please contact us via the <a href="mailto:{{ support_email }}">Support Email</a>, or via {{ support_phone }}. <br>
+
+            This system is configured with a timezone of {{ timezone }}</h4>
+        </div>
+        {% comment %}{% if isLoggedIn %}{% endcomment %}
+          {% comment %}<div class="box">{% endcomment %}
+            {% comment %}<h3>Submit YouTrack Issue</h3>{% endcomment %}
+            {% comment %}<form style="margin-left: 20px;">{% endcomment %}
+              {% comment %}<label for="summary">Summary</label> <br>{% endcomment %}
+              {% comment %}<input type="text" id="summary" name="summary" style="width: 98%"><br><br>{% endcomment %}
+              {% comment %}<label for="description">Description</label><br>{% endcomment %}
+              {% comment %}<textarea id="description" name="description" style="width: 98%; height: 50rem;"></textarea>{% endcomment %}
+            {% comment %}</form>{% endcomment %}
+        {% comment %}</div>{% endcomment %}
+        {% comment %}{% endif %}{% endcomment %}
+
+      </div>
+    </article>
+    {% include "footer.liquid" %}
+  </body>
+</html>

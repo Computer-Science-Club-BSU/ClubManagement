@@ -1,0 +1,21 @@
+:root{
+    --primary-color: #282828;
+    --accent-color: #33FF33;
+    --accent-hover-color: #66FF66;
+    --text-color: #33FF33;
+    --nav-text-color: #282828;
+    --modal-color: #66FF66;
+}
+
+@font-face {
+    font-family: BlockFont;
+    src: url('/static/ttf/blockFont.ttf')
+}
+
+*{
+    font-family: BlockFont;
+}
+
+input[type=submit], button {
+    color: var(--nav-text-color) !IMPORTANT;
+}

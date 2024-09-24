@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+
+      * {
+        /*outline: 1px solid black;*/
+        font-family: "Barlow", sans-serif;
+      }
+    </style>
+  </head>
+  <body style="background-color: #ECEEF1;display: flex;justify-content: center;flex-wrap: wrap;">
+    <div id="headerImg" style="width: 100%;display: flex;justify-content: center;flex-wrap: wrap;">
+      <img src="data:image/png;base64,{{ imgData }}" alt="CMS" style="width: 1in;">
+    </div>
+    <div style="width: 100%;display: flex;justify-content: center;flex-wrap: wrap;">
+      <div id="contentField" style="background-color: white;width: 50%;text-align: center;padding: 2rem;box-shadow: 0 3px 5px 3px black;">
+        <h2 style="color: #5E798B;font-weight: normal;font-size: 15pt;">Welcome to the Computer Science Club Management System!</h2>
+        <p style="color: #192D4B;">A new user account was created with this email address. Please use the button below to set your password. If you did not request an account to this system, please contact us to update our records.</p>
+        <a href="{{ resetLink }}" id="resetLink" style="padding: 10px 10px 10px 10px;background: #89191f;color: white;text-decoration: none ;margin-top: 2rem;">Set New Password</a>
+      </div>
+    </div>
+    <div id="about" style="width: 100%;display: flex;justify-content: center;flex-wrap: wrap;margin-top: 5rem;text-align: center;">
+        <p>This email was sent to {{ recp }}
+            <br> Your password reset link will expire on {{ expDate }} at {{ expTime }}.</p>
+    </div>
+  </body>
+</html>

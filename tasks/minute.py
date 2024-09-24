@@ -20,8 +20,8 @@ def send_request_emails():
                        This request can be maintained by following these steps:
                        <br>
                        Maintain Users -> Administrate User -> Manage Pending User Requests.
-                       """, admin_emails, [], [])
-            if res[0]:
+                       """, '', admin_emails, [], [])
+            if res:
                 conn.update_pending_user_flag(request['seq'], 'A')
             else:
                 conn.update_pending_user_flag(request['seq'], 'E')

@@ -5,7 +5,7 @@ from src.utils.template_utils import render_template
 from src.utils.db_utilities import connect
 
 @app.get('/finances/create/')
-def get_finances_new():
+def get_finances_create():
     """Serves the /finances/create/ GET request.
     Returns a template with all users who can add finances,
     approve finances, as well as statuses and types for finances."""
@@ -24,8 +24,11 @@ def get_finances_new():
 def post_finances_create():
     """Serves the /finances/create/ POST request."""
     with connect() as conn:
-        res, _ = conn.create_finance_record(
-            request.json,
+        data = request.json
+        if data['header']['id'] == '':
+            return "ID Cannot be blank!", 400
+        res, e = conn.create_finance_record(
+            data,
             session['user_seq']
         )
     if res:
@@ -40,3 +43,5 @@ def post_finances_create_validate():
         return "", 200
     else:
         return "This record is outside the allowed finance window. Please proceed with caution", 200
+    return str(e), 400
+
