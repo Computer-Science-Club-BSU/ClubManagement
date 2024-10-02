@@ -1,0 +1,15 @@
+{% if isLoggedIn %}
+  <li class="navli parent">
+    <a href="#">Favorites</a>
+    <ul class="child">
+        {% for favorite in favorites %}
+        <li class="navli" class="parent">
+              <a href="{{ favorite.path }}" target="_blank">{{ favorite.text }}</a>
+            </li>
+        {% endfor %}
+        <li class="navli parent">
+          <a onclick="addFavorite()" style="cursor: pointer">Add to Favorites</a>
+        </li>
+    </ul>
+  </li>
+{% endif %}
