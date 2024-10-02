@@ -116,7 +116,7 @@ class connect:
 
         now = datetime.datetime.now()
         date_str = now.strftime("%Y-%m-%d %H:%M:%S")
-        log_str = f'[{date_str}] sql Statement: {statement}\n'
+        log_str = f'[{date_str}] SQL Statement: {statement}\n'
         log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
         with open(f'{LOG_DIR}sql.log', 'a') as f:
             try:
@@ -189,7 +189,7 @@ class connect:
         return perm_data
 
     def get_user_finance_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
-        return [{"1": "test"}]
+        return []
 
     @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
@@ -376,7 +376,7 @@ AND CA.user_seq = %s"""
     @_convert_to_dict_single
     def get_docket_by_seq(self, seq: int) -> Dict[str,str]:
         date_format = self.get_user_date_format()[0]
-        sql = """SELECT hdr.seq as 'seq', hdr.docket_title, REPLACE(hdr.docket_desc, '\\n', '<br>') AS 'docket_desc',
+        sql = """SELECT hdr.seq as 'seq', hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', stat.edit_locked, vote.vote_desc,
         hdr.added_by as 'creator_seq',
         DATE_FORMAT(hdr.added_dt, %s) as 'added_dt',
@@ -1261,6 +1261,12 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                 A.name = %s AND aT.name = %s AND B.seq = %s AND bT.seq = %s"""
                 self.cur.execute(sql, (key[1], key[0], key[4], key[3]))
 
+    @_exec_safe
+    def create_password_reset(self, username,request):
+        SQL = """INSERT INTO password_reset (user_seq, password_token,added_by_addr) 
+        VALUES ((select seq FROM users WHERE user_name=%s),%s,%s);"""
+        self.cur.execute(SQL, (username, uuid4(), request.remote_addr))
+
     def get_email_contact_seq(self, email_id):
         sql = "SELECT seq FROM contacts WHERE email_address = %s"
         self.cur.execute(sql, (email_id,))
@@ -1314,6 +1320,13 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         self.cur.execute(sql, (hash_pass, token))
         sql = """DELETE FROM password_reset WHERE password_token = %s"""
         self.cur.execute(sql, (token,))
+
+
+    def date_check(self, given_date):
+        SQL = "SELECT 'y' WHERE %s BETWEEN(SELECT MIN(start_date) FROM terms) AND(SELECT MAX(end_date) FROM terms)"
+        self.run_statement(SQL, (given_date,))
+        if self.cur.rowcount != 0:
+            return True
 
     @_exec_safe
     def update_pending_user_flag(self, request_seq, flag):
@@ -1646,6 +1659,11 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         A.added_by = B.seq AND A.updated_by = C.seq ORDER BY link, eff_date"""
         self.run_statement(sql)
 
+    @_convert_to_dict
+    def get_user_favorites(self,seq):
+        sql = """SELECT * FROM favorites WHERE user_seq = %s"""
+        self.run_statement(sql, (seq,))
+
     @_exec_safe
     def create_link(self, origin, target, start, user):
         sql = """INSERT INTO links (link, eff_date, redirect, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
@@ -1662,7 +1680,7 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
     def get_user_quick_links(self, seq):
         sql = """(SELECT A.* FROM quick_links A, perms B, class_assignments C, terms tA, terms tB WHERE
         A.perm_seq = B.perm_seq AND B.class_seq = C.class_seq AND C.user_seq = %s AND
-        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date
+        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date AND B.granted = 1
         UNION
         SELECT A.* FROM quick_links A, perm_types B WHERE A.perm_seq = B.seq AND B.perm_desc = 'guest')
         ORDER BY ranking"""
@@ -1689,6 +1707,12 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
     def move_quick_link_down(self, seq, user_seq):
         self.cur.callproc('MOVE_QL_DOWN', (seq, user_seq))
 
+    @_exec_safe
+    def create_user_favorite(self, user_seq, json_obj):
+        sql = "INSERT INTO favorites (user_seq, path,text) VALUES (%s,%s,%s)"
+        self.run_statement(sql, (user_seq, json_obj['path'],json_obj['text']))
+
+
     # __methods__
     def __enter__(self):
         logger.debug("DB Opened in Context Manager")
@@ -1711,5 +1735,3 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
             {excinst}
             Traceback:\n {tb}"""
             logger.critical(error_str)
-
-    
