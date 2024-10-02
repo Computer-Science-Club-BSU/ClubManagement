@@ -202,6 +202,26 @@
 
 
         }
+        function validateRecordDate(){
+            // XHR POST Request to /finances/create/validate
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', "/finances/create/validate");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({
+            "recordDate": document.getElementById('RecordDate').value
+            }))
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        if(xhr.responseText != ""){
+                            alert(xhr.responseText)
+                        }
+                    } else {
+                        alert("An error has occurred. Please contact your administrators")
+                    }
+                }
+            };
+        }
 
 
     </script>
@@ -263,7 +283,7 @@
               <input
                 type="date"
                 name="RecordDate"
-                id="RecordDate" value="{{ header.inv_date }}">
+                id="RecordDate" value="{{ header.inv_date }}" onfocusout="validateDate()">
               <br> <br>
               <label for="Status">Status:</label>
               <select name="Status" id="Status">

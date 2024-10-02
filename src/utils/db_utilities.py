@@ -6,7 +6,7 @@ import logging
 import traceback
 import datetime
 from uuid import uuid4
-from flask import Request
+from flask import Request, session
 from typing import Callable
 import bcrypt
 from mariadb import InterfaceError, Cursor
@@ -16,10 +16,10 @@ import base64
 from typing import List, Dict, Optional, Type, Sequence, Any
 from types import TracebackType
 from conf import LOG_DIR
-from src.utils.email_utils import send_password_reset
+from src.utils.email_utils import send_password_reset, send_onboarding_email
 from src.utils.exceptions import EmailNotFoundException
 from src.utils.send_email import send_email
-from time import sleep
+from src.utils.file_utils import save_doc_attachment,get_doc_attachment
 
 
 # Create a new logger
@@ -87,6 +87,16 @@ class connect:
             return row_data
         return wrapper
 
+    @_convert_to_dict
+    def get_timezones(self):
+        sql = "SELECT seq, CONCAT_WS('/', continent, region, sub_region) as 'desc' FROM timezones"
+        self.run_statement(sql)
+
+    def onboard_user(self, user_seq, request, session):
+        _, token = self.create_password_reset_admin(user_seq, request, session, onboarding=True)
+        send_onboarding_email(str(token), self.get_user_data_by_seq(user_seq))
+
+
     @staticmethod
     def _convert_to_dict_single(func: Callable):
         def wrapper(self, *args, **kwargs):
@@ -106,7 +116,7 @@ class connect:
 
         now = datetime.datetime.now()
         date_str = now.strftime("%Y-%m-%d %H:%M:%S")
-        log_str = f'[{date_str}] sql Statement: {statement}\n'
+        log_str = f'[{date_str}] SQL Statement: {statement}\n'
         log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
         with open(f'{LOG_DIR}sql.log', 'a') as f:
             try:
@@ -179,7 +189,7 @@ class connect:
         return perm_data
 
     def get_user_finance_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
-        return [{"1": "test"}]
+        return []
 
     @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
@@ -255,11 +265,19 @@ AND CA.user_seq = %s"""
         A.finance_seq=38"""
         self.run_statement(sql, (hdr_seq,))
 
+    def get_user_date_format(self):
+        sql = """select A.date_format, A.time_format, A.datetime_format FROM datetime_formats A, users B WHERE
+                A.seq = B.date_format AND B.seq = %s"""
+        self.run_statement(sql, (session.get('user_seq', 1),))
+        date, time, dtm_fmt = self.cur.fetchone()
+        return date, time, dtm_fmt
+
     @_convert_to_dict_single
     def get_header_by_seq(self, seq):
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT
                     A.id,
-                    DATE_FORMAT(A.inv_date, '%b %D, %Y') as 'inv_date',
+                    DATE_FORMAT(A.inv_date, %s) as 'inv_date',
                     A.type_desc as 'type',
                     A.CreatedBy as 'creator',
                     decode_oracle(B.is_approved, 1, A.ApprovedBy, 0, NULL) as 'approver',
@@ -271,7 +289,7 @@ AND CA.user_seq = %s"""
                     finance_hdr B
                 WHERE A.seq = B.seq
                 AND A.seq = %s"""
-        self.run_statement(sql, (seq,))
+        self.run_statement(sql, (date_format, seq))
 
     def get_finance_object(self, seq: int):
         header = self.get_header_by_seq(seq)
@@ -329,6 +347,25 @@ AND CA.user_seq = %s"""
         sql = "SELECT * from docket_status"
         self.run_statement(sql)
 
+    @_exec_safe
+    def add_user(self, user_obj: Dict[str,str], user_session, request: Request):
+        sql = """INSERT INTO users (user_name, first_name, last_name, email, theme, timezone, date_format,
+               title, is_active, added_by, updated_by, home_page_seq) VALUES
+               (%s,%s,%s,%s,%s,%s,%s,%s,%s,1,%s,(SELECT MIN(seq) FROM home_page_defn))"""
+        self.run_statement(sql, (user_obj['uName'], user_obj['fName'], user_obj['lName'], user_obj['email'],
+                                 user_obj['theme'], user_obj['tz'], user_obj['dtFmt'], user_obj['title'],
+                                 user_session['user_seq'], user_session['user_seq']))
+        user_seq = self.cur.lastrowid
+        for u_class in user_obj['classes']:
+            sql = """INSERT INTO class_assignments
+            (user_seq, class_seq, start_term, end_term, added_by, updated_by) VALUES
+            (%s,%s,%s,%s,%s,%s)"""
+            self.run_statement(sql, (user_seq, u_class['pos'], u_class['start'], u_class['end'],
+                                     user_session['user_seq'], user_session['user_seq']))
+
+        if user_obj['onboard']:
+            self.onboard_user(user_seq, request, user_session)
+
     @_convert_to_dict
     def get_docket_hdr_by_status(self, stat_desc: str) -> List[Dict[str,str]]:
         sql = """SELECT a.* from docket_hdr a,
@@ -338,15 +375,16 @@ AND CA.user_seq = %s"""
 
     @_convert_to_dict_single
     def get_docket_by_seq(self, seq: int) -> Dict[str,str]:
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT hdr.seq as 'seq', hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', stat.edit_locked, vote.vote_desc,
         hdr.added_by as 'creator_seq',
-        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        DATE_FORMAT(hdr.added_dt, %s) as 'added_dt',
         concat(u.first_name, ' ', u.last_name) as 'creator'
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq
-        AND hdr.added_by = u.seq AND hdr.seq = %s"""
-        self.run_statement(sql, (seq,))
+        AND hdr.added_by = u.seq AND hdr.seq = %s;"""
+        self.run_statement(sql, (date_format, seq))
 
 
     @_convert_to_dict
@@ -430,15 +468,16 @@ AND CA.user_seq = %s"""
 
     @_convert_to_dict
     def get_all_non_archived_docket(self) -> List[Dict[str,str]]:
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT hdr.seq, hdr.docket_title, hdr.docket_desc,
         stat.stat_desc as 'status', vote.vote_desc,
         hdr.added_by as 'creator_seq',
-        DATE_FORMAT(hdr.added_dt, '%W, %M %D, %Y') as 'added_dt',
+        DATE_FORMAT(hdr.added_dt, %s) as 'added_dt',
         concat(u.first_name, ' ', u.last_name) as 'creator'
         FROM docket_hdr hdr, docket_status stat, vote_types vote, users u
         WHERE hdr.vote_type = vote.seq AND hdr.stat_seq = stat.seq AND
         LOWER(stat.stat_desc) != 'archived' AND hdr.added_by = u.seq;"""
-        self.run_statement(sql)
+        self.run_statement(sql, (date_format,))
 
     def can_user_edit_docket(self, user_seq, docket_seq) -> bool:
         user_perms = self.get_user_perms_by_user_seq(user_seq)
@@ -567,6 +606,11 @@ AND CA.user_seq = %s"""
     @_convert_to_dict
     def get_permission_data(self) -> List[Dict[str,str]]:
         sql = """SELECT * FROM perm_types WHERE grantable=1;"""
+        self.run_statement(sql)
+
+    @_convert_to_dict
+    def get_all_perm_types(self):
+        sql = """SELECT * FROM perm_types"""
         self.run_statement(sql)
 
     @_convert_to_dict
@@ -776,10 +820,10 @@ AND CA.user_seq = %s"""
 
 
     @_convert_to_dict
-
     def search_items(self, date, user_seq):
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT DISTINCT items.item_name, vendors.vend_name as 'item_vendor', displayed,
-        item_cost.price, date_format(item_cost.eff_date, '%M %D, %Y') "eff_date",item_cost.seq FROM items ,item_cost, vendors, class_assignments C,
+        item_cost.price, DATE_FORMAT(item_cost.eff_date, %s) "eff_date",item_cost.seq FROM items ,item_cost, vendors, class_assignments C,
 terms tA, terms tB, perms P, perm_types pT WHERE
         items.seq = item_cost.item_seq AND (p.granted = 1 OR (items.displayed = 1 AND item_cost.eff_status = 'A' AND vendors.vend_status = 'A')) AND items.vendor_seq = vendors.seq AND
     item_cost.eff_date = (
@@ -790,7 +834,8 @@ terms tA, terms tB, perms P, perm_types pT WHERE
         AND C.class_seq = P.class_seq AND P.perm_seq = pT.seq AND pT.perm_desc = 'fin_admin' AND C.user_seq = %s
 AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
-        self.run_statement(sql, (date,user_seq))
+        self.run_statement(sql, (date_format, date, user_seq))
+
 
     @_convert_to_dict_single
     def get_finance_status_by_seq(self, seq):
@@ -805,12 +850,16 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
     @_exec_safe
     def add_docket_attachment(self, seq, file_json, user):
-        sql = """INSERT INTO docket_attachments
-        (docket_seq, file_name, file_data, added_by, updated_by) VALUES
-        (%s,%s,%s,%s,%s)"""
-        self.run_statement(sql, (seq, file_json['file_name'],
-                               base64.b64encode(file_json['file_data'].encode()),
-                               user, user))
+        sql = """INSERT INTO docket_attachments (docket_seq, file_name, file_path, revision_id, is_visible, added_by)
+                 VALUES (%s, %s, %s, (
+                 SELECT IFNULL(MAX(revision_id), 0) + 1 FROM docket_attachments B WHERE B.docket_seq = %s AND B.file_name = %s
+                 ),
+                 1, %s)"""
+        print(file_json)
+        file_name = str(uuid4())
+        self.run_statement(sql,
+                           (seq, file_json['file_name'], file_name, seq, file_json['file_name'], user))
+        save_doc_attachment(file_name, file_json['file_data'])
 
     @_convert_to_dict
     def get_plugins(self):
@@ -820,21 +869,23 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
     @_convert_to_dict
     def get_docket_attachments_summary(self, seq):
-        sql = """SELECT seq, file_name as name FROM docket_attachments WHERE
-        docket_seq = %s"""
+        sql = """SELECT A.seq, A.file_name as name FROM docket_attachments A WHERE
+        docket_seq = %s AND A.revision_id = (SELECT MAX(B.revision_id) FROM docket_attachments B
+                                              WHERE A.file_name = B.file_name AND A.docket_seq = B.docket_seq)"""
 
         self.run_statement(sql, (seq,))
 
 
     def get_docket_attachment(self, attach_seq) -> tuple[str,bytes]:
-        sql = """SELECT file_name ,file_data FROM docket_attachments WHERE
+        sql = """SELECT file_name, file_path FROM docket_attachments WHERE
         seq = %s"""
 
         self.run_statement(sql, (attach_seq,))
 
         result = self.cur.fetchone()
         name = result[0]
-        data = base64.b64decode(result[1])
+        path = result[1]
+        data = get_doc_attachment(path)
         return name, data
 
     @_convert_to_dict
@@ -843,6 +894,10 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
         sql = """SELECT * FROM users WHERE is_active = 1"""
         self.run_statement(sql)
 
+    @_convert_to_dict
+    def get_user_info(self):
+        sql = "SELECT A.*, B.theme_desc FROM user_info_vw A, themes B WHERE B.file_name = A.theme ORDER BY seq"
+        self.run_statement(sql)
 
     def get_assignments(self):
         sql = """SELECT assignment_seq, user_seq, first_name, last_name,
@@ -899,7 +954,7 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
                 self.run_statement(sql, (docket_seq, user))
 
     @_exec_safe
-    def update_user_prefs(self, request_data: dict, user_seq: int):
+    def update_user_prefs(self, target: int, request_data: dict, user_seq: int):
         sql = """UPDATE users SET first_name=%s,last_name=%s,title=%s,email=%s,theme=%s,
         updated_by=%s WHERE seq=%s"""
         self.run_statement(sql, (
@@ -908,9 +963,13 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
             request_data.get('title'),
             request_data.get('email'),
             request_data.get('theme'),
-            user_seq,user_seq
+            user_seq,target
         ))
 
+    @_exec_safe
+    def update_user_locale(self, target, tz, dt, user):
+        sql = "UPDATE users SET timezone=%s, date_format=%s, updated_by=%s WHERE seq=%s"
+        self.run_statement(sql, (tz, dt, user, target))
 
     @_exec_safe
     def add_requested_user(self, data: dict) -> tuple[bool, any]:
@@ -980,14 +1039,6 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
                            perm_seq: int,
                            grant_status: bool, user_seq: int):
 
-        sql = """SELECT granted FROM perms WHERE seq=%s"""
-        self.run_statement(sql, (perm_seq,))
-
-        granted = self.cur.fetchone()[0]
-        if (granted == 1) == grant_status:
-            logger.debug(f'Req. Grant and DB Grant are the same. Skipping {perm_seq=}')
-            return
-
         check_sql = """SELECT a.granted FROM perms a, class_assignments b
         WHERE b.user_seq = %s
         AND a.perm_seq = (SELECT b.perm_seq FROM perms b WHERE b.seq = %s);"""
@@ -1047,6 +1098,7 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
 
     @_convert_to_dict
     def get_items(self):
+        date_format = self.get_user_date_format()[0]
         sql = """
         SELECT
             A.seq,
@@ -1057,22 +1109,23 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
             A.item_name,
             B.price,
 
-            DATE_FORMAT(B.eff_date, '%b %D, %Y') as 'eff_date',
+            DATE_FORMAT(B.eff_date, %s) as 'eff_date',
             A.displayed
         FROM items A, item_cost B, vendors C WHERE
         A.seq = B.item_seq AND B.eff_date = (SELECT MAX(B1.eff_date) FROM item_cost B1 WHERE B1.item_seq = B.item_seq)
         AND A.vendor_seq = C.seq ORDER BY A.vendor_seq, B.price;"""
-        self.run_statement(sql)
+        self.run_statement(sql, date_format)
 
     @_convert_to_dict
     def get_vendors(self):
+        date_format = self.get_user_date_format()[0]
         sql = """SELECT
     A.seq, A.vend_name, A.vend_status,
     B.full_name AS 'added_by',
-    C.full_name AS 'updated_by', DATE_FORMAT(A.added_dt, '%b %D, %Y') AS 'added_dt',
-    DATE_FORMAT(A.update_dt, '%b %D, %Y') AS 'update_dt'
+    C.full_name AS 'updated_by', DATE_FORMAT(A.added_dt, %s) AS 'added_dt',
+    DATE_FORMAT(A.update_dt, %s) AS 'update_dt'
     FROM vendors A, user_info_vw B, user_info_vw C WHERE A.added_by = B.seq AND A.updated_by = C.seq"""
-        self.run_statement(sql)
+        self.run_statement(sql, (date_format, date_format))
 
     @_exec_safe
     def create_item(self, item_name, displayed, vend_seq, initial_price, user_seq):
@@ -1083,8 +1136,9 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
         self.run_statement(sql, (self.cur.lastrowid, initial_price, user_seq, user_seq))
 
     def get_vendor_prices(self, item_obj, seq):
-        sql = "SELECT seq, DATE_FORMAT(eff_date, '%b %D, %Y'), eff_status, price FROM item_cost WHERE item_seq = %s ORDER BY eff_date"
-        self.run_statement(sql, (seq,))
+        date_format = self.get_user_date_format()[0]
+        sql = "SELECT seq, DATE_FORMAT(eff_date, %s), eff_status, price FROM item_cost WHERE item_seq = %s ORDER BY eff_date"
+        self.run_statement(sql, (date_format, seq,))
         prices_raw = self.cur.fetchall()
         prices = []
         for price in prices_raw:
@@ -1117,7 +1171,11 @@ AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
         vend_obj["items"] = items
         return sum([x["count"] for x in items])
 
-
+    @_exec_safe
+    def create_quick_link(self, link_text, link_target, perm, user_seq):
+        sql = """INSERT INTO quick_links (link_text, link_loc, perm_seq, ranking, added_by,  updated_by)
+        VALUES (%s,%s,%s,(SELECT MAX(a.ranking) + 1 FROM quick_links a), %s,%s)"""
+        self.run_statement(sql, (link_text, link_target, perm, user_seq, user_seq))
 
     def get_item_data(self):
         sql = "SELECT seq, vend_name, vend_status FROM vendors ORDER BY vend_name"
@@ -1203,6 +1261,12 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                 A.name = %s AND aT.name = %s AND B.seq = %s AND bT.seq = %s"""
                 self.cur.execute(sql, (key[1], key[0], key[4], key[3]))
 
+    @_exec_safe
+    def create_password_reset(self, username,request):
+        SQL = """INSERT INTO password_reset (user_seq, password_token,added_by_addr) 
+        VALUES ((select seq FROM users WHERE user_name=%s),%s,%s);"""
+        self.cur.execute(SQL, (username, uuid4(), request.remote_addr))
+
     def get_email_contact_seq(self, email_id):
         sql = "SELECT seq FROM contacts WHERE email_address = %s"
         self.cur.execute(sql, (email_id,))
@@ -1218,12 +1282,35 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         self.cur.execute(sql, (username, str(token), request.remote_addr))
         sql = """SELECT email FROM users WHERE user_name = %s"""
         self.cur.execute(sql, (username,))
-        print(self.cur.rowcount)
         if self.cur.rowcount != 1:
             return
         email = self.cur.fetchone()[0]
-        print(email)
+        if email is None:
+            return
         send_password_reset(str(token), email)
+
+    @_exec_safe
+    def create_password_reset_admin(self, seq, request, session, onboarding = False):
+        sql = """INSERT INTO password_reset (user_seq, password_token, added_by_addr, added_by_user)
+                VALUES (%s,%s,%s,%s)"""
+        token = uuid4()
+        self.run_statement(sql, (seq, str(token), request.remote_addr, session.get('user_seq')))
+        sql = """SELECT email FROM users WHERE seq = %s"""
+        self.cur.execute(sql, (seq,))
+        if self.cur.rowcount != 1:
+            return
+        email = self.cur.fetchone()[0]
+        if email is None:
+            return
+        if onboarding:
+            return token
+        else:
+            send_password_reset(str(token), email)
+
+    @_convert_to_dict
+    def get_all_titles(self):
+        sql = "SELECT seq, title_desc FROM titles"
+        self.run_statement(sql)
 
     @_exec_safe
     def reset_password_token(self, token: str, form: dict):
@@ -1233,6 +1320,13 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         self.cur.execute(sql, (hash_pass, token))
         sql = """DELETE FROM password_reset WHERE password_token = %s"""
         self.cur.execute(sql, (token,))
+
+
+    def date_check(self, given_date):
+        SQL = "SELECT 'y' WHERE %s BETWEEN(SELECT MIN(start_date) FROM terms) AND(SELECT MAX(end_date) FROM terms)"
+        self.run_statement(SQL, (given_date,))
+        if self.cur.rowcount != 0:
+            return True
 
     @_exec_safe
     def update_pending_user_flag(self, request_seq, flag):
@@ -1322,7 +1416,28 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
             else:
                 r_seq = self.cur.fetchone()[0]
                 self.update_row_introspection(r_seq, rowdata)
-            
+
+    @_exec_safe
+    def update_user(self, body, user_seq):
+        sql = """UPDATE users SET first_name=%s, last_name=%s, email=%s, user_name=%s, theme=%s, title=%s, is_active=%s,
+        updated_by=%s WHERE seq=%s"""
+        self.run_statement(sql,
+                           (body.get('fName'),
+                            body.get('lName'),
+                            body.get('email'),
+                            body.get('uName'),
+                            body.get('theme'),
+                            body.get('title'),
+                            body.get('active'),
+                            user_seq,
+                            body.get('seq')
+                            )
+                           )
+
+    @_exec_safe
+    def update_quick_link(self, seq, target, text, perm, rank, user_seq):
+        sql = """UPDATE quick_links SET link_text=%s, link_loc=%s, perm_seq=%s, ranking=%s, updated_by=%s WHERE seq=%s"""
+        self.run_statement(sql,(text, target, perm, rank, user_seq, seq))
 
     def update_introspection_flag(self):
         sql = "UPDATE db_tables SET maintained = 0 WHERE self_introspect = 1"
@@ -1513,6 +1628,19 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         (%s,%s,%s,%s,%s,%s)"""
         self.run_statement(sql, (item, date, status, price, user,user))
 
+    @_convert_to_dict
+    def get_all_date_formats(self):
+        sql = """SELECT A.seq, DATE_FORMAT(current_timestamp, A.date_format) AS 'date_format',
+       DATE_FORMAT(current_timestamp, A.time_format) AS 'time_format',
+       DATE_FORMAT(current_timestamp, A.datetime_format) AS 'datetime_format'
+       FROM datetime_formats A"""
+        self.run_statement(sql)
+
+    @_exec_safe
+    def change_user_state(self, target, state, user):
+        sql = "UPDATE users SET is_active=%s, updated_by=%s WHERE seq=%s"
+        self.run_statement(sql, (state, user, target))
+
     @_exec_safe
     def create_perm(self, perm_desc, perm_name, user_seq):
         sql = "INSERT INTO perm_types (perm_desc, name_short, added_by, updated_by) VALUES (%s,%s,%s,%s)"
@@ -1531,10 +1659,59 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         A.added_by = B.seq AND A.updated_by = C.seq ORDER BY link, eff_date"""
         self.run_statement(sql)
 
+    @_convert_to_dict
+    def get_user_favorites(self,seq):
+        sql = """SELECT * FROM favorites WHERE user_seq = %s"""
+        self.run_statement(sql, (seq,))
+
     @_exec_safe
     def create_link(self, origin, target, start, user):
         sql = """INSERT INTO links (link, eff_date, redirect, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
         self.run_statement(sql, (origin, start, target, user, user))
+
+    @_convert_to_dict
+    def get_quick_links(self):
+        sql = """SELECT A.seq, A.link_text, A.link_loc, B.name_short, C.full_name as 'added_by', D.full_name as 'updated_by', A.ranking
+FROM quick_links A JOIN perm_types B ON (A.perm_seq = B.seq) LEFT JOIN user_info_vw C ON (A.added_by = C.seq) LEFT JOIN
+user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
+        self.run_statement(sql)
+
+    @_convert_to_dict
+    def get_user_quick_links(self, seq):
+        sql = """(SELECT A.* FROM quick_links A, perms B, class_assignments C, terms tA, terms tB WHERE
+        A.perm_seq = B.perm_seq AND B.class_seq = C.class_seq AND C.user_seq = %s AND
+        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date AND B.granted = 1
+        UNION
+        SELECT A.* FROM quick_links A, perm_types B WHERE A.perm_seq = B.seq AND B.perm_desc = 'guest')
+        ORDER BY ranking"""
+        self.run_statement(sql, (seq,))
+
+    @_exec_safe
+    def delete_quick_link(self, seq, username, password):
+        sql = "SELECT seq FROM users WHERE user_name = %s AND is_active = 1"
+        self.run_statement(sql, (username,))
+        if self.cur.rowcount == 0:
+            raise ValueError("Username or password not correct")
+        user_seq = self.cur.fetchone()[0]
+        is_valid = self.check_existing_password(user_seq, password)
+        if not is_valid:
+            raise ValueError("Username or password not correct")
+        sql = "DELETE FROM quick_links WHERE seq=%s"
+        self.cur.execute(sql, (seq,))
+
+    @_exec_safe
+    def move_quick_link_up(self, seq, user_seq):
+        self.cur.callproc('MOVE_QL_UP', (seq,user_seq))
+
+    @_exec_safe
+    def move_quick_link_down(self, seq, user_seq):
+        self.cur.callproc('MOVE_QL_DOWN', (seq, user_seq))
+
+    @_exec_safe
+    def create_user_favorite(self, user_seq, json_obj):
+        sql = "INSERT INTO favorites (user_seq, path,text) VALUES (%s,%s,%s)"
+        self.run_statement(sql, (user_seq, json_obj['path'],json_obj['text']))
+
 
     # __methods__
     def __enter__(self):
@@ -1558,5 +1735,3 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
             {excinst}
             Traceback:\n {tb}"""
             logger.critical(error_str)
-
-    

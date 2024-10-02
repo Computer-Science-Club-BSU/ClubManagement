@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create User</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <style>
+            table, td, tr, th{
+                border: none !important;
+            }
+            td > input {
+                width: 100%
+            }
+            select{
+                color: black !important;
+            }
+        </style>
+        <script>
+            let formats = []
+            {% for format in formats %}
+            formats.push({
+              "seq": '{{ format.seq }}',
+              "date": '{{ format.date_format }}',
+              "time": '{{ format.time_format }}',
+              "datetime": '{{ format.datetime_format }}',
+            })
+            {%endfor%}
+            let current_format = 0
+            function onLoad(){
+                document.getElementById('datetime_format').value = formats[0]['datetime']
+                document.getElementById('date_format').value = formats[0]['date']
+                document.getElementById('time_format').value = formats[0]['time']
+            }
+            function nextFormat(){
+                current_format++
+                if(current_format >= formats.length){
+                  current_format--;
+                }
+                document.getElementById('datetime_format').value = formats[current_format]['datetime']
+                document.getElementById('date_format').value = formats[current_format]['date']
+                document.getElementById('time_format').value = formats[current_format]['time']
+            }
+
+            function prevFormat(){
+                current_format--
+                if(current_format < 0){
+                  current_format++;
+                }
+                document.getElementById('datetime_format').value = formats[current_format]['datetime']
+                document.getElementById('date_format').value = formats[current_format]['date']
+                document.getElementById('time_format').value = formats[current_format]['time']
+            }
+
+            function addClass() {
+                let html = `
+                <td>
+                    <select>
+                        {% for class in db_classes %}
+                        <option value="{{ class.seq }}">{{ class.position_name }}</option>
+                        {% endfor %}
+                    </select></td>
+                <td>
+                    <select>
+                        {% for term in terms %}
+                            <option value="{{ term.seq }}">{{ term.term_desc }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        {% for term in terms %}
+                            <option value="{{ term.seq }}">{{ term.term_desc }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                `
+                let row = document.getElementById('userClasses').insertRow()
+                row.innerHTML = html
+            }
+
+            function createUser(){
+                user_obj = {
+                    "fName": $( '#fName' )[0].value,
+                    "lName": $( '#lName' )[0].value,
+                    "uName": $( '#uName' )[0].value,
+                    "email": $( '#email' )[0].value,
+                    "title": $( '#title' )[0].value,
+                    "theme": $( '#theme' )[0].value,
+                    "onboard": $( '#onboard' )[0].checked,
+                    "tz": $( '#timezone' )[0].value,
+                    'dtFmt': formats[current_format].seq
+                }
+                let table = $('#userClasses')[0]
+                let classes = []
+                for(let i = 1; i < table.rows.length; i++){
+                    let row = table.rows[i]
+                    classes.push(
+                        {
+                            "pos": row.children[0].children[0].value,
+                            "start": row.children[1].children[0].value,
+                            "end": row.children[2].children[0].value
+                        }
+                    )
+                }
+                user_obj.classes = classes
+                console.log(user_obj)
+                let xhr = new XMLHttpRequest()
+                xhr.open('POST', '/admin/users/create/')
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.send(JSON.stringify(user_obj))
+                xhr.onreadystatechange = () => {
+                    if(xhr.readyState == 4){
+                        if(xhr.status == 200){
+                            alert('User Created Successfully')
+                            window.location.href = '/admin/users/view/'
+                        } else {
+                            alert(xhr.responseText)
+                        }
+                    }
+                }
+            }
+        </script>
+
+    </head>
+    <body onload="onLoad()">
+    {% include "navbar.liquid" %}
+    <article>
+        <div class="grid2x2">
+            <div class="box">
+                <h1>Create User</h1>
+                <table>
+                    <tr>
+                        <td><label for="fName">First Name</label></td>
+                        <td><input type="text" id="fName" placeholder="John"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="lName">Last Name</label></td>
+                        <td><input type="text" id="lName" placeholder="Smith"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="uName">Username</label></td>
+                        <td><input type="text" id="uName" placeholder="jsmith"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Email Address</label></td>
+                        <td><input type="text" id="email" placeholder="jsmith@example.com"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="title">Title</label></td>
+                        <td>
+                            <select id="title">
+                                {% for title in titles %}
+                                    <option value="{{ title.seq }}">{{ title.title_desc }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="theme">Theme</label></td>
+                        <td style="text-align: left">
+                             <select id="theme">
+                                {% for theme in themes %}
+                                    <option value="{{ theme.seq }}">{{ theme.theme_desc }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="onboard">Send Onboarding Email</label></td>
+                        <td style="text-align: left">
+                            <div>
+                                <input type="checkbox" id="onboard" style="float:left">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="box">
+                <h2>User Classes</h2>
+                <table id="userClasses">
+                    <tr>
+                        <th>Position Name</th>
+                        <th>Start Term</th>
+                        <th>End Term</th>
+                    </tr>
+
+                </table>
+                <button onclick="addClass()">Add Class</button>
+            </div>
+            <div class="box">
+                <h2>Locale Information</h2>
+                <table>
+                    <tr>
+                        <td><label for="timezone">Timezone</label></td>
+                        <td><select id="timezone">
+                    {% for tzone in tz %}
+                        <option value="{{ tzone.seq }}"
+                                {% if tzone.desc == timezone %}
+                                    selected
+                                {% endif %}
+                        >{{ tzone.desc }}</option>
+                    {% endfor %}
+                </select></td>
+                    </tr>
+                    <tr>
+                        <td><label for="date_format">Date Format</label></td>
+                        <td><input id="date_format" value="" disabled></td>
+                    </tr>
+                    <tr>
+                        <td><label for="time_format">Time Format</label></td>
+                        <td><input id="time_format" value="" disabled></td>
+                    </tr>
+                    <tr>
+                        <td><label for="datetime_format">Datetime Format</label></td>
+                        <td><input id="datetime_format" value="" disabled></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button onclick="prevFormat()"><i class="fa-solid fa-arrow-left"></i></button><button onclick="nextFormat()"><i class="fa-solid fa-arrow-right"></i></button></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="box">a</div>
+        </div>
+        <button style="margin-left: 20px;" onclick="createUser()">Create</button>
+
+    </article>
+    {% include "footer.liquid" %}
+    </body>
+</html>
