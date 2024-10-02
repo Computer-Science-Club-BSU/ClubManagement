@@ -10,3 +10,6 @@
 input, input:disabled{
     color: black
 }
+pre{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}

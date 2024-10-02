@@ -189,7 +189,7 @@ class connect:
         return perm_data
 
     def get_user_finance_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
-        return [{"1": "test"}]
+        return []
 
     @_convert_to_dict
     def get_user_docket_dashboards_by_user_seq(self, user_seq) -> List[Dict[str,str]]:
@@ -1659,6 +1659,11 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         A.added_by = B.seq AND A.updated_by = C.seq ORDER BY link, eff_date"""
         self.run_statement(sql)
 
+    @_convert_to_dict
+    def get_user_favorites(self,seq):
+        sql = """SELECT * FROM favorites WHERE user_seq = %s"""
+        self.run_statement(sql, (seq,))
+
     @_exec_safe
     def create_link(self, origin, target, start, user):
         sql = """INSERT INTO links (link, eff_date, redirect, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"""
@@ -1675,7 +1680,7 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
     def get_user_quick_links(self, seq):
         sql = """(SELECT A.* FROM quick_links A, perms B, class_assignments C, terms tA, terms tB WHERE
         A.perm_seq = B.perm_seq AND B.class_seq = C.class_seq AND C.user_seq = %s AND
-        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date
+        C.start_term = tA.seq AND C.end_term = tB.seq AND current_timestamp between tA.start_date AND tB.end_date AND B.granted = 1
         UNION
         SELECT A.* FROM quick_links A, perm_types B WHERE A.perm_seq = B.seq AND B.perm_desc = 'guest')
         ORDER BY ranking"""
@@ -1701,6 +1706,12 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
     @_exec_safe
     def move_quick_link_down(self, seq, user_seq):
         self.cur.callproc('MOVE_QL_DOWN', (seq, user_seq))
+
+    @_exec_safe
+    def create_user_favorite(self, user_seq, json_obj):
+        sql = "INSERT INTO favorites (user_seq, path,text) VALUES (%s,%s,%s)"
+        self.run_statement(sql, (user_seq, json_obj['path'],json_obj['text']))
+
 
     # __methods__
     def __enter__(self):
