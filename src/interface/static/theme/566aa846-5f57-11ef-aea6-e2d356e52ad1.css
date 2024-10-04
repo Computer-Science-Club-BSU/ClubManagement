@@ -14,3 +14,10 @@
 *{
     font-family: BlockFont;
 }
+button, input[type=submit]{
+    color: var(--primary-color) !IMPORTANT;
+}
+
+a{
+    color: var(--text-color)
+}
