@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <title>Term Management</title>
+    </head>
+    <body>
+        {% include "navbar.liquid" %}
+
+        <article>
+            <div class="grid">
+                <div class="box">
+                <h1>Term Management</h1>
+                    <table id="terms">
+                        <tr>
+                            <th>Seq</th>
+                            <th>Term Description</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Added By</th>
+                            <th>Updated By</th>
+                            <th>Edit</th>
+                        </tr>
+                        {% for term in terms %}
+                            <tr id="row{{ term.seq }}">
+
+                                <td>{{ term.seq }}</td>
+                                <td>{{ term.term_desc }}</td>
+                                <td>{{ term.start_date }}</td>
+                                <td>{{ term.end_date }}</td>
+                                <td>{{ term.added_by }}</td>
+                                <td>{{ term.updated_by }}</td>
+                                <td><button class="editTerm" row="{{ link.seq }}" title="Edit Record"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="delTerm" row="{{ link.seq }}" title="Delete Record"><i class="fa-solid fa-trash-can"></i></button></td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <button id="newTerm">Create</button>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </article>
+        {% include "footer.liquid" %}
+    {% include "modals/new_term.liquid" %}
+    {% include "modals/edit_term.liquid" %}
+    {% include "modals/delete_term.liquid" %}
+    </body>
+</html>

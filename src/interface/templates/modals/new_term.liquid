@@ -1,0 +1,94 @@
+<div id="dialog-term-new" title="Term Creator">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form id="dialog-term-new-form">
+    <fieldset>
+      <label for="itemID">Term Sequence</label>
+      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all" value="NEXT"><br>
+
+      <label for="term-new-text">Term Description</label>
+      <input type="text" name="term-new-text" id="term-new-text" maxlength="10" value="" class="text ui-widget-content ui-corner-all"> <br>
+      <label for="term-new-start">Start Date</label>
+      <input type="date" name="term-new-start" id="term-new-start" value="" class="text ui-widget-content ui-corner-all"><br>
+      <label for="term-new-end">End Date</label>
+      <input type="date" name="term-new-end" id="term-new-end" value="" class="text ui-widget-content ui-corner-all"><br>
+
+
+
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID,
+        link_new_text = $( '#term-new-text' ),
+        term_new_start = $( '#term-new-start' ),
+        term_new_end = $( '#term-new-end' ),
+
+      allFields = $( [] ).add(link_new_text).add(term_new_end).add(term_new_start)
+
+
+
+    dialog = $( "#dialog-term-new-form" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create Term": () => {
+          var valid = true;
+          allFields.removeClass( "ui-state-error" );
+
+          if ( valid ) {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', '/terms/new/')
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify(
+                {
+                  "term_desc": link_new_text[0].value,
+                  "start_date": term_new_start[0].value,
+                  "end_date": term_new_end[0].value
+                }
+            ))
+            xhr.onreadystatechange = () => {
+              if (xhr.readyState == 4){
+                if (xhr.status == 200){
+                  alert('Link created successfully')
+                  dialog.dialog( "close" );
+
+                  location.reload()
+                } else{
+                  alert(xhr.responseText)
+                  allFields.addClass( "ui-state-error" );
+
+                }
+              }
+            }
+          }
+          return valid;
+        },
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( "#newTerm" ).button().on( "click", function() {
+      if(currentDialog) currentDialog.dialog('close');
+      document.getElementById('dialog-term-new-form').reset()
+      currentDialog = dialog
+
+      itemID = 'NEXT'
+      document.getElementById('itemID').value = itemID
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>
