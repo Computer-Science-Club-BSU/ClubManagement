@@ -1,0 +1,14 @@
+name: 'Check Branch'
+
+on:
+  pull_request:
+
+jobs:
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: (github.base_ref == 'PROD' && github.head_ref != 'PROD-STAGE') || (github.base_ref == 'PROD-STAGE' && github.head_ref != 'TEST') || (github.base_ref == 'TEST' && github.head_ref != 'TEST-STAGE')
+        run: |
+          echo "ERROR: You can only merge to main from dev."
+          exit 1

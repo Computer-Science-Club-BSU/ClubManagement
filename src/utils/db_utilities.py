@@ -116,7 +116,7 @@ class connect:
 
         now = datetime.datetime.now()
         date_str = now.strftime("%Y-%m-%d %H:%M:%S")
-        log_str = f'[{date_str}] sql Statement: {statement}\n'
+        log_str = f'[{date_str}] SQL Statement: {statement}\n'
         log_str += f'\tArgs:{data}\n' if len(data) > 0 else ''
         with open(f'{LOG_DIR}sql.log', 'a') as f:
             try:
@@ -1261,6 +1261,12 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
                 A.name = %s AND aT.name = %s AND B.seq = %s AND bT.seq = %s"""
                 self.cur.execute(sql, (key[1], key[0], key[4], key[3]))
 
+    @_exec_safe
+    def create_password_reset(self, username,request):
+        SQL = """INSERT INTO password_reset (user_seq, password_token,added_by_addr) 
+        VALUES ((select seq FROM users WHERE user_name=%s),%s,%s);"""
+        self.cur.execute(SQL, (username, uuid4(), request.remote_addr))
+
     def get_email_contact_seq(self, email_id):
         sql = "SELECT seq FROM contacts WHERE email_address = %s"
         self.cur.execute(sql, (email_id,))
@@ -1314,6 +1320,13 @@ WHERE REFERENCED_TABLE_SCHEMA = 'management' AND REFERENCED_TABLE_NAME = %s;"""
         self.cur.execute(sql, (hash_pass, token))
         sql = """DELETE FROM password_reset WHERE password_token = %s"""
         self.cur.execute(sql, (token,))
+
+
+    def date_check(self, given_date):
+        SQL = "SELECT 'y' WHERE %s BETWEEN(SELECT MIN(start_date) FROM terms) AND(SELECT MAX(end_date) FROM terms)"
+        self.run_statement(SQL, (given_date,))
+        if self.cur.rowcount != 0:
+            return True
 
     @_exec_safe
     def update_pending_user_flag(self, request_seq, flag):
@@ -1722,5 +1735,3 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
             {excinst}
             Traceback:\n {tb}"""
             logger.critical(error_str)
-
-    
