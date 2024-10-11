@@ -18,6 +18,51 @@
             itemSeq)
             window.close()
         }
+
+        let items = []
+        {% for item in items %}
+                items.push(
+                        {
+                          "itemSeq": "{{ item.seq }}",
+                          "itemName": "{{ item.item_name }}",
+                          "itemVendor": "{{ item.item_vendor }}",
+                          "itemPrice": "{{ item.price }}",
+                          "effDate": "{{ item.eff_date }}"
+                        }
+                )
+        {% endfor %}
+
+        function filterItems(){
+          let vendorName = document.getElementById('vndrSearch').value;
+          let itemName = document.getElementById('nameSearch').value;
+          let itemRegex = new RegExp(`^${itemName.replaceAll('\(', '\\(').replaceAll('\)', '\\)')}.*$`, 'i')
+          let vendorRegex = new RegExp(`^${vendorName.replaceAll('\(', '\\(').replaceAll('\)', '\\)')}.*$`, 'i')
+          let table = document.getElementById('itemTable');
+          let table_rows = table.rows;
+          for (let i = table_rows.length - 1; i >= 0; i--){
+            if(table_rows[i].classList.contains('itemRow'))
+              table.deleteRow(i)
+          }
+          items.forEach(elt => {
+            if(itemRegex.test(elt.itemName) && vendorRegex.test(elt.itemVendor)){
+            console.log(itemRegex.test(elt.itemName))
+              let row = table.insertRow()
+              row.classList.add('itemRow')
+              row.innerHTML = `<td id="item_vendor${elt.itemSeq}">${ elt.itemVendor }</td>
+                <td id="item_name${elt.itemSeq}">${ elt.itemName }</td>
+                <td id="item_price${elt.itemSeq}">${ elt.itemPrice }</td>
+                <td>${ elt.effDate }</td>
+                <td style="width: 3rem">
+                  <button onclick="getData(${elt.itemSeq})">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                  </button>
+                </td>`
+            }
+
+          })
+
+        }
+
     </script>
   </head>
   <body>
@@ -25,7 +70,14 @@
     <article>
       <div class="grid">
         <div class="box">
-          <table>
+          <table id="itemTable">
+            <tr>
+              <th><input type="text" id="vndrSearch" onkeyup="filterItems()"></th>
+              <th><input type="text" id="nameSearch" onkeyup="filterItems()"></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
             <tr>
               <th>Vendor</th>
               <th>Name</th>
@@ -34,7 +86,7 @@
               <th></th>
             </tr>
             {% for item in items %}
-              <tr>
+              <tr class="itemRow">
                 <td id="item_vendor{{item.seq}}">{{ item.item_vendor }}</td>
                 <td id="item_name{{item.seq}}">{{ item.item_name }}</td>
                 <td id="item_price{{item.seq}}">{{ item.price }}</td>
