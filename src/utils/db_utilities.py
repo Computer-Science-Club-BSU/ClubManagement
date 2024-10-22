@@ -1712,6 +1712,18 @@ user_info_vw D ON (A.updated_by = D.seq) ORDER BY A.ranking"""
         sql = "INSERT INTO favorites (user_seq, path,text) VALUES (%s,%s,%s)"
         self.run_statement(sql, (user_seq, json_obj['path'],json_obj['text']))
 
+    @_convert_to_dict
+    def get_terms_formatted(self, user_seq):
+        sql = """SELECT A.seq,DATE_FORMAT(A.start_date, D.date_format) AS 'start_date',
+        DATE_FORMAT(A.end_date, D.date_format) AS 'end_date',A.term_desc,B.full_name AS 'added_by',
+        C.full_name AS 'updated_by' FROM terms A, user_info_vw B, user_info_vw C, datetime_formats D, users E WHERE
+        A.added_by = B.seq AND A.updated_by = C.seq AND D.seq = E.date_format AND E.seq = 1 ORDER BY end_date DESC;"""
+        self.cur.execute(sql, (user_seq,))
+
+    @_exec_safe
+    def create_term(self, desc, start, end, user_seq):
+        sql = "INSERT INTO terms (start_date, end_date, term_desc, added_by, updated_by) VALUES (%s,%s,%s,%s,%s)"
+        self.run_statement(sql, (start, end, desc, user_seq, user_seq))
 
     # __methods__
     def __enter__(self):

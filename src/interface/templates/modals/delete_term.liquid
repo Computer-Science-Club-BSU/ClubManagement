@@ -1,0 +1,114 @@
+<div id="dialog-form-vend-new" title="Quick Link Editor">
+  <p class="validateTips">All form fields are required.</p>
+
+  <form id="dialog-form-vend-new-form">
+      <fieldset>
+      <label for="itemID">Term Sequence</label>
+      <input type="text" name="itemID" id="itemID" disabled class="text ui-widget-content ui-corner-all" value="NEXT"><br>
+
+      <label for="term-del-text">Term Description</label>
+      <input type="text" name="term-del-text" id="term-del-text" disabled maxlength="10" value="" class="text ui-widget-content ui-corner-all"> <br>
+      <label for="term-del-start">Start Date</label>
+      <input type="date" name="term-del-start" id="term-del-start" disabled value="" class="text ui-widget-content ui-corner-all"><br>
+      <label for="term-del-end">End Date</label>
+      <input type="date" name="term-del-end" id="term-del-end" disabled value="" class="text ui-widget-content ui-corner-all"><br>
+
+        <label>Username: </label>
+        <input type="text" id="quick-link-delete-username" class="text ui-widget-content ui-corner-all"> <br>
+        <label>Password: </label>
+        <input type="password" id="quick-link-delete-password" class="text ui-widget-content ui-corner-all">
+
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script>
+  $( function() {
+    var dialog, form, itemID, rowID,
+
+      // From https://html.spec.whatwg.org/multipage/input.html#e-mail-state-%28type=email%29
+      link_new_target = $( "#link-del-target" ),
+      link_new_text = $( "#link-del-text" ),
+      link_new_perm = $( "#link-del-perm"),
+      allFields = $( [] ).add( link_new_target ).add( link_new_text ).add(link_new_perm)
+
+
+    function addUser() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+
+      if ( valid ) {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/links/quick_links/delete/')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify(
+            {
+              "seq": rowID,
+              "username": document.getElementById('quick-link-delete-username').value,
+              "password": document.getElementById('quick-link-delete-password').value,
+            }
+        ))
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4){
+            if (xhr.status == 200){
+              alert('Link deleted successfully')
+              dialog.dialog( "close" );
+
+              location.reload()
+            } else{
+              alert(xhr.responseText)
+              allFields.addClass( "ui-state-error" );
+
+            }
+          }
+        }
+      }
+      return valid;
+    }
+
+    dialog = $( "#dialog-form-vend-new" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Delete Link": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      }
+    });
+
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+
+    $( ".delLink" ).button().on( "click", function() {
+      if(currentDialog) currentDialog.dialog('close');
+      document.getElementById('dialog-form-vend-new-form').reset()
+      currentDialog = dialog
+
+      rowID = this.getAttribute('row')
+      let row = document.getElementById(`row${rowID}`)
+      console.log(row)
+      let permission = row.children[3].innerText
+
+      document.getElementById('link-del-target').value = row.children[2].innerText
+      document.getElementById('link-del-text').value = row.children[1].innerText
+      let perms = document.getElementById('link-del-perm').children
+      let max = perms.length
+      for(let i = 0; i < max; i++){
+        let child = perms[i]
+        if(child.innerText === permission) {
+          child.selected = true;
+        }
+      }
+
+
+      dialog.dialog( "open" );
+    });
+  } );
+  </script>
