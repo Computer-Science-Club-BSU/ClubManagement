@@ -16,6 +16,7 @@ def render_template(template_name, **context):
             ]
     with connect() as conn:
         nav_pages.extend(conn.get_nav_pages())
+        nav_pages.append('terms.liquid')
         links = conn.get_user_quick_links(user_seq)
         print(links)
         if user_seq is not None:

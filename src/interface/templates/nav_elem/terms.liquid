@@ -1,0 +1,14 @@
+{% if perms.term_manager == 1%}
+  <li class="navli parent">
+
+    <a href="">Maintain Terms</a>
+    <ul class="child">
+
+        <li class="navli">
+          <a href="/terms/view">Manage Terms</a>
+        </li>
+
+    </ul>
+  </li>
+
+{% endif %}
