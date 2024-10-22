@@ -178,6 +178,7 @@ then
   sudo chown $USER mycron
   #echo new cron into cron file
   echo "0 0 * * * $SCRIPT_DIR/cron.sh" >> mycron
+  echo "*/30 * * * * $SCRIPT_DIR/tasks/reload_repo.sh /var/log/cms test_management.service" >> mycron
   #install new cron file
   sudo crontab mycron
   rm mycron

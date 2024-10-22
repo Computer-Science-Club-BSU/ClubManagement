@@ -1,0 +1,548 @@
+{
+    "ref": "refs/heads/PROD-STAGE",
+    "before": "99cf31bde6c31f235aacd79910a28be9f379f5ac",
+    "after": "1ddea8678e5d77c9af6fb12bb303fbf9ddbcf5ce",
+    "repository": {
+        "id": 823812474,
+        "node_id": "R_kgDOMRpheg",
+        "name": "ClubManagement",
+        "full_name": "Computer-Science-Club-BSU/ClubManagement",
+        "private": false,
+        "owner": {
+            "name": "Computer-Science-Club-BSU",
+            "email": null,
+            "login": "Computer-Science-Club-BSU",
+            "id": 166085872,
+            "node_id": "O_kgDOCeZE8A",
+            "avatar_url": "https://avatars.githubusercontent.com/u/166085872?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/Computer-Science-Club-BSU",
+            "html_url": "https://github.com/Computer-Science-Club-BSU",
+            "followers_url": "https://api.github.com/users/Computer-Science-Club-BSU/followers",
+            "following_url": "https://api.github.com/users/Computer-Science-Club-BSU/following{/other_user}",
+            "gists_url": "https://api.github.com/users/Computer-Science-Club-BSU/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/Computer-Science-Club-BSU/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/Computer-Science-Club-BSU/subscriptions",
+            "organizations_url": "https://api.github.com/users/Computer-Science-Club-BSU/orgs",
+            "repos_url": "https://api.github.com/users/Computer-Science-Club-BSU/repos",
+            "events_url": "https://api.github.com/users/Computer-Science-Club-BSU/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/Computer-Science-Club-BSU/received_events",
+            "type": "Organization",
+            "user_view_type": "public",
+            "site_admin": false
+        },
+        "html_url": "https://github.com/Computer-Science-Club-BSU/ClubManagement",
+        "description": "A Python Web Utility designed to assist in managing a club.",
+        "fork": false,
+        "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement",
+        "forks_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/forks",
+        "keys_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/teams",
+        "hooks_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/hooks",
+        "issue_events_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/events",
+        "assignees_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/tags",
+        "blobs_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/languages",
+        "stargazers_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/stargazers",
+        "contributors_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/contributors",
+        "subscribers_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/subscribers",
+        "subscription_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/subscription",
+        "commits_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/merges",
+        "archive_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/downloads",
+        "issues_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/labels{/name}",
+        "releases_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/Computer-Science-Club-BSU/ClubManagement/deployments",
+        "created_at": 1720034005,
+        "updated_at": "2024-10-03T16:12:26Z",
+        "pushed_at": 1729610028,
+        "git_url": "git://github.com/Computer-Science-Club-BSU/ClubManagement.git",
+        "ssh_url": "git@github.com:Computer-Science-Club-BSU/ClubManagement.git",
+        "clone_url": "https://github.com/Computer-Science-Club-BSU/ClubManagement.git",
+        "svn_url": "https://github.com/Computer-Science-Club-BSU/ClubManagement",
+        "homepage": "",
+        "size": 903,
+        "stargazers_count": 0,
+        "watchers_count": 0,
+        "language": "Liquid",
+        "has_issues": true,
+        "has_projects": true,
+        "has_downloads": true,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_discussions": false,
+        "forks_count": 0,
+        "mirror_url": null,
+        "archived": false,
+        "disabled": false,
+        "open_issues_count": 0,
+        "license": {
+            "key": "gpl-3.0",
+            "name": "GNU General Public License v3.0",
+            "spdx_id": "GPL-3.0",
+            "url": "https://api.github.com/licenses/gpl-3.0",
+            "node_id": "MDc6TGljZW5zZTk="
+        },
+        "allow_forking": true,
+        "is_template": false,
+        "web_commit_signoff_required": false,
+        "topics": [],
+        "visibility": "public",
+        "forks": 0,
+        "open_issues": 0,
+        "watchers": 0,
+        "default_branch": "PROD",
+        "stargazers": 0,
+        "master_branch": "PROD",
+        "organization": "Computer-Science-Club-BSU",
+        "custom_properties": {}
+    },
+    "pusher": {
+        "name": "adasneves127",
+        "email": "63429791+adasneves127@users.noreply.github.com"
+    },
+    "organization": {
+        "login": "Computer-Science-Club-BSU",
+        "id": 166085872,
+        "node_id": "O_kgDOCeZE8A",
+        "url": "https://api.github.com/orgs/Computer-Science-Club-BSU",
+        "repos_url": "https://api.github.com/orgs/Computer-Science-Club-BSU/repos",
+        "events_url": "https://api.github.com/orgs/Computer-Science-Club-BSU/events",
+        "hooks_url": "https://api.github.com/orgs/Computer-Science-Club-BSU/hooks",
+        "issues_url": "https://api.github.com/orgs/Computer-Science-Club-BSU/issues",
+        "members_url": "https://api.github.com/orgs/Computer-Science-Club-BSU/members{/member}",
+        "public_members_url": "https://api.github.com/orgs/Computer-Science-Club-BSU/public_members{/member}",
+        "avatar_url": "https://avatars.githubusercontent.com/u/166085872?v=4",
+        "description": null
+    },
+    "sender": {
+        "login": "adasneves127",
+        "id": 63429791,
+        "node_id": "MDQ6VXNlcjYzNDI5Nzkx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/63429791?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/adasneves127",
+        "html_url": "https://github.com/adasneves127",
+        "followers_url": "https://api.github.com/users/adasneves127/followers",
+        "following_url": "https://api.github.com/users/adasneves127/following{/other_user}",
+        "gists_url": "https://api.github.com/users/adasneves127/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/adasneves127/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/adasneves127/subscriptions",
+        "organizations_url": "https://api.github.com/users/adasneves127/orgs",
+        "repos_url": "https://api.github.com/users/adasneves127/repos",
+        "events_url": "https://api.github.com/users/adasneves127/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/adasneves127/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+    },
+    "created": false,
+    "deleted": false,
+    "forced": false,
+    "base_ref": null,
+    "compare": "https://github.com/Computer-Science-Club-BSU/ClubManagement/compare/99cf31bde6c3...1ddea8678e5d",
+    "commits": [
+        {
+            "id": "66f1337f31e221edf7db8aed004d07e31b08a552",
+            "tree_id": "600bd69202672af0d137ebdd3e8df7c5f7e58914",
+            "distinct": false,
+            "message": "Implemented Changes to Theme on user preferences",
+            "timestamp": "2024-10-04T14:20:14-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/66f1337f31e221edf7db8aed004d07e31b08a552",
+            "author": {
+                "name": "Mila Tamara Giraldo",
+                "email": "milagrostamara83@gmail.com",
+                "username": "Mila-7553"
+            },
+            "committer": {
+                "name": "Mila Tamara Giraldo",
+                "email": "milagrostamara83@gmail.com",
+                "username": "Mila-7553"
+            },
+            "added": [],
+            "removed": [],
+            "modified": [
+                "src/interface/static/theme/566aa846-5f57-11ef-aea6-e2d356e52ad1.css",
+                "src/interface/templates/user/prefs.liquid"
+            ]
+        },
+        {
+            "id": "d07779ad2073e938f08885f082dc8577bd10b6a1",
+            "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+            "distinct": false,
+            "message": "Merge branch 'TEST' of github.com:Computer-Science-Club-BSU/ClubManagement into CMS-39",
+            "timestamp": "2024-10-04T14:20:22-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/d07779ad2073e938f08885f082dc8577bd10b6a1",
+            "author": {
+                "name": "Mila Tamara Giraldo",
+                "email": "milagrostamara83@gmail.com",
+                "username": "Mila-7553"
+            },
+            "committer": {
+                "name": "Mila Tamara Giraldo",
+                "email": "milagrostamara83@gmail.com",
+                "username": "Mila-7553"
+            },
+            "added": [
+                ".github/workflows/branch_enforcer.yml",
+                "src/upgrades/CMS-18.sql"
+            ],
+            "removed": [],
+            "modified": [
+                "conf.py",
+                "src/interface/templates/fin/create.liquid",
+                "src/routes/auth/forgot_password.py",
+                "src/routes/finance/new.py",
+                "src/utils/db_utilities.py"
+            ]
+        },
+        {
+            "id": "78a4a5ed4e2bdb34e34661954ceff573ded2d4f0",
+            "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+            "distinct": false,
+            "message": "Merge pull request #50 from Computer-Science-Club-BSU/CMS-39\n\nCms 39",
+            "timestamp": "2024-10-04T14:30:06-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/78a4a5ed4e2bdb34e34661954ceff573ded2d4f0",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [],
+            "removed": [],
+            "modified": [
+                "src/interface/static/theme/566aa846-5f57-11ef-aea6-e2d356e52ad1.css",
+                "src/interface/templates/user/prefs.liquid"
+            ]
+        },
+        {
+            "id": "68927adfcdad6e2efe47ccfe9368faf25818d2c8",
+            "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+            "distinct": false,
+            "message": "Merge pull request #51 from Computer-Science-Club-BSU/TEST-STAGE\n\nTest stage",
+            "timestamp": "2024-10-04T14:31:04-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/68927adfcdad6e2efe47ccfe9368faf25818d2c8",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [],
+            "removed": [],
+            "modified": [
+                "src/interface/static/theme/566aa846-5f57-11ef-aea6-e2d356e52ad1.css",
+                "src/interface/templates/user/prefs.liquid"
+            ]
+        },
+        {
+            "id": "62c0098f58164d48b836845dd98d011afa26f38d",
+            "tree_id": "fe56c9857c034c20bd416fdcc50c430c0cf3f2ad",
+            "distinct": false,
+            "message": "Interim",
+            "timestamp": "2024-10-04T14:57:22-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/62c0098f58164d48b836845dd98d011afa26f38d",
+            "author": {
+                "name": "Alex",
+                "email": "adasneves127@gmail.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "Alex",
+                "email": "adasneves127@gmail.com",
+                "username": "adasneves127"
+            },
+            "added": [
+                "src/interface/templates/modals/delete_term.liquid",
+                "src/interface/templates/modals/edit_term.liquid",
+                "src/interface/templates/modals/new_term.liquid",
+                "src/interface/templates/nav_elem/terms.liquid",
+                "src/interface/templates/terms/view.liquid",
+                "src/routes/terms/__init__.py",
+                "src/routes/terms/new.py",
+                "src/routes/terms/view.py"
+            ],
+            "removed": [
+                "src/upgrades/CMS-18.sql"
+            ],
+            "modified": [
+                "conf.py",
+                "src/routes/__init__.py",
+                "src/utils/db_utilities.py",
+                "src/utils/template_utils.py"
+            ]
+        },
+        {
+            "id": "1607b8160e194e3f4db1c006e7017865578fed86",
+            "tree_id": "6a4fea88150682a989f80d9a1baa1685797fc715",
+            "distinct": false,
+            "message": "CMS-42 Add Item Search on Finance Pages",
+            "timestamp": "2024-10-11T14:52:11-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/1607b8160e194e3f4db1c006e7017865578fed86",
+            "author": {
+                "name": "Alex",
+                "email": "adasneves127@gmail.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "Alex",
+                "email": "adasneves127@gmail.com",
+                "username": "adasneves127"
+            },
+            "added": [],
+            "removed": [],
+            "modified": [
+                "src/interface/templates/fin/item_search.liquid"
+            ]
+        },
+        {
+            "id": "de42a0156b2600b71926dcb64d5d3f816a24c996",
+            "tree_id": "ca6f7a86ff2e24161aa95c9066079a31ea760141",
+            "distinct": false,
+            "message": "Merge pull request #52 from Computer-Science-Club-BSU/CMS-42\n\nCMS-42 Add Item Search on Finance Pages",
+            "timestamp": "2024-10-22T11:00:36-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/de42a0156b2600b71926dcb64d5d3f816a24c996",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [],
+            "removed": [],
+            "modified": [
+                "src/interface/templates/fin/item_search.liquid"
+            ]
+        },
+        {
+            "id": "e782fab1ec39cdc7264c6651b2c34c949e3024f0",
+            "tree_id": "ef3c0774855c04c80b2809f9052d1b51abe064a2",
+            "distinct": false,
+            "message": "Merge pull request #53 from Computer-Science-Club-BSU/CMS-41\n\nInterim",
+            "timestamp": "2024-10-22T11:05:23-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/e782fab1ec39cdc7264c6651b2c34c949e3024f0",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [
+                "src/interface/templates/modals/delete_term.liquid",
+                "src/interface/templates/modals/edit_term.liquid",
+                "src/interface/templates/modals/new_term.liquid",
+                "src/interface/templates/nav_elem/terms.liquid",
+                "src/interface/templates/terms/view.liquid",
+                "src/routes/terms/__init__.py",
+                "src/routes/terms/new.py",
+                "src/routes/terms/view.py"
+            ],
+            "removed": [
+                "src/upgrades/CMS-18.sql"
+            ],
+            "modified": [
+                "conf.py",
+                "src/routes/__init__.py",
+                "src/utils/db_utilities.py",
+                "src/utils/template_utils.py"
+            ]
+        },
+        {
+            "id": "a412494c17fa5b6ff0c74791888af335928a7b13",
+            "tree_id": "ef3c0774855c04c80b2809f9052d1b51abe064a2",
+            "distinct": false,
+            "message": "Merge pull request #54 from Computer-Science-Club-BSU/TEST-STAGE\n\nTest stage",
+            "timestamp": "2024-10-22T11:09:00-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/a412494c17fa5b6ff0c74791888af335928a7b13",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [
+                "src/interface/templates/modals/delete_term.liquid",
+                "src/interface/templates/modals/edit_term.liquid",
+                "src/interface/templates/modals/new_term.liquid",
+                "src/interface/templates/nav_elem/terms.liquid",
+                "src/interface/templates/terms/view.liquid",
+                "src/routes/terms/__init__.py",
+                "src/routes/terms/new.py",
+                "src/routes/terms/view.py"
+            ],
+            "removed": [
+                "src/upgrades/CMS-18.sql"
+            ],
+            "modified": [
+                "conf.py",
+                "src/interface/templates/fin/item_search.liquid",
+                "src/routes/__init__.py",
+                "src/utils/db_utilities.py",
+                "src/utils/template_utils.py"
+            ]
+        },
+        {
+            "id": "51f0c48dc33e2bdb9d059515a0797b40289e3937",
+            "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+            "distinct": false,
+            "message": "Revert \"Test stage\"",
+            "timestamp": "2024-10-22T11:10:49-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/51f0c48dc33e2bdb9d059515a0797b40289e3937",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [
+                "src/upgrades/CMS-18.sql"
+            ],
+            "removed": [
+                "src/interface/templates/modals/delete_term.liquid",
+                "src/interface/templates/modals/edit_term.liquid",
+                "src/interface/templates/modals/new_term.liquid",
+                "src/interface/templates/nav_elem/terms.liquid",
+                "src/interface/templates/terms/view.liquid",
+                "src/routes/terms/__init__.py",
+                "src/routes/terms/new.py",
+                "src/routes/terms/view.py"
+            ],
+            "modified": [
+                "conf.py",
+                "src/interface/templates/fin/item_search.liquid",
+                "src/routes/__init__.py",
+                "src/utils/db_utilities.py",
+                "src/utils/template_utils.py"
+            ]
+        },
+        {
+            "id": "341ff01fc157c4229c860283b64edb32c9b9c9de",
+            "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+            "distinct": false,
+            "message": "Merge pull request #55 from Computer-Science-Club-BSU/revert-54-TEST-STAGE\n\nRevert \"Test stage\"",
+            "timestamp": "2024-10-22T11:11:44-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/341ff01fc157c4229c860283b64edb32c9b9c9de",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [
+                "src/upgrades/CMS-18.sql"
+            ],
+            "removed": [
+                "src/interface/templates/modals/delete_term.liquid",
+                "src/interface/templates/modals/edit_term.liquid",
+                "src/interface/templates/modals/new_term.liquid",
+                "src/interface/templates/nav_elem/terms.liquid",
+                "src/interface/templates/terms/view.liquid",
+                "src/routes/terms/__init__.py",
+                "src/routes/terms/new.py",
+                "src/routes/terms/view.py"
+            ],
+            "modified": [
+                "conf.py",
+                "src/interface/templates/fin/item_search.liquid",
+                "src/routes/__init__.py",
+                "src/utils/db_utilities.py",
+                "src/utils/template_utils.py"
+            ]
+        },
+        {
+            "id": "1ddea8678e5d77c9af6fb12bb303fbf9ddbcf5ce",
+            "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+            "distinct": true,
+            "message": "Merge pull request #56 from Computer-Science-Club-BSU/TEST\n\nTest",
+            "timestamp": "2024-10-22T11:13:48-04:00",
+            "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/1ddea8678e5d77c9af6fb12bb303fbf9ddbcf5ce",
+            "author": {
+                "name": "Alex Dasneves",
+                "email": "63429791+adasneves127@users.noreply.github.com",
+                "username": "adasneves127"
+            },
+            "committer": {
+                "name": "GitHub",
+                "email": "noreply@github.com",
+                "username": "web-flow"
+            },
+            "added": [],
+            "removed": [],
+            "modified": [
+                "src/interface/static/theme/566aa846-5f57-11ef-aea6-e2d356e52ad1.css",
+                "src/interface/templates/user/prefs.liquid"
+            ]
+        }
+    ],
+    "head_commit": {
+        "id": "1ddea8678e5d77c9af6fb12bb303fbf9ddbcf5ce",
+        "tree_id": "10204f841d640d1f85b4f33b40e53e2cda21595a",
+        "distinct": true,
+        "message": "Merge pull request #56 from Computer-Science-Club-BSU/TEST\n\nTest",
+        "timestamp": "2024-10-22T11:13:48-04:00",
+        "url": "https://github.com/Computer-Science-Club-BSU/ClubManagement/commit/1ddea8678e5d77c9af6fb12bb303fbf9ddbcf5ce",
+        "author": {
+            "name": "Alex Dasneves",
+            "email": "63429791+adasneves127@users.noreply.github.com",
+            "username": "adasneves127"
+        },
+        "committer": {
+            "name": "GitHub",
+            "email": "noreply@github.com",
+            "username": "web-flow"
+        },
+        "added": [],
+        "removed": [],
+        "modified": [
+            "src/interface/static/theme/566aa846-5f57-11ef-aea6-e2d356e52ad1.css",
+            "src/interface/templates/user/prefs.liquid"
+        ]
+    }
+}
