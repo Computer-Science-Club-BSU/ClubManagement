@@ -1,1 +1,0 @@
-from src.routes.terms import view, new
