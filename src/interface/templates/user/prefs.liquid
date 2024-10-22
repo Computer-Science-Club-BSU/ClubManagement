@@ -13,14 +13,17 @@
     {% endif %}
     <script>
       function changeTheme(e){
-        document.getElementById('themeLink').href=`/static/theme/${e.id}`
-      }
-      function revertTheme(e){
-        console.log(e)
-        if (!e.children[0].checked)
-          document.getElementById('themeLink').href=`/static/theme/{{ user.theme }}.css`
+        let val = e.value
+        let children = e.children
+        for(let i = 0; i < children.length; i++){
+          let elt = children[i]
+          if(elt.value == val){
+          document.getElementById('themeLink').href=`/static/theme/${elt.id}`
 
+          }
+        }
       }
+
     </script>
   </head>
   <body>
@@ -71,10 +74,12 @@
             <br>
             <fieldset>
               <legend>Theme</legend>
+              <select onchange="changeTheme(this)" name="theme">
               {% for theme in themes %}
-              <span onmouseenter="changeTheme(this)" id="{{ theme.file_name }}.css" onmouseleave="revertTheme(this)"><input type="radio" name="theme" id="{{ theme.file_name }}" value="{{ theme.seq }}" {% if theme.file_name == user.theme %} checked {% endif %}> <label for="{{ theme.file_name }}">{{ theme.theme_desc }}</label>
-              <br></span>
+                <option id="{{ theme.file_name }}.css" value="{{ theme.seq }}" {% if theme.file_name == user.theme %} selected {% endif %} onmouseleave="revertTheme(this)">{{ theme.theme_desc }}</option>
               {% endfor %}
+
+              </select>
             </fieldset>
             <input type="submit" value="Update">
           </form>
