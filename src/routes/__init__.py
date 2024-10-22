@@ -10,4 +10,3 @@ import src.routes.exceptions
 import src.routes.admin
 import src.routes.email
 import src.routes.links
-import src.routes.terms
