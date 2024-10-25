@@ -832,7 +832,7 @@ terms tA, terms tB, perms P, perm_types pT WHERE
        C.start_term = tA.seq AND C.end_term = tB.seq AND
        current_date BETWEEN tA.start_date AND tB.start_date
         AND C.class_seq = P.class_seq AND P.perm_seq = pT.seq AND pT.perm_desc = 'fin_admin' AND C.user_seq = %s
-AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I';"""
+AND item_cost.eff_status != 'I' AND vendors.vend_status != 'I' ORDER BY vendors.vend_name, items.item_name;"""
 
         self.run_statement(sql, (date_format, date, user_seq))
 
